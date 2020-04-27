@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
 
-public class SignInFragment extends BaseFragment {
+public class ForgotPasswordFragment extends BaseFragment {
 
-    private static final String TAG = "SignInFragment";
+    private static final String TAG = "ForgotPasswordFragment";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        mContentView = inflater.inflate(R.layout.fragment_forgot_password, container, false);
         LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
         AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
@@ -30,12 +30,6 @@ public class SignInFragment extends BaseFragment {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.alreadySignInText:
-                launchFragment(new SignUpFragment(), false);
-                break;
-            case R.id.forgotPasswordTextView:
-                launchFragment(new ForgotPasswordFragment(), true);
-                break;
             default:
                 break;
         }
@@ -43,7 +37,7 @@ public class SignInFragment extends BaseFragment {
 
     @Override
     public void onBackPressed() {
-        launchFragment(new LocationFragment(), false);
+        launchFragment(new SignInFragment(), false);
     }
 
     @Override

@@ -42,5 +42,7 @@
     <string name="please_double_click_to_exit">Please click BACK again to exit</string>
     <string name="sign_in">Sign In</string>
     <string name="create_an_account">Create an Account?</string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password_question">Forgot Password?</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="enter_otp_here">Enter OTP here</string>
 </resources>
