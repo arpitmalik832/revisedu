@@ -17,7 +17,7 @@
     <dimen name="pad_vsmall">3dp</dimen>
     <dimen name="pad_small_3">3dp</dimen>
 
-    <dimen name="txt_view_width">100dp</dimen>
+    <dimen name="recycler_view_height">125dp</dimen>
     <dimen name="home_icon_size">40dp</dimen>
     <dimen name="image_large">50dp</dimen>
     <dimen name="image_size">45dp</dimen>

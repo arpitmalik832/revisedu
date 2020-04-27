@@ -61,10 +61,8 @@ public class ToolBarManager {
 
     public void hideToolBar(HomeActivity mActivity, boolean toHide) {
         if (toHide) {
-            mToolbar.setNavigationIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_nav_toggle_icon));
             mActivity.findViewById(R.id.toolbarLayout).setVisibility(View.GONE);
         } else {
-            mToolbar.setNavigationIcon(null);
             mActivity.findViewById(R.id.toolbarLayout).setVisibility(View.VISIBLE);
         }
     }

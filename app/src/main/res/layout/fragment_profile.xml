@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tint_grey"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:padding="@dimen/pad_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/forgotPasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/gap_large"
+                android:drawableEnd="@drawable/ic_edit_pencil"
+                android:drawablePadding="@dimen/pad_medium"
+                android:padding="@dimen/pad_small"
+                android:text="@string/edit"
+                android:textColor="@color/black"
+                android:textSize="@dimen/extra_large_text"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/pad_large"
+                android:layout_marginTop="@dimen/gap_large"
+                app:cardCornerRadius="@dimen/gap_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView">
+
+                <ImageView
+                    android:id="@+id/select"
+                    android:layout_width="@dimen/merchant_offer_width"
+                    android:layout_height="@dimen/merchant_offer_width"
+                    android:layout_margin="@dimen/gap_large"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person_black_24dp"
+                    tools:ignore="ContentDescription" />
+
+            </androidx.cardview.widget.CardView>
+
+            <EditText
+                android:id="@+id/profileName"
+                style="@style/edittext_style"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/user_name"
+                android:layout_marginTop="@dimen/gap_extra_large"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:imeOptions="actionNext"
+                android:drawableStart="@drawable/ic_contact"
+                android:drawablePadding="@dimen/pad_medium"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                android:maxLength="35"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                tools:ignore="RtlCompat" />
+
+            <EditText
+                android:id="@+id/profileEmailAddress"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:drawablePadding="@dimen/pad_medium"
+                android:drawableStart="@drawable/ic_mail"
+                android:layout_marginTop="@dimen/gap_medium"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/user_email_address"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:maxLength="35"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profileName"
+                tools:ignore="RtlCompat" />
+
+            <EditText
+                android:id="@+id/profilePreferredSubject"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:drawablePadding="@dimen/pad_medium"
+                android:drawableStart="@drawable/ic_book"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginTop="@dimen/gap_medium"
+                android:hint="@string/preferred_subjects"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileEmailAddress"
+                tools:ignore="RtlCompat" />
+
+            <EditText
+                android:id="@+id/profilePhoneNumber"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:drawablePadding="@dimen/pad_medium"
+                android:drawableStart="@drawable/ic_phone"
+                android:layout_marginTop="@dimen/gap_medium"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/phone_number"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="phone"
+                android:maxLength="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profilePreferredSubject"
+                tools:ignore="RtlCompat" />
+
+            <Button
+                android:id="@+id/updateProfileButton"
+                style="@style/rounded_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="@dimen/gap_extra_large"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:onClick="onClick"
+                android:text="@string/save"
+                android:textColor="@android:color/white"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/profilePhoneNumber"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/profilePhoneNumber"
+                app:layout_constraintTop_toBottomOf="@+id/profilePhoneNumber"
+                app:layout_constraintVertical_bias="0.75" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

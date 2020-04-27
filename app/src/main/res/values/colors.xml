@@ -9,4 +9,6 @@
     <color name="themeColor">#1E61B1</color>
     <color name="greyTextColor">#87848B</color>
     <color name="whiteRipple">#E9E9E9</color>
+    <color name="dark_background">#242947</color>
+    <color name="tint_grey">#F6F6F6</color>
 </resources>

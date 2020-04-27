@@ -33,6 +33,9 @@ public class SignUpFragment extends BaseFragment {
             case R.id.alreadySignInText:
                 launchFragment(new SignInFragment(), true);
                 break;
+            case R.id.signupButton:
+                launchFragment(new HomeScreenFragment(), true);
+                break;
             default:
                 break;
         }
@@ -46,7 +49,7 @@ public class SignUpFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.showSideNavigationView();
+        mActivity.hideSideNavigationView();
         mActivity.hideBottomNavigationView();
     }
 }

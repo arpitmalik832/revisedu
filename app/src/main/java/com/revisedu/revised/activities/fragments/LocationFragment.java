@@ -34,7 +34,7 @@ public class LocationFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.showSideNavigationView();
+        mActivity.hideSideNavigationView();
         mActivity.hideBottomNavigationView();
     }
 

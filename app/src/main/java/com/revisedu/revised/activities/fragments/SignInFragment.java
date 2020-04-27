@@ -36,6 +36,9 @@ public class SignInFragment extends BaseFragment {
             case R.id.forgotPasswordTextView:
                 launchFragment(new ForgotPasswordFragment(), true);
                 break;
+            case R.id.signInButton:
+                launchFragment(new HomeScreenFragment(), true);
+                break;
             default:
                 break;
         }
@@ -49,7 +52,7 @@ public class SignInFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mActivity.showSideNavigationView();
+        mActivity.hideSideNavigationView();
         mActivity.hideBottomNavigationView();
     }
 }

@@ -102,7 +102,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/signupButton"
+                android:id="@+id/signInButton"
                 style="@style/rounded_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

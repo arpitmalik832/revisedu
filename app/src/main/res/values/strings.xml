@@ -45,4 +45,15 @@
     <string name="forgot_password_question">Forgot Password?</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="enter_otp_here">Enter OTP here</string>
+    <string name="tutors_near_you">Tutors Near You</string>
+    <string name="featured_tutorials">Featured Tutorials</string>
+    <string name="offers">Offers</string>
+    <string name="super_tutors">Super Tutors</string>
+    <string name="sample_text">Developer Text</string>
+    <string name="discount_given">Discount Given</string>
+    <string name="place">Place</string>
+    <string name="edit">Edit</string>
+    <string name="preferred_subjects">Preferred Subjects</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="save">Save</string>
 </resources>

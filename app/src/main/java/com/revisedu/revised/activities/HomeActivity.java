@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -20,7 +21,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
+import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.LocationFragment;
+import com.revisedu.revised.activities.fragments.ProfileFragment;
 
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mSideNavigationDrawer.addDrawerListener(toggle);
         toggle.syncState();
+        toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.white));
         launchFragment(new LocationFragment(), false);
     }
 
@@ -56,17 +60,60 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         mBottomNavigationView.setVisibility(View.GONE);
     }
 
-    public void showSideNavigationView() {
+    public void hideSideNavigationView() {
         mSideNavigationDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
-    public void hideSideNavigationView() {
+    public void showSideNavigationView() {
         mSideNavigationDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    public void showBottomNavigationItem(int count) {
+        switch (count) {
+            case 0:
+                mBottomNavigationView.setSelectedItemId(R.id.favourite);
+                break;
+            case 1:
+                mBottomNavigationView.setSelectedItemId(R.id.nav_courses);
+                break;
+            case 2:
+                mBottomNavigationView.setSelectedItemId(R.id.nav_home);
+                break;
+            case 3:
+                mBottomNavigationView.setSelectedItemId(R.id.nav_material);
+                break;
+            case 4:
+                mBottomNavigationView.setSelectedItemId(R.id.nav_profile);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        switch (item.getItemId()) {
+            case R.id.favourite:
+                showToast("Favourite");
+                break;
+            case R.id.nav_courses:
+                showToast("Courses");
+                break;
+            case R.id.nav_home:
+                if (!(getCurrentFragment() instanceof HomeScreenFragment)) {
+                    launchFragment(new HomeScreenFragment(), true);
+                }
+                break;
+            case R.id.nav_material:
+                showToast("Study Material");
+                break;
+            case R.id.nav_profile:
+                if (!(getCurrentFragment() instanceof ProfileFragment)) {
+                    launchFragment(new ProfileFragment(), true);
+                }
+                break;
+        }
+        return true;
     }
 
     @Override
