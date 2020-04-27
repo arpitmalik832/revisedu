@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/courgette</item>
+        <item name="statusBarBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="edittext_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">@dimen/minheightEditText</item>
+        <item name="android:textColor">@color/themeColor</item>
+        <item name="android:background">@drawable/textview_background</item>
+        <item name="android:textColorHint">@color/greyTextColor</item>
+        <item name="android:paddingStart">@dimen/pad_large</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:textCursorDrawable">@drawable/primary_cursor</item>
+        <item name="android:ems">10</item>
+    </style>
+
+    <style name="rounded_btn">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:minHeight">@dimen/pad_large</item>
+        <item name="android:minWidth">@dimen/regular_btn_min_width</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+        <item name="android:textColor">@color/themeColor</item>
+        <item name="android:background">@drawable/ripple_effect</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/gap_medium</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/courgette</item>
+    </style>
+
+</resources>

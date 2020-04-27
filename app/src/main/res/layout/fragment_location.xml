@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/locationParentContainer"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/login_gradient_list"
+    tools:context=".activities.HomeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/locrelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="@dimen/scratch_card_dimen"
+            android:layout_height="@dimen/scratch_card_dimen"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/gap_large"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/revised_app_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/gap_medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/pad_large">
+
+        <EditText
+            android:id="@+id/areaEditText"
+            style="@style/edittext_style"
+            android:layout_marginBottom="@dimen/gap_medium"
+            android:layout_marginEnd="@dimen/gap_medium"
+            android:layout_marginStart="@dimen/gap_medium"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/area"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            tools:ignore="RtlCompat" />
+
+        <EditText
+            android:id="@+id/landmarkEditText"
+            style="@style/edittext_style"
+            android:layout_marginBottom="@dimen/gap_medium"
+            android:layout_marginTop="@dimen/gap_medium"
+            android:layout_marginEnd="@dimen/gap_medium"
+            android:layout_marginStart="@dimen/gap_medium"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/landmark"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            tools:ignore="RtlCompat" />
+
+        <EditText
+            android:id="@+id/cityEditText"
+            style="@style/edittext_style"
+            android:layout_marginBottom="@dimen/gap_medium"
+            android:layout_marginEnd="@dimen/gap_medium"
+            android:layout_marginStart="@dimen/gap_medium"
+            android:layout_marginTop="@dimen/gap_medium"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/city"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textman"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/gap_medium"
+        android:text="@string/select_location_manually"
+        android:textAlignment="center"
+        android:padding="@dimen/pad_small"
+        android:textColor="@color/black"
+        android:textSize="@dimen/vv_large_text"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/continueLocationButton"
+        style="@style/rounded_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/gap_extra_large"
+        android:layout_marginEnd="@dimen/gap_extra_large"
+        android:layout_marginStart="@dimen/gap_extra_large"
+        android:layout_marginTop="@dimen/gap_extra_large"
+        android:onClick="onClick"
+        android:text="@string/txt_continue"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

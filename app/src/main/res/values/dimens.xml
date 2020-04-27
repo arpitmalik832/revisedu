@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="gap_extra_large">30dp</dimen>
+    <dimen name="gap_large">15dp</dimen>
+    <dimen name="gap_medium">10dp</dimen>
+    <dimen name="gap_small">5dp</dimen>
+    <dimen name="gap_vsmall">3dp</dimen>
+    <dimen name="toolbar_navigation_elevation">4dp</dimen>
+
+    <dimen name="gap_separation">0.4dp</dimen>
+
+    <dimen name="pad_large">15dp</dimen>
+    <dimen name="pad_medium">10dp</dimen>
+    <dimen name="pad_small">5dp</dimen>
+    <dimen name="pad_small_5">5dp</dimen>
+    <dimen name="pad_vsmall">3dp</dimen>
+    <dimen name="pad_small_3">3dp</dimen>
+
+    <dimen name="txt_view_width">100dp</dimen>
+    <dimen name="home_icon_size">40dp</dimen>
+    <dimen name="image_large">50dp</dimen>
+    <dimen name="image_size">45dp</dimen>
+    <dimen name="offer_image_width">80dp</dimen>
+    <dimen name="offer_container_width">95dp</dimen>
+    <dimen name="offer_image_height">55dp</dimen>
+    <dimen name="group_icon_size">50dp</dimen>
+    <dimen name="amount_size">32sp</dimen>
+    <dimen name="header_width">10dp</dimen>
+    <dimen name="sc_small">45dp</dimen>
+    <dimen name="floating_button_size">60dp</dimen>
+
+    <dimen name="split_panel_height">39dp</dimen>
+    <dimen name="split_icon_size">65dp</dimen>
+    <dimen name="minheightEditText">40dp</dimen>
+    <dimen name="regular_btn_min_width">100dp</dimen>
+
+    <dimen name="scratch_card_dimen">140dp</dimen>
+    <dimen name="scratch_card_dimen_large">210dp</dimen>
+    <dimen name="merchant_offer_width">100dp</dimen>
+    <!--Text Size-->
+    <dimen name="extra_large_text">21sp</dimen>
+    <dimen name="vv_large_text">18sp</dimen>
+    <dimen name="large_text">16sp</dimen>
+    <dimen name="medium_text">15sp</dimen>
+    <dimen name="normal_text">14sp</dimen>
+    <dimen name="small_text">11sp</dimen>
+
+</resources>
