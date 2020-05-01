@@ -1,5 +1,6 @@
 package com.revisedu.revised.activities;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -18,19 +20,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.LocationFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
+import com.revisedu.revised.activities.fragments.SignInFragment;
+import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
+import com.revisedu.revised.activities.fragments.SubjectsFragment;
 
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView mBottomNavigationView;
-    private ActionBarDrawerToggle toggle;
     private DrawerLayout mSideNavigationDrawer;
 
     @Override
@@ -39,15 +44,17 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbarLayout);
         mBottomNavigationView = findViewById(R.id.bottomNavigationView);
+        NavigationView navigationView = findViewById(R.id.nav_viewa);
         setSupportActionBar(toolbar);
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
         ToolBarManager.getInstance().setupToolbar(toolbar);
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mSideNavigationDrawer.addDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.white));
         launchFragment(new LocationFragment(), false);
     }
@@ -97,7 +104,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 showToast("Favourite");
                 break;
             case R.id.nav_courses:
-                showToast("Courses");
+                if (!(getCurrentFragment() instanceof SubjectsFragment)) {
+                    launchFragment(new SubjectsFragment(), true);
+                }
                 break;
             case R.id.nav_home:
                 if (!(getCurrentFragment() instanceof HomeScreenFragment)) {
@@ -105,21 +114,56 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 }
                 break;
             case R.id.nav_material:
-                showToast("Study Material");
+                if (!(getCurrentFragment() instanceof StudyMaterialFragment)) {
+                    launchFragment(new StudyMaterialFragment(), true);
+                }
                 break;
             case R.id.nav_profile:
                 if (!(getCurrentFragment() instanceof ProfileFragment)) {
                     launchFragment(new ProfileFragment(), true);
                 }
                 break;
+            case R.id.booking:
+                break;
+            case R.id.privacy:
+                break;
+            case R.id.term:
+                break;
+            case R.id.about:
+                break;
+            case R.id.contact:
+                break;
+            case R.id.resources:
+                break;
+            case R.id.share:
+                break;
+            case R.id.logout:
+                showLogoutDialog();
+                break;
         }
+        mSideNavigationDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    void showLogoutDialog() {
+        AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this);
+        logoutBuilder.setMessage("Are you sure to logout");
+        logoutBuilder.setCancelable(true);
+        logoutBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                launchFragment(new SignInFragment(), false);
+            }
+        });
+        AlertDialog alertDialog = logoutBuilder.create();
+        alertDialog.show();
     }
 
     @Override
     public void onBackPressed() {
         if (mSideNavigationDrawer.isDrawerOpen(GravityCompat.START)) {
             mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+            return;
         }
         if (getCurrentFragment() != null) {
             getCurrentFragment().onBackPressed();

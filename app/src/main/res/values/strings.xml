@@ -56,4 +56,7 @@
     <string name="preferred_subjects">Preferred Subjects</string>
     <string name="phone_number">Phone Number</string>
     <string name="save">Save</string>
+    <string name="select_class">Select Class</string>
+    <string name="get_notes">Get Notes</string>
+    <string name="click_here_to_download_your_notes">Click here to download your Notes..</string>
 </resources>

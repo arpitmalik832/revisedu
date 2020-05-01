@@ -2,6 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,13 @@ public class HomeScreenFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        showProgress();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                stopProgress();
+            }
+        }, 1000);
         mActivity.showSideNavigationView();
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(2);
