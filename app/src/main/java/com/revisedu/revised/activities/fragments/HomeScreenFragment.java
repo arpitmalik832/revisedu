@@ -20,8 +20,9 @@ import com.revisedu.revised.activities.fragments.adapters.FeaturedTutorAdapter;
 import com.revisedu.revised.activities.fragments.adapters.OffersAdapter;
 import com.revisedu.revised.activities.fragments.adapters.SuperTutorsAdapter;
 import com.revisedu.revised.activities.fragments.adapters.TutorNearYouAdapter;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 
-public class HomeScreenFragment extends BaseFragment {
+public class HomeScreenFragment extends BaseFragment implements ICustomClickListener {
 
     private static final String TAG = "HomeScreenFragment";
     private DiscountAdapter mDiscountAdapter;
@@ -47,22 +48,22 @@ public class HomeScreenFragment extends BaseFragment {
         //Discount Adapter Setup
         discountRecyclerView = mContentView.findViewById(R.id.discountRecyclerView);
         discountRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mDiscountAdapter = new DiscountAdapter(mActivity);
+        mDiscountAdapter = new DiscountAdapter(mActivity, this);
         discountRecyclerView.setAdapter(mDiscountAdapter);
         //Tutor Near me Adapter Setup
         tutorNearYouRecyclerView = mContentView.findViewById(R.id.tutorNearYouRecyclerView);
         tutorNearYouRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity);
+        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, this);
         tutorNearYouRecyclerView.setAdapter(mTutorNearYouAdapter);
         //Featured Tutor Adapter Setup
         featuredTutorialRecyclerView = mContentView.findViewById(R.id.featuredTutorialRecyclerView);
         featuredTutorialRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity);
+        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, this);
         featuredTutorialRecyclerView.setAdapter(mFeaturedTutorAdapter);
         //Offers Adapter Setup
         offersRecyclerView = mContentView.findViewById(R.id.offersRecyclerView);
         offersRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mOffersAdapter = new OffersAdapter(mActivity);
+        mOffersAdapter = new OffersAdapter(mActivity, this);
         offersRecyclerView.setAdapter(mOffersAdapter);
         //Super Tutor Adapter Setup
         superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
@@ -75,6 +76,21 @@ public class HomeScreenFragment extends BaseFragment {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tutor_near_text:
+                launchFragment(new AllTutorsFragment("Tutor Near me"), false);
+                break;
+            case R.id.featuredTutorialText:
+                showToast("featuredTutorialText");
+                launchFragment(new AllTutorsFragment("Featured Tutor"), false);
+                break;
+            case R.id.offersText:
+                showToast("offersText");
+                launchFragment(new AllTutorsFragment("All Offers"), false);
+                break;
+            case R.id.superTutorsText:
+                showToast("superTutorsText");
+                launchFragment(new AllTutorsFragment("Super Tutor"), false);
+                break;
             default:
                 break;
         }
@@ -98,5 +114,13 @@ public class HomeScreenFragment extends BaseFragment {
         mActivity.showSideNavigationView();
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(2);
+        mActivity.hideBackButton();
+        mActivity.isToggleButtonEnabled(true);
+    }
+
+    @Override
+    public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
+        showToast(itemValue);
+        launchFragment(new TutorDetailFragment(tutorType), true);
     }
 }

@@ -59,4 +59,15 @@
     <string name="select_class">Select Class</string>
     <string name="get_notes">Get Notes</string>
     <string name="click_here_to_download_your_notes">Click here to download your Notes..</string>
+    <string name="online_classes">Online Classes</string>
+    <string name="address">Address</string>
+    <string name="sample_address">C 2/42, Hindon Cut Canal Road, Block C, New Ashok Nagar, Noida, Uttar Pradesh 110096</string>
+    <string name="experience">Experience</string>
+    <string name="read_more_question">read more?</string>
+    <string name="book_this_coaching">Book this Coaching</string>
+    <string name="sample_tuition_intro">I am currently an ex-MOE school teacher providing full-time tuition service.
+I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Victoria Secondary School and Broadrick Secondary School (as a MOE trainee teacher).
+I taught A Level Biology for 2 years in Serangoon Junior College (as a MOE teacher).
+I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Telok Kurau Secondary School (as a MOE teacher).
+I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemistry, Biology and also Integrated Program Maths and Integrated Program Sciences for 8 years (as a full-time tutor).</string>
 </resources>

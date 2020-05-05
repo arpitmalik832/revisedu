@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/forgotPasswordTextView"
+                android:id="@+id/subjectTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/subjectTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

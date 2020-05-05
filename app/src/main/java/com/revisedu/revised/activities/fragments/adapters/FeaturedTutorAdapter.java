@@ -9,13 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 
 public class FeaturedTutorAdapter extends RecyclerView.Adapter<FeaturedTutorAdapter.TutorNearYourViewHolder> {
 
     private Context mContext;
+    private ICustomClickListener listener;
 
-    public FeaturedTutorAdapter(Context context) {
+    public FeaturedTutorAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -26,8 +29,14 @@ public class FeaturedTutorAdapter extends RecyclerView.Adapter<FeaturedTutorAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, final int position) {
         holder.TutorNearItemImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.coaching3));
+        holder.TutorNearItemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onAdapterItemClick(String.valueOf(position), "Featured Tutor near you item clicked :" + (position + 1), "Featured");
+            }
+        });
     }
 
     @Override

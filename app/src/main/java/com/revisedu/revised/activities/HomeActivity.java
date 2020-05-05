@@ -24,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
+import com.revisedu.revised.activities.fragments.BookingFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.LocationFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
@@ -37,6 +38,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     private BottomNavigationView mBottomNavigationView;
     private DrawerLayout mSideNavigationDrawer;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         ToolBarManager.getInstance().setupToolbar(toolbar);
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
             this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mSideNavigationDrawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -78,7 +80,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void showBottomNavigationItem(int count) {
         switch (count) {
             case 0:
-                mBottomNavigationView.setSelectedItemId(R.id.favourite);
+                mBottomNavigationView.setSelectedItemId(R.id.online_class);
                 break;
             case 1:
                 mBottomNavigationView.setSelectedItemId(R.id.nav_courses);
@@ -100,7 +102,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.favourite:
+            case R.id.online_class:
+                showToast("Online Classes");
+                break;
+            case R.id.my_favourite:
                 showToast("Favourite");
                 break;
             case R.id.nav_courses:
@@ -124,6 +129,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 }
                 break;
             case R.id.booking:
+                if (!(getCurrentFragment() instanceof SubjectsFragment)) {
+                    launchFragment(new BookingFragment(), true);
+                }
                 break;
             case R.id.privacy:
                 break;
@@ -181,6 +189,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     public void showBackButton() {
         findViewById(R.id.backButtonToolbar).setVisibility(View.VISIBLE);
+    }
+
+    public void isToggleButtonEnabled(boolean isEnable) {
+        toggle.setDrawerIndicatorEnabled(isEnable);
     }
 
     public void setBackButtonDrawable(Drawable icon) {

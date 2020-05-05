@@ -9,13 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 
 public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.DiscountViewHolder> {
 
     private Context mContext;
+    private ICustomClickListener mCustomClickListener;
 
-    public DiscountAdapter(Context context) {
+    public DiscountAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
+        mCustomClickListener = listener;
     }
 
     @NonNull
@@ -26,8 +29,14 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DiscountViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DiscountViewHolder holder, final int position) {
         holder.discountItemImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.discount));
+        holder.discountItemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCustomClickListener.onAdapterItemClick(String.valueOf(position), "Discount position " + (position + 1), "Discount");
+            }
+        });
     }
 
     @Override

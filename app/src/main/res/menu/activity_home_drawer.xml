@@ -8,9 +8,11 @@
             android:id="@+id/booking"
             android:icon="@drawable/ic_book_black_24dp"
             android:title="@string/booking" />
-    </group>
 
-    <group android:title="@string/activities">
+        <item
+            android:id="@+id/my_favourite"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="@string/favorite" />
 
         <item
             android:id="@+id/privacy"
@@ -21,9 +23,6 @@
             android:icon="@drawable/ic_content_paste_black_24dp"
             android:title="@string/terms_amp_conditions" />
 
-    </group>
-
-    <group>
         <item
             android:id="@+id/about"
             android:icon="@drawable/ic_info_outline_black_24dp"

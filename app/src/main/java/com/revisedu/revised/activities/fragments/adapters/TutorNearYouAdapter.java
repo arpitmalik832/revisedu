@@ -9,13 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 
 public class TutorNearYouAdapter extends RecyclerView.Adapter<TutorNearYouAdapter.TutorNearYourViewHolder> {
 
     private Context mContext;
+    private ICustomClickListener listener;
 
-    public TutorNearYouAdapter(Context context) {
+    public TutorNearYouAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -26,8 +29,14 @@ public class TutorNearYouAdapter extends RecyclerView.Adapter<TutorNearYouAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, int position) {
-        holder.TutorNearItemImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.coaching2));
+    public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, final int position) {
+        holder.mTutorNearItemImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.coaching2));
+        holder.mTutorNearItemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onAdapterItemClick(String.valueOf(position), "Tutor near you item clicked :" + (position + 1), "Near Tutor");
+            }
+        });
     }
 
     @Override
@@ -37,11 +46,11 @@ public class TutorNearYouAdapter extends RecyclerView.Adapter<TutorNearYouAdapte
 
     static class TutorNearYourViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView TutorNearItemImageView;
+        private ImageView mTutorNearItemImageView;
 
         TutorNearYourViewHolder(@NonNull View itemView) {
             super(itemView);
-            TutorNearItemImageView = itemView.findViewById(R.id.tutor_near_img);
+            mTutorNearItemImageView = itemView.findViewById(R.id.tutor_near_img);
         }
     }
 }

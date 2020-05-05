@@ -19,13 +19,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="1"
-            tools:ignore="UseCompoundDrawables">
+            android:weightSum="1">
 
             <ImageView
                 android:id="@+id/backButtonToolbar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:tint="@color/white"
+                android:padding="@dimen/pad_small_3"
                 android:src="@drawable/ic_arrow_back_black_36dp"
                 tools:ignore="ContentDescription" />
 
@@ -37,8 +39,8 @@
                 android:gravity="start"
                 android:layout_gravity="center"
                 android:maxLines="2"
-                android:layout_marginStart="@dimen/gap_small"
-                android:layout_marginEnd="@dimen/gap_small"
+                android:paddingStart="@dimen/pad_medium"
+                android:paddingEnd="@dimen/pad_large"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold" />

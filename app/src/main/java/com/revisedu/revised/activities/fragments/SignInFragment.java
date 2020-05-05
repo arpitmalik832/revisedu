@@ -2,6 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,14 @@ public class SignInFragment extends BaseFragment {
                 launchFragment(new ForgotPasswordFragment(), true);
                 break;
             case R.id.signInButton:
-                launchFragment(new HomeScreenFragment(), true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        stopProgress();
+                        launchFragment(new HomeScreenFragment(), true);
+                    }
+                },300);
+                showProgress();
                 break;
             default:
                 break;

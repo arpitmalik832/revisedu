@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
 
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
+        holder.subjectImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_left_to_right_transition));
         if (position % 4 == 0) {
             holder.subjectImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.discountoffer));
         } else {
@@ -37,7 +39,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
 
     @Override
     public int getItemCount() {
-        return 12;
+        return 25;
     }
 
     static class SubjectViewHolder extends RecyclerView.ViewHolder {
