@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,18 +15,28 @@ import com.revisedu.revised.R;
 public class SignInFragment extends BaseFragment {
 
     private static final String TAG = "SignInFragment";
+    private EditText userNameEditText;
+    private EditText userEmailEditText;
+    private EditText userPasswordEditText;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        setupUI();
+        return mContentView;
+    }
+
+    private void setupUI() {
         LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
         AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
         mActivity.hideBottomNavigationView();
-        return mContentView;
+        userNameEditText = mContentView.findViewById(R.id.userNameEditText);
+        userEmailEditText = mContentView.findViewById(R.id.userEmail);
+        userPasswordEditText = mContentView.findViewById(R.id.userPassword);
     }
 
     @Override
@@ -38,13 +49,22 @@ public class SignInFragment extends BaseFragment {
                 launchFragment(new ForgotPasswordFragment(), true);
                 break;
             case R.id.signInButton:
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        stopProgress();
-                        launchFragment(new HomeScreenFragment(), true);
-                    }
-                },300);
+                String userEmail = userEmailEditText.getText().toString();
+                String userPassword = userPasswordEditText.getText().toString();
+                if (userEmail.isEmpty()) {
+                    userEmailEditText.setError(getString(R.string.msgMandatory));
+                    userEmailEditText.requestFocus();
+                    return;
+                }
+                if (userPassword.isEmpty()) {
+                    userPasswordEditText.setError(getString(R.string.msgMandatory));
+                    userPasswordEditText.requestFocus();
+                    return;
+                }
+                new Handler().postDelayed(() -> {
+                    stopProgress();
+                    launchFragment(new HomeScreenFragment(), true);
+                }, 300);
                 showProgress();
                 break;
             default:

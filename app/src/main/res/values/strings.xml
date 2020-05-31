@@ -70,4 +70,6 @@ I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Victoria
 I taught A Level Biology for 2 years in Serangoon Junior College (as a MOE teacher).
 I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Telok Kurau Secondary School (as a MOE teacher).
 I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemistry, Biology and also Integrated Program Maths and Integrated Program Sciences for 8 years (as a full-time tutor).</string>
+    <string name="msgMandatory">This field is mandatory</string>
+    <string name="confirm_password_msg">Both password must be match</string>
 </resources>

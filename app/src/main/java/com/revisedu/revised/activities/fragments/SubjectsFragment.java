@@ -2,21 +2,16 @@ package com.revisedu.revised.activities.fragments;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
-import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.adapters.SubjectsAdapter;
 
@@ -55,19 +50,14 @@ public class SubjectsFragment extends BaseFragment {
 
     @Override
     public void onBackPressed() {
-        launchFragment(new SignInFragment(), false);
+        launchFragment(new HomeScreenFragment(), false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         showProgress();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stopProgress();
-            }
-        }, 1000);
+        new Handler().postDelayed(this::stopProgress, 1000);
         mActivity.hideSideNavigationView();
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(1);

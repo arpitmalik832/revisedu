@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,24 +14,39 @@ import com.revisedu.revised.R;
 public class ForgotPasswordFragment extends BaseFragment {
 
     private static final String TAG = "ForgotPasswordFragment";
+    private EditText userEmailEditText;
+    private EditText otpEditText;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_forgot_password, container, false);
+        setupUI();
+        return mContentView;
+    }
+
+    private void setupUI() {
         LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
         AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
         animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
         mActivity.hideBottomNavigationView();
-        return mContentView;
+        userEmailEditText = mContentView.findViewById(R.id.userEmail);
+        otpEditText = mContentView.findViewById(R.id.userOtpEditText);
+        otpEditText.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.forgotPasswordButton:
+                String emailAddress = userEmailEditText.getText().toString();
+                if (emailAddress.isEmpty()) {
+                    userEmailEditText.setError(getString(R.string.msgMandatory));
+                    userEmailEditText.requestFocus();
+                    return;
+                }
                 launchFragment(new HomeScreenFragment(), true);
                 break;
             default:

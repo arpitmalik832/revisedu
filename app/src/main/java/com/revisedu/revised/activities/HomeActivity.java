@@ -1,6 +1,5 @@
 package com.revisedu.revised.activities;
 
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,8 +30,14 @@ import com.revisedu.revised.activities.fragments.ProfileFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
 import com.revisedu.revised.activities.fragments.SubjectsFragment;
+import com.revisedu.revised.activities.fragments.ViewDetailsFragment;
 
 import java.util.List;
+
+import static com.revisedu.revised.TerminalConstant.MODE_ABOUT;
+import static com.revisedu.revised.TerminalConstant.MODE_CONTACT_US;
+import static com.revisedu.revised.TerminalConstant.MODE_PRIVACY_POLICY;
+import static com.revisedu.revised.TerminalConstant.MODE_TERM_CONDITION;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -107,7 +112,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.my_favourite:
                 showToast("Favourite");
-                break;
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
             case R.id.nav_courses:
                 if (!(getCurrentFragment() instanceof SubjectsFragment)) {
                     launchFragment(new SubjectsFragment(), true);
@@ -132,15 +138,32 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 if (!(getCurrentFragment() instanceof SubjectsFragment)) {
                     launchFragment(new BookingFragment(), true);
                 }
-                break;
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
             case R.id.privacy:
-                break;
+                if (!(getCurrentFragment() instanceof ViewDetailsFragment)) {
+                    launchFragment(ViewDetailsFragment.newInstance(MODE_PRIVACY_POLICY), true);
+                }
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
             case R.id.term:
-                break;
+                if (!(getCurrentFragment() instanceof ViewDetailsFragment)) {
+                    launchFragment(ViewDetailsFragment.newInstance(MODE_TERM_CONDITION), true);
+                }
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
             case R.id.about:
-                break;
+                if (!(getCurrentFragment() instanceof ViewDetailsFragment)) {
+                    launchFragment(ViewDetailsFragment.newInstance(MODE_ABOUT), true);
+                }
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
             case R.id.contact:
-                break;
+                if (!(getCurrentFragment() instanceof ViewDetailsFragment)) {
+                    launchFragment(ViewDetailsFragment.newInstance(MODE_CONTACT_US), true);
+                }
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
             case R.id.resources:
                 break;
             case R.id.share:
@@ -157,12 +180,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this);
         logoutBuilder.setMessage("Are you sure to logout");
         logoutBuilder.setCancelable(true);
-        logoutBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                launchFragment(new SignInFragment(), false);
-            }
-        });
+        logoutBuilder.setPositiveButton("YES", (dialogInterface, i) -> launchFragment(new SignInFragment(), false));
         AlertDialog alertDialog = logoutBuilder.create();
         alertDialog.show();
     }

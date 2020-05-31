@@ -34,7 +34,8 @@
         <item
             android:id="@+id/resources"
             android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="@string/resources" />
+            android:title="@string/resources"
+            android:visible="false" />
         <item
             android:id="@+id/share"
             android:icon="@drawable/ic_share_black_24dp"

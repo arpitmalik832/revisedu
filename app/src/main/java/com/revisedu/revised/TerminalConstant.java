@@ -18,6 +18,10 @@ public class TerminalConstant {
     public static final String TOAST_SUCCESS = "TOAST_SUCCESS";
     public static final String TOAST_ERROR = "TOAST_ERROR";
     public static final String TOAST_INFO = "TOAST_INFO";
+    public static final String MODE_PRIVACY_POLICY = "Privacy Policy";
+    public static final String MODE_TERM_CONDITION = "Term & Condition";
+    public static final String MODE_ABOUT = "About";
+    public static final String MODE_CONTACT_US = "Contact Us";
     public static final String[] CLASSES_ARRAY = new String[]{"Class 1", "Class 2", "Class 3", "Class 4"};
     public static final String[] TOPICS_ARRAY = new String[]{"Topic 1","Topic 2","Topic 3","Topic 4"};
 }

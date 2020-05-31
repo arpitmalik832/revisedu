@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/online_class"
-        android:icon="@drawable/online_class"
+        android:icon="@drawable/ic_contacts_black_24dp"
         android:title="@string/online_classes" />
     <item
         android:id="@+id/nav_courses"

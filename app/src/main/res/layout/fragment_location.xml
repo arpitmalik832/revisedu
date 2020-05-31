@@ -37,34 +37,41 @@
         android:orientation="vertical"
         android:padding="@dimen/pad_large">
 
-        <EditText
-            android:id="@+id/areaEditText"
+        <TextView
+            android:id="@+id/areaTextView"
             style="@style/edittext_style"
             android:layout_marginBottom="@dimen/gap_medium"
             android:layout_marginEnd="@dimen/gap_medium"
+            android:paddingEnd="@dimen/gap_medium"
+            android:paddingStart="@dimen/pad_large"
+            android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+            android:onClick="onClick"
             android:layout_marginStart="@dimen/gap_medium"
             android:focusable="true"
+            android:gravity="center_vertical"
             android:focusableInTouchMode="true"
-            android:hint="@string/area"
-            android:imeOptions="actionNext"
+            android:text="@string/area"
             android:importantForAutofill="no"
-            android:inputType="text"
             android:maxLines="1"
             tools:ignore="RtlCompat" />
 
-        <EditText
-            android:id="@+id/landmarkEditText"
+        <TextView
+            android:id="@+id/landmarkTextView"
             style="@style/edittext_style"
             android:layout_marginBottom="@dimen/gap_medium"
             android:layout_marginTop="@dimen/gap_medium"
             android:layout_marginEnd="@dimen/gap_medium"
+            android:paddingEnd="@dimen/gap_medium"
+            android:paddingStart="@dimen/pad_large"
+            android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+            android:onClick="onClick"
+            android:visibility="invisible"
             android:layout_marginStart="@dimen/gap_medium"
+            android:gravity="center_vertical"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:hint="@string/landmark"
-            android:imeOptions="actionNext"
+            android:text="@string/landmark"
             android:importantForAutofill="no"
-            android:inputType="text"
             android:maxLines="1"
             tools:ignore="RtlCompat" />
 
@@ -76,6 +83,7 @@
             android:layout_marginStart="@dimen/gap_medium"
             android:layout_marginTop="@dimen/gap_medium"
             android:focusable="true"
+            android:visibility="invisible"
             android:focusableInTouchMode="true"
             android:hint="@string/city"
             android:imeOptions="actionDone"
