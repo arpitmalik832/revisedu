@@ -42,5 +42,34 @@
     <string name="please_double_click_to_exit">Please click BACK again to exit</string>
     <string name="sign_in">Sign In</string>
     <string name="create_an_account">Create an Account?</string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password_question">Forgot Password?</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="enter_otp_here">Enter OTP here</string>
+    <string name="tutors_near_you">Tutors Near You</string>
+    <string name="featured_tutorials">Featured Tutorials</string>
+    <string name="offers">Offers</string>
+    <string name="super_tutors">Super Tutors</string>
+    <string name="sample_text">Developer Text</string>
+    <string name="discount_given">Discount Given</string>
+    <string name="place">Place</string>
+    <string name="edit">Edit</string>
+    <string name="preferred_subjects">Preferred Subjects</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="save">Save</string>
+    <string name="select_class">Select Class</string>
+    <string name="get_notes">Get Notes</string>
+    <string name="click_here_to_download_your_notes">Click here to download your Notes..</string>
+    <string name="online_classes">Online Classes</string>
+    <string name="address">Address</string>
+    <string name="sample_address">C 2/42, Hindon Cut Canal Road, Block C, New Ashok Nagar, Noida, Uttar Pradesh 110096</string>
+    <string name="experience">Experience</string>
+    <string name="read_more_question">read more?</string>
+    <string name="book_this_coaching">Book this Coaching</string>
+    <string name="sample_tuition_intro">I am currently an ex-MOE school teacher providing full-time tuition service.
+I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Victoria Secondary School and Broadrick Secondary School (as a MOE trainee teacher).
+I taught A Level Biology for 2 years in Serangoon Junior College (as a MOE teacher).
+I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Telok Kurau Secondary School (as a MOE teacher).
+I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemistry, Biology and also Integrated Program Maths and Integrated Program Sciences for 8 years (as a full-time tutor).</string>
+    <string name="msgMandatory">This field is mandatory</string>
+    <string name="confirm_password_msg">Both password must be match</string>
 </resources>

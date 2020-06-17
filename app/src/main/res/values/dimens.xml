@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="gap_40">40dp</dimen>
     <dimen name="gap_extra_large">30dp</dimen>
     <dimen name="gap_large">15dp</dimen>
     <dimen name="gap_medium">10dp</dimen>
@@ -17,7 +18,7 @@
     <dimen name="pad_vsmall">3dp</dimen>
     <dimen name="pad_small_3">3dp</dimen>
 
-    <dimen name="txt_view_width">100dp</dimen>
+    <dimen name="recycler_view_height">125dp</dimen>
     <dimen name="home_icon_size">40dp</dimen>
     <dimen name="image_large">50dp</dimen>
     <dimen name="image_size">45dp</dimen>
@@ -29,6 +30,7 @@
     <dimen name="header_width">10dp</dimen>
     <dimen name="sc_small">45dp</dimen>
     <dimen name="floating_button_size">60dp</dimen>
+    <dimen name="subject_card_size">100dp</dimen>
 
     <dimen name="split_panel_height">39dp</dimen>
     <dimen name="split_icon_size">65dp</dimen>
@@ -44,6 +46,7 @@
     <dimen name="large_text">16sp</dimen>
     <dimen name="medium_text">15sp</dimen>
     <dimen name="normal_text">14sp</dimen>
+    <dimen name="normal_text_13">13sp</dimen>
     <dimen name="small_text">11sp</dimen>
 
 </resources>

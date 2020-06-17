@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/signUpParentContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tint_grey"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/homeImageViewTop"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/scratch_card_dimen"
+                android:padding="@dimen/pad_small"
+                android:scaleType="fitXY"
+                android:src="@drawable/coachingclass"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/merchant_offer_width"
+                android:padding="@dimen/pad_small_5"
+                android:scaleType="fitXY"
+                android:src="@drawable/coupon"
+                app:layout_constraintTop_toBottomOf="@+id/discountRecyclerView"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tutor_near_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:padding="@dimen/pad_small"
+                android:onClick="onClick"
+                android:background="?selectableItemBackground"
+                android:text="@string/tutors_near_you"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+            <TextView
+                android:id="@+id/featuredTutorialText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:layout_marginTop="4dp"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:padding="@dimen/pad_small"
+                android:text="@string/featured_tutorials"
+                android:onClick="onClick"
+                android:background="?selectableItemBackground"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/tutorNearYouRecyclerView"
+                tools:layout_editor_absoluteX="5dp" />
+
+            <TextView
+                android:id="@+id/offersText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:padding="@dimen/pad_small"
+                android:onClick="onClick"
+                android:background="?selectableItemBackground"
+                android:text="@string/offers"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialRecyclerView"
+                tools:layout_editor_absoluteX="5dp" />
+
+            <TextView
+                android:id="@+id/superTutorsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:padding="@dimen/pad_small"
+                android:onClick="onClick"
+                android:background="?selectableItemBackground"
+                android:text="@string/super_tutors"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/offersRecyclerView" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/minheightEditText"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/superTutorsRecyclerView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/discountRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/recycler_view_height"
+                app:layout_constraintTop_toBottomOf="@+id/homeImageViewTop"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tutorNearYouRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tutor_near_text" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/featuredTutorialRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialText" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/offersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/recycler_view_height"
+                app:layout_constraintTop_toBottomOf="@+id/offersText" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/superTutorsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/superTutorsText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
