@@ -1,11 +1,14 @@
 package com.revisedu.revised.activities.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -20,6 +23,14 @@ import com.revisedu.revised.activities.fragments.adapters.OffersAdapter;
 import com.revisedu.revised.activities.fragments.adapters.SuperTutorsAdapter;
 import com.revisedu.revised.activities.fragments.adapters.TutorNearYouAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
+import com.revisedu.revised.request.CommonRequest;
+import com.revisedu.revised.response.FetchBannersResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
+import com.squareup.picasso.Picasso;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class HomeScreenFragment extends BaseFragment implements ICustomClickListener {
 
@@ -35,6 +46,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     private SuperTutorsAdapter mSuperTutorsAdapter;
     private RecyclerView superTutorsRecyclerView;
     private boolean doubleBackToExitPressedOnce = false;
+    private ImageView homeImageViewTop;
+    private Drawable mDefaultDrawable;
 
     @Nullable
     @Override
@@ -45,6 +58,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.app_name));
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
         //Discount Adapter Setup
         discountRecyclerView = mContentView.findViewById(R.id.discountRecyclerView);
         discountRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
@@ -70,6 +84,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity);
         superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
+        getBannersServerCall();
         return mContentView;
     }
 
@@ -92,6 +107,44 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         }
     }
 
+    private void getBannersServerCall() {
+        mDefaultDrawable = ContextCompat.getDrawable(mActivity, R.drawable.default_image);
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<FetchBannersResponse> call = RetrofitApi.getServicesObject().getBannersServerCall(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<FetchBannersResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<FetchBannersResponse> response) {
+                if (response.isSuccessful()) {
+                    final FetchBannersResponse bannersResponse = response.body();
+                    if (bannersResponse != null) {
+                        if (bannersResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            if (bannersResponse.getBannerOne() != null && !bannersResponse.getBannerOne().isEmpty()) {
+                                Picasso.get().load(bannersResponse.getBannerOne()).placeholder(mDefaultDrawable).into(homeImageViewTop);
+                            }
+                            if (bannersResponse.getBannerTwo() != null && !bannersResponse.getBannerTwo().isEmpty()) {
+                                Picasso.get().load(bannersResponse.getBannerTwo()).placeholder(mDefaultDrawable).into(homeImageViewTop);
+                            }
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -100,25 +153,12 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         }
         this.doubleBackToExitPressedOnce = true;
         showToast(mActivity.getString(R.string.please_double_click_to_exit));
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, TerminalConstant.BACK_PRESS_TIME_INTERVAL);
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, TerminalConstant.BACK_PRESS_TIME_INTERVAL);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        showProgress();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stopProgress();
-            }
-        }, 1000);
         mActivity.showSideNavigationView();
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(2);
