@@ -76,4 +76,5 @@ I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemist
     <string name="yes">Yes</string>
     <string name="select_subject">Select Subject</string>
     <string name="select_topic">Select Topic</string>
+    <string name="no_data_found">No data found</string>
 </resources>
