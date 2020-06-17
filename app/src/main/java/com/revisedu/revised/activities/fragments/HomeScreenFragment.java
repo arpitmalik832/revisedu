@@ -1,13 +1,11 @@
 package com.revisedu.revised.activities.fragments;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -84,10 +82,6 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             case R.id.featuredTutorialText:
                 showToast("featuredTutorialText");
                 launchFragment(new AllTutorsFragment("Featured Tutor"), false);
-                break;
-            case R.id.offersText:
-                showToast("offersText");
-                launchFragment(new AllTutorsFragment("All Offers"), false);
                 break;
             case R.id.superTutorsText:
                 showToast("superTutorsText");
