@@ -2,7 +2,6 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
-import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.CityRequest;
 import com.revisedu.revised.request.LandmarkRequest;
@@ -28,7 +26,6 @@ import java.util.List;
 public class LocationFragment extends BaseFragment {
 
     private static final String TAG = "LocationFragment";
-    private boolean doubleBackToExitPressedOnce = false;
     private List<ListResponse.ListItem> mAreaList = new ArrayList<>();
     private List<ListResponse.ListItem> mLandmarkList = new ArrayList<>();
     private List<ListResponse.ListItem> mCityList = new ArrayList<>();
@@ -220,18 +217,6 @@ public class LocationFragment extends BaseFragment {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressedToExit();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        showToast(mActivity.getString(R.string.please_double_click_to_exit));
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, TerminalConstant.BACK_PRESS_TIME_INTERVAL);
+        launchFragment(new SignInFragment(), false);
     }
 }

@@ -1,5 +1,6 @@
 package com.revisedu.revised.activities;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +22,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.BookingFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
-import com.revisedu.revised.activities.fragments.LocationFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
@@ -38,6 +39,7 @@ import static com.revisedu.revised.TerminalConstant.MODE_ABOUT;
 import static com.revisedu.revised.TerminalConstant.MODE_CONTACT_US;
 import static com.revisedu.revised.TerminalConstant.MODE_PRIVACY_POLICY;
 import static com.revisedu.revised.TerminalConstant.MODE_TERM_CONDITION;
+import static com.revisedu.revised.TerminalConstant.SHARED_PREF_NAME;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,7 +65,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         toggle.getDrawerArrowDrawable().setColor(ContextCompat.getColor(this, R.color.white));
-        launchFragment(new LocationFragment(), false);
+        SharedPreferences preferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        if (preferences.getString(TerminalConstant.USER_LOGIN_DONE, "").equalsIgnoreCase(TerminalConstant.YES)) {
+            launchFragment(new HomeScreenFragment(), true);
+        } else {
+            launchFragment(new SignInFragment(), false);
+        }
     }
 
     public void showBottomNavigationView() {
@@ -170,7 +177,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.logout:
                 showLogoutDialog();
-                break;
+                mSideNavigationDrawer.closeDrawer(GravityCompat.START);
+                return false;
         }
         mSideNavigationDrawer.closeDrawer(GravityCompat.START);
         return true;
@@ -178,9 +186,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     void showLogoutDialog() {
         AlertDialog.Builder logoutBuilder = new AlertDialog.Builder(this);
-        logoutBuilder.setMessage("Are you sure to logout");
+        logoutBuilder.setMessage(getString(R.string.logout_message));
         logoutBuilder.setCancelable(true);
-        logoutBuilder.setPositiveButton("YES", (dialogInterface, i) -> launchFragment(new SignInFragment(), false));
+        logoutBuilder.setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
+            getCurrentFragment().storeStringDataInSharedPref(TerminalConstant.USER_LOGIN_DONE, TerminalConstant.NO);
+            launchFragment(new SignInFragment(), false);
+        });
         AlertDialog alertDialog = logoutBuilder.create();
         alertDialog.show();
     }
@@ -240,30 +251,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void launchFragment(final Fragment fragment, final boolean addBackStack) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                doSwitchToScreen(fragment, addBackStack);
-            }
-        });
+        runOnUiThread(() -> doSwitchToScreen(fragment, addBackStack));
     }
 
     public void launchFragmentWithoutAnimation(final Fragment fragment, final boolean addBackStack) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                doSwitchToScreenWithoutAnimation(fragment, addBackStack);
-            }
-        });
+        runOnUiThread(() -> doSwitchToScreenWithoutAnimation(fragment, addBackStack));
     }
 
     public void showToast(final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show());
     }
 
     private void doSwitchToScreen(Fragment fragment, boolean addToBackStack) {

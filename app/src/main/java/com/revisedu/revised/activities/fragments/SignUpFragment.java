@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
+import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.response.LoginResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
@@ -51,6 +52,7 @@ public class SignUpFragment extends BaseFragment {
     }
 
     private void setupUI() {
+        ToolBarManager.getInstance().hideToolBar(mActivity, true);
         LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
         AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
@@ -146,6 +148,7 @@ public class SignUpFragment extends BaseFragment {
                         showToast(loginResponse.getErrorMessage());
                         if (loginResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             storeStringDataInSharedPref(TerminalConstant.USER_ID, loginResponse.getUserId());
+                            storeStringDataInSharedPref(TerminalConstant.USER_LOGIN_DONE, TerminalConstant.YES);
                             launchFragment(new HomeScreenFragment(), true);
                         }
                     }

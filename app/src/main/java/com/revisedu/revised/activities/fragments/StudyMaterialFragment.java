@@ -1,10 +1,10 @@
 package com.revisedu.revised.activities.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +16,14 @@ import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
+import com.revisedu.revised.request.SubjectRequest;
+import com.revisedu.revised.response.ListResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudyMaterialFragment extends BaseFragment {
 
@@ -23,6 +31,9 @@ public class StudyMaterialFragment extends BaseFragment {
     private TextView selectClassTextView;
     private TextView classFirstTextView;
     private TextView topicFirstTextView;
+    private List<ListResponse.ListItem> mClassList = new ArrayList<>();
+    private List<ListResponse.ListItem> mSubjectList = new ArrayList<>();
+    private String mClassId = "";
 
     @Nullable
     @Override
@@ -41,17 +52,93 @@ public class StudyMaterialFragment extends BaseFragment {
         UnderlineSpan underlineSpan = new UnderlineSpan();
         downloadNotesString.setSpan(underlineSpan, 14, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         downloadNotesTextView.setText(downloadNotesString);
+        getClassServerCall();
         return mContentView;
+    }
+
+    private void getClassServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<ListResponse> call = RetrofitApi.getServicesObject().getClassServerCall();
+                    final Response<ListResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<ListResponse> response) {
+                if (response.isSuccessful()) {
+                    final ListResponse listResponse = response.body();
+                    if (listResponse != null) {
+                        if (!mClassList.isEmpty()) {
+                            mClassList.clear();
+                        }
+                        mClassList = listResponse.getArrayList();
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
+    }
+
+    private void getSubjectServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<ListResponse> call = RetrofitApi.getServicesObject().getSubjectServerCall(new SubjectRequest(mClassId));
+                    final Response<ListResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<ListResponse> response) {
+                if (response.isSuccessful()) {
+                    final ListResponse listResponse = response.body();
+                    if (listResponse != null) {
+                        if (!mSubjectList.isEmpty()) {
+                            mSubjectList.clear();
+                        }
+                        mSubjectList = listResponse.getArrayList();
+                        classFirstTextView.setVisibility(View.VISIBLE);
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.selectClassTextView:
-                showListAlertDialog(TerminalConstant.CLASSES_ARRAY, R.id.selectClassTextView, "Select Class");
+                String[] classArray = new String[mClassList.size()];
+                for (int position = 0; position < mClassList.size(); position++) {
+                    classArray[position] = mClassList.get(position).getName();
+                }
+                showListAlertDialog(classArray, R.id.selectClassTextView, "Select Class");
                 break;
             case R.id.classFirstTextView:
-                showListAlertDialog(TerminalConstant.CLASSES_ARRAY, R.id.classFirstTextView, "Select Sub Class");
+                String[] subjectArray = new String[mSubjectList.size()];
+                for (int position = 0; position < mSubjectList.size(); position++) {
+                    subjectArray[position] = mSubjectList.get(position).getName();
+                }
+                showListAlertDialog(subjectArray, R.id.classFirstTextView, "Select Sub Class");
                 break;
             case R.id.topicFirstTextView:
                 showListAlertDialog(TerminalConstant.TOPICS_ARRAY, R.id.topicFirstTextView, "Select Topic");
@@ -69,6 +156,7 @@ public class StudyMaterialFragment extends BaseFragment {
         switch (id) {
             case R.id.selectClassTextView:
                 selectClassTextView.setText(selectedItemStr);
+                getSubjectServerCall();
                 break;
             case R.id.classFirstTextView:
                 classFirstTextView.setText(selectedItemStr);
@@ -87,13 +175,6 @@ public class StudyMaterialFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        showProgress();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stopProgress();
-            }
-        }, 1000);
         mActivity.hideSideNavigationView();
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(3);

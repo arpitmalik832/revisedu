@@ -2,6 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
+import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.response.LoginResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
@@ -24,6 +26,7 @@ public class SignInFragment extends BaseFragment {
     private EditText userNameEditText;
     private EditText userEmailEditText;
     private EditText userPasswordEditText;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Nullable
     @Override
@@ -34,6 +37,7 @@ public class SignInFragment extends BaseFragment {
     }
 
     private void setupUI() {
+        ToolBarManager.getInstance().hideToolBar(mActivity, true);
         LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
         AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
         animationDrawable.setEnterFadeDuration(2000);
@@ -49,7 +53,7 @@ public class SignInFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.alreadySignInText:
-                launchFragment(new SignUpFragment(), false);
+                launchFragment(new LocationFragment(), false);
                 break;
             case R.id.forgotPasswordTextView:
                 launchFragment(new ForgotPasswordFragment(), true);
@@ -99,6 +103,7 @@ public class SignInFragment extends BaseFragment {
                         showToast(loginResponse.getErrorMessage());
                         if (loginResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             storeStringDataInSharedPref(TerminalConstant.USER_ID, loginResponse.getUserId());
+                            storeStringDataInSharedPref(TerminalConstant.USER_LOGIN_DONE, TerminalConstant.YES);
                             launchFragment(new HomeScreenFragment(), true);
                         }
                     }
@@ -110,7 +115,13 @@ public class SignInFragment extends BaseFragment {
 
     @Override
     public void onBackPressed() {
-        launchFragment(new LocationFragment(), false);
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressedToExit();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        showToast(mActivity.getString(R.string.please_double_click_to_exit));
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, TerminalConstant.BACK_PRESS_TIME_INTERVAL);
     }
 
     @Override
