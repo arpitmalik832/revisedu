@@ -41,10 +41,24 @@
         android:padding="@dimen/pad_large">
 
         <TextView
+            android:id="@+id/textman"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/gap_medium"
+            android:text="@string/select_location_manually"
+            android:textAlignment="center"
+            android:padding="@dimen/pad_small"
+            android:textColor="@color/black"
+            android:textSize="@dimen/vv_large_text"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/areaTextView"
             style="@style/edittext_style"
             android:layout_marginBottom="@dimen/gap_medium"
             android:layout_marginEnd="@dimen/gap_medium"
+            android:layout_marginTop="@dimen/gap_medium"
             android:paddingEnd="@dimen/gap_medium"
             android:paddingStart="@dimen/pad_large"
             android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
@@ -99,19 +113,6 @@
             tools:ignore="RtlCompat" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textman"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="@dimen/gap_medium"
-        android:text="@string/select_location_manually"
-        android:textAlignment="center"
-        android:padding="@dimen/pad_small"
-        android:textColor="@color/black"
-        android:textSize="@dimen/vv_large_text"
-        android:textStyle="bold" />
 
     <Button
         android:id="@+id/continueLocationButton"

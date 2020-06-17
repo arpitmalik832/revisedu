@@ -22,6 +22,9 @@ public interface Services {
     @POST("fetch_user_profile.php")
     Call<ProfileResponse> getProfileResponse(@Body CommonRequest request);
 
+    @POST("fetch_class.php")
+    Call<ListResponse> getClassServerCall();
+
     @POST("fetch_area.php")
     Call<ListResponse> getAreaServerCall();
 

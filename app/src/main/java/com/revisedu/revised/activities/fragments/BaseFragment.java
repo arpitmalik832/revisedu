@@ -61,7 +61,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         new Handler(Looper.getMainLooper()).post(runnable);
     }
 
-    void storeStringDataInSharedPref(String keyName, String value) {
+    public void storeStringDataInSharedPref(String keyName, String value) {
         if (getActivity() != null) {
             SharedPreferences.Editor editor = mActivity.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
             editor.putString(keyName, value);

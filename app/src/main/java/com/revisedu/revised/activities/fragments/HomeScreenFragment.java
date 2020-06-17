@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.adapters.DiscountAdapter;
 import com.revisedu.revised.activities.fragments.adapters.FeaturedTutorAdapter;
@@ -35,6 +36,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     private RecyclerView offersRecyclerView;
     private SuperTutorsAdapter mSuperTutorsAdapter;
     private RecyclerView superTutorsRecyclerView;
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Nullable
     @Override
@@ -98,7 +100,19 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
 
     @Override
     public void onBackPressed() {
-        launchFragment(new SignInFragment(), false);
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressedToExit();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        showToast(mActivity.getString(R.string.please_double_click_to_exit));
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, TerminalConstant.BACK_PRESS_TIME_INTERVAL);
     }
 
     @Override

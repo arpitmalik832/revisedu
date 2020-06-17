@@ -146,6 +146,7 @@ public class SignUpFragment extends BaseFragment {
                         showToast(loginResponse.getErrorMessage());
                         if (loginResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             storeStringDataInSharedPref(TerminalConstant.USER_ID, loginResponse.getUserId());
+                            storeStringDataInSharedPref(TerminalConstant.USER_LOGIN_DONE, TerminalConstant.YES);
                             launchFragment(new HomeScreenFragment(), true);
                         }
                     }

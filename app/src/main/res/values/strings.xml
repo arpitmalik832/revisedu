@@ -72,4 +72,8 @@ I taught Lower Sec Maths and Science, and O Level Biology for 1 year in Telok Ku
 I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemistry, Biology and also Integrated Program Maths and Integrated Program Sciences for 8 years (as a full-time tutor).</string>
     <string name="msgMandatory">This field is mandatory</string>
     <string name="confirm_password_msg">Both password must be match</string>
+    <string name="logout_message">Are you sure to logout</string>
+    <string name="yes">Yes</string>
+    <string name="select_subject">Select Subject</string>
+    <string name="select_topic">Select Topic</string>
 </resources>
