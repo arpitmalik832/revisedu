@@ -7,10 +7,14 @@ import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
+import com.revisedu.revised.response.BookingsResponse;
+import com.revisedu.revised.response.ClassResponse;
 import com.revisedu.revised.response.CommonResponse;
 import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.ListResponse;
 import com.revisedu.revised.response.LoginResponse;
+import com.revisedu.revised.response.OffersResponse;
+import com.revisedu.revised.response.PrefSubjectsResponse;
 import com.revisedu.revised.response.ProfileResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -29,7 +33,7 @@ public interface Services {
     Call<ProfileResponse> getProfileResponse(@Body CommonRequest request);
 
     @POST("fetch_class.php")
-    Call<ListResponse> getClassServerCall();
+    Call<ClassResponse> getClassServerCall();
 
     @POST("fetch_subject.php")
     Call<ListResponse> getSubjectServerCall(@Body SubjectRequest request);
@@ -52,14 +56,21 @@ public interface Services {
     @POST("fetch_banners.php")
     Call<FetchBannersResponse> getBannersServerCall(@Body CommonRequest request);
 
+    @POST("fetch_offers.php")
+    Call<OffersResponse> getOffersServerCall(@Body CommonRequest request);
+
+    @POST("fetch_booking.php")
+    Call<BookingsResponse> getBookingsServerCall(@Body CommonRequest request);
+
     @POST("fetch_pref_subjects.php")
-    Call<ListResponse> getPrefSubjectsServerCall();
+    Call<PrefSubjectsResponse> getPrefSubjectsServerCall(@Body CommonRequest request);
 
     @Multipart
     @POST("save_user_profile.php")
     Call<CommonResponse> uploadUserProfileServerCall(@Part("userId") RequestBody userId,
                                                      @Part("name") RequestBody userName,
                                                      @Part("mobile") RequestBody userMobile,
+                                                     @Part("subject") RequestBody userSubjects,
                                                      @Part("email") RequestBody userEmail,
                                                      @Part MultipartBody.Part file);
 }

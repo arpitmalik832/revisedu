@@ -25,10 +25,13 @@ import com.revisedu.revised.activities.fragments.adapters.TutorNearYouAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.request.CommonRequest;
 import com.revisedu.revised.response.FetchBannersResponse;
+import com.revisedu.revised.response.OffersResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
@@ -47,6 +50,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     private RecyclerView superTutorsRecyclerView;
     private boolean doubleBackToExitPressedOnce = false;
     private ImageView homeImageViewTop;
+    private ImageView homeImageViewSecond;
     private Drawable mDefaultDrawable;
 
     @Nullable
@@ -59,6 +63,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
         homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
+        homeImageViewSecond = mContentView.findViewById(R.id.imageView2);
         //Discount Adapter Setup
         discountRecyclerView = mContentView.findViewById(R.id.discountRecyclerView);
         discountRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
@@ -77,13 +82,14 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Offers Adapter Setup
         offersRecyclerView = mContentView.findViewById(R.id.offersRecyclerView);
         offersRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mOffersAdapter = new OffersAdapter(mActivity, this);
+        mOffersAdapter = new OffersAdapter(mActivity);
         offersRecyclerView.setAdapter(mOffersAdapter);
         //Super Tutor Adapter Setup
         superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
         superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity);
         superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
+        getOffersServerCall();
         getBannersServerCall();
         return mContentView;
     }
@@ -135,12 +141,46 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                                 Picasso.get().load(bannersResponse.getBannerOne()).placeholder(mDefaultDrawable).into(homeImageViewTop);
                             }
                             if (bannersResponse.getBannerTwo() != null && !bannersResponse.getBannerTwo().isEmpty()) {
-                                Picasso.get().load(bannersResponse.getBannerTwo()).placeholder(mDefaultDrawable).into(homeImageViewTop);
+                                Picasso.get().load(bannersResponse.getBannerTwo()).placeholder(mDefaultDrawable).into(homeImageViewSecond);
                             }
                         }
                     }
                 }
                 stopProgress();
+            }
+        }).start();
+    }
+
+    private void getOffersServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<OffersResponse> call = RetrofitApi.getServicesObject().getOffersServerCall(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<OffersResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<OffersResponse> response) {
+                if (response.isSuccessful()) {
+                    final OffersResponse offersResponse = response.body();
+                    if (offersResponse != null) {
+                        if (offersResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            List<OffersResponse.ListItem> offerList = offersResponse.getArrayList();
+                            if (!offerList.isEmpty()) {
+                                mOffersAdapter.setOfferList(offerList);
+                                mOffersAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
             }
         }).start();
     }

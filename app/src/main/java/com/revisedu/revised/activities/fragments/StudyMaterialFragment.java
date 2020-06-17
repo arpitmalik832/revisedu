@@ -17,6 +17,7 @@ import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.SubjectRequest;
+import com.revisedu.revised.response.ClassResponse;
 import com.revisedu.revised.response.ListResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import retrofit2.Call;
@@ -31,7 +32,7 @@ public class StudyMaterialFragment extends BaseFragment {
     private TextView selectClassTextView;
     private TextView classFirstTextView;
     private TextView topicFirstTextView;
-    private List<ListResponse.ListItem> mClassList = new ArrayList<>();
+    private List<ClassResponse.ListItem> mClassList = new ArrayList<>();
     private List<ListResponse.ListItem> mSubjectList = new ArrayList<>();
     private String mClassId = "";
 
@@ -62,8 +63,8 @@ public class StudyMaterialFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<ListResponse> call = RetrofitApi.getServicesObject().getClassServerCall();
-                    final Response<ListResponse> response = call.execute();
+                    Call<ClassResponse> call = RetrofitApi.getServicesObject().getClassServerCall();
+                    final Response<ClassResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -74,9 +75,9 @@ public class StudyMaterialFragment extends BaseFragment {
                 }
             }
 
-            private void handleResponse(Response<ListResponse> response) {
+            private void handleResponse(Response<ClassResponse> response) {
                 if (response.isSuccessful()) {
-                    final ListResponse listResponse = response.body();
+                    final ClassResponse listResponse = response.body();
                     if (listResponse != null) {
                         if (!mClassList.isEmpty()) {
                             mClassList.clear();
@@ -129,7 +130,7 @@ public class StudyMaterialFragment extends BaseFragment {
             case R.id.selectClassTextView:
                 String[] classArray = new String[mClassList.size()];
                 for (int position = 0; position < mClassList.size(); position++) {
-                    classArray[position] = mClassList.get(position).getName();
+                    classArray[position] = mClassList.get(position).getClassName();
                 }
                 showListAlertDialog(classArray, R.id.selectClassTextView, "Select Class");
                 break;

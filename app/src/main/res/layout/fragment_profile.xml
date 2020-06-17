@@ -55,9 +55,8 @@
                     android:id="@+id/profileImageView"
                     android:layout_width="@dimen/merchant_offer_width"
                     android:layout_height="@dimen/merchant_offer_width"
-                    android:layout_margin="@dimen/gap_large"
+                    android:layout_margin="@dimen/gap_small"
                     android:onClick="onClick"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_person_black_24dp"
                     tools:ignore="ContentDescription" />
 
@@ -83,7 +82,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView"
                 tools:ignore="RtlCompat" />
 
-            <EditText
+            <TextView
                 android:id="@+id/profileEmailAddress"
                 style="@style/edittext_style"
                 android:layout_marginEnd="@dimen/gap_extra_large"
@@ -92,18 +91,17 @@
                 android:drawableStart="@drawable/ic_mail"
                 android:layout_marginTop="@dimen/gap_medium"
                 android:focusable="true"
+                android:gravity="center_vertical"
                 android:focusableInTouchMode="true"
                 android:hint="@string/user_email_address"
-                android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
                 android:maxLength="35"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profileNameEditText"
                 tools:ignore="RtlCompat" />
 
-            <EditText
+            <TextView
                 android:id="@+id/profilePreferredSubject"
                 style="@style/edittext_style"
                 android:layout_marginEnd="@dimen/gap_extra_large"
@@ -111,12 +109,12 @@
                 android:drawablePadding="@dimen/pad_medium"
                 android:drawableStart="@drawable/ic_book"
                 android:focusable="true"
+                android:onClick="onClick"
+                android:gravity="center_vertical"
                 android:focusableInTouchMode="true"
                 android:layout_marginTop="@dimen/gap_medium"
                 android:hint="@string/preferred_subjects"
-                android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profileEmailAddress"
