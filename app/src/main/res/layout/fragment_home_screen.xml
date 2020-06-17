@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/scratch_card_dimen"
                 android:padding="@dimen/pad_small"
-                android:scaleType="fitXY"
                 android:src="@drawable/coachingclass"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
@@ -32,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/merchant_offer_width"
                 android:padding="@dimen/pad_small_5"
-                android:scaleType="fitXY"
                 android:src="@drawable/coupon"
                 app:layout_constraintTop_toBottomOf="@+id/discountRecyclerView"
                 tools:ignore="ContentDescription" />
@@ -74,10 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/pad_small"
-                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
                 android:padding="@dimen/pad_small"
-                android:onClick="onClick"
-                android:background="?selectableItemBackground"
                 android:text="@string/offers"
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"

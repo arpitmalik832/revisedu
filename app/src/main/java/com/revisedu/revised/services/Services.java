@@ -8,12 +8,17 @@ import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.response.CommonResponse;
+import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.ListResponse;
 import com.revisedu.revised.response.LoginResponse;
 import com.revisedu.revised.response.ProfileResponse;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface Services {
 
@@ -43,4 +48,18 @@ public interface Services {
 
     @POST("register.php")
     Call<LoginResponse> getRegisterServerCall(@Body RegisterRequest request);
+
+    @POST("fetch_banners.php")
+    Call<FetchBannersResponse> getBannersServerCall(@Body CommonRequest request);
+
+    @POST("fetch_pref_subjects.php")
+    Call<ListResponse> getPrefSubjectsServerCall();
+
+    @Multipart
+    @POST("save_user_profile.php")
+    Call<CommonResponse> uploadUserProfileServerCall(@Part("userId") RequestBody userId,
+                                                     @Part("name") RequestBody userName,
+                                                     @Part("mobile") RequestBody userMobile,
+                                                     @Part("email") RequestBody userEmail,
+                                                     @Part MultipartBody.Part file);
 }
