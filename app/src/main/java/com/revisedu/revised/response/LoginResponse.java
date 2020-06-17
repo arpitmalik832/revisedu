@@ -2,18 +2,24 @@ package com.revisedu.revised.response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DetailResponse {
+public class LoginResponse {
 
     @SerializedName("errorCode")
-    private String mErrorCode = "";
+    private int mErrorCode;
     @SerializedName("errorMessage")
     private String mErrorMessage = "";
+    @SerializedName("userId")
+    private String userId = "";
 
-    public String getErrorCode() {
+    public int getErrorCode() {
         return mErrorCode;
     }
 
     public String getErrorMessage() {
         return mErrorMessage;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

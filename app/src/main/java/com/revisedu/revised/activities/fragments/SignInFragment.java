@@ -2,7 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
+import com.revisedu.revised.request.LoginRequest;
+import com.revisedu.revised.response.LoginResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SignInFragment extends BaseFragment {
 
@@ -61,15 +67,45 @@ public class SignInFragment extends BaseFragment {
                     userPasswordEditText.requestFocus();
                     return;
                 }
-                new Handler().postDelayed(() -> {
-                    stopProgress();
-                    launchFragment(new HomeScreenFragment(), true);
-                }, 300);
-                showProgress();
+                getLoginServerCall(userEmail, userPassword);
                 break;
             default:
                 break;
         }
+    }
+
+    private void getLoginServerCall(String userEmail, String userPassword) {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<LoginResponse> call = RetrofitApi.getServicesObject().getLoginServerCall(new LoginRequest(userEmail, userPassword));
+                    final Response<LoginResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    final LoginResponse loginResponse = response.body();
+                    if (loginResponse != null) {
+                        showToast(loginResponse.getErrorMessage());
+                        if (loginResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            storeStringDataInSharedPref(TerminalConstant.USER_ID, loginResponse.getUserId());
+                            launchFragment(new HomeScreenFragment(), true);
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     @Override

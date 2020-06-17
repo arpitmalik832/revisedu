@@ -2,7 +2,6 @@ package com.revisedu.revised.activities.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.DetailRequest;
-import com.revisedu.revised.response.DetailResponse;
+import com.revisedu.revised.response.CommonResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -48,8 +47,8 @@ public class ViewDetailsFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<DetailResponse> call = RetrofitApi.getServicesObject().getDetailsResponse(new DetailRequest(mMode));
-                    final Response<DetailResponse> response = call.execute();
+                    Call<CommonResponse> call = RetrofitApi.getServicesObject().getDetailsResponse(new DetailRequest(mMode));
+                    final Response<CommonResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -60,9 +59,9 @@ public class ViewDetailsFragment extends BaseFragment {
                 }
             }
 
-            private void handleResponse(Response<DetailResponse> response) {
+            private void handleResponse(Response<CommonResponse> response) {
                 if (response.isSuccessful()) {
-                    final DetailResponse commonResponse = response.body();
+                    final CommonResponse commonResponse = response.body();
                     if (commonResponse != null) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             textView.setText(Html.fromHtml(commonResponse.getErrorMessage(), Html.FROM_HTML_MODE_LEGACY));
@@ -93,8 +92,6 @@ public class ViewDetailsFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        showProgress();
-        new Handler().postDelayed(this::stopProgress, 1000);
         mActivity.hideSideNavigationView();
         mActivity.isToggleButtonEnabled(false);
         mActivity.showBackButton();

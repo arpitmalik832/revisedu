@@ -2,7 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
+import com.revisedu.revised.request.RegisterRequest;
+import com.revisedu.revised.response.LoginResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class SignUpFragment extends BaseFragment {
 
@@ -20,6 +26,21 @@ public class SignUpFragment extends BaseFragment {
     private EditText userPasswordEditText;
     private EditText userConfirmPasswordEditText;
     private EditText userMobileNumberEditText;
+    private String userName = "";
+    private String userEmail = "";
+    private String password = "";
+    private String mobile = "";
+    private String areaId;
+    private String landmarkId;
+    private String cityId;
+
+    static SignUpFragment newInstance(String areaId, String landmarkId, String cityId) {
+        SignUpFragment fragment = new SignUpFragment();
+        fragment.areaId = areaId;
+        fragment.landmarkId = landmarkId;
+        fragment.cityId = cityId;
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -50,12 +71,11 @@ public class SignUpFragment extends BaseFragment {
                 launchFragment(new SignInFragment(), true);
                 break;
             case R.id.signupButton:
-                String userName = userNameEditText.getText().toString();
-                String userEmail = userEmailEditText.getText().toString();
-                String password = userPasswordEditText.getText().toString();
+                userName = userNameEditText.getText().toString();
+                userEmail = userEmailEditText.getText().toString();
+                password = userPasswordEditText.getText().toString();
                 String confirmPassword = userConfirmPasswordEditText.getText().toString();
-                String mobile = userMobileNumberEditText.getText().toString();
-
+                mobile = userMobileNumberEditText.getText().toString();
                 if (userName.isEmpty()) {
                     userNameEditText.setError(getString(R.string.msgMandatory));
                     userNameEditText.requestFocus();
@@ -86,16 +106,53 @@ public class SignUpFragment extends BaseFragment {
                     userMobileNumberEditText.requestFocus();
                     return;
                 }
-
-                showProgress();
-                new Handler().postDelayed(() -> {
-                    stopProgress();
-                    launchFragment(new HomeScreenFragment(), true);
-                }, 300);
+                getRegisterServerCall();
                 break;
             default:
                 break;
         }
+    }
+
+    private void getRegisterServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    RegisterRequest registerRequest = new RegisterRequest();
+                    registerRequest.setEmail(userEmail);
+                    registerRequest.setName(userName);
+                    registerRequest.setPassword(password);
+                    registerRequest.setMobile(mobile);
+                    registerRequest.setCity(cityId);
+                    registerRequest.setLandmark(landmarkId);
+                    registerRequest.setArea(areaId);
+                    Call<LoginResponse> call = RetrofitApi.getServicesObject().getRegisterServerCall(registerRequest);
+                    final Response<LoginResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    final LoginResponse loginResponse = response.body();
+                    if (loginResponse != null) {
+                        showToast(loginResponse.getErrorMessage());
+                        if (loginResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            storeStringDataInSharedPref(TerminalConstant.USER_ID, loginResponse.getUserId());
+                            launchFragment(new HomeScreenFragment(), true);
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     @Override

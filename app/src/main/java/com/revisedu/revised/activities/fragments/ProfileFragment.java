@@ -2,7 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
+import com.revisedu.revised.request.CommonRequest;
+import com.revisedu.revised.response.ProfileResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
+import retrofit2.Call;
+import retrofit2.Response;
+
+import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class ProfileFragment extends BaseFragment {
 
@@ -36,6 +44,7 @@ public class ProfileFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_profile, container, false);
         setupUI();
+        getProfileResponse();
         return mContentView;
     }
 
@@ -51,6 +60,41 @@ public class ProfileFragment extends BaseFragment {
         profileNameEditText = mContentView.findViewById(R.id.profileNameEditText);
         profileEmailAddress = mContentView.findViewById(R.id.profileEmailAddress);
         profilePreferredSubject = mContentView.findViewById(R.id.profilePreferredSubject);
+    }
+
+    private void getProfileResponse() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<ProfileResponse> call = RetrofitApi.getServicesObject().getProfileResponse(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<ProfileResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<ProfileResponse> response) {
+                if (response.isSuccessful()) {
+                    final ProfileResponse profileResponse = response.body();
+                    if (profileResponse != null) {
+                        showToast(profileResponse.getErrorMessage());
+                        if (profileResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            profileNameEditText.setText(profileResponse.getName());
+                            profileEmailAddress.setText(profileResponse.getEmail());
+                            profilePhoneNumber.setText(profileResponse.getMobile());
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 
     @Override
@@ -120,13 +164,6 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        showProgress();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                stopProgress();
-            }
-        }, 1000);
         mActivity.hideSideNavigationView();
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(4);
