@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
+import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.response.ListResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import retrofit2.Call;
@@ -31,6 +32,8 @@ public class StudyMaterialFragment extends BaseFragment {
     private TextView classFirstTextView;
     private TextView topicFirstTextView;
     private List<ListResponse.ListItem> mClassList = new ArrayList<>();
+    private List<ListResponse.ListItem> mSubjectList = new ArrayList<>();
+    private String mClassId = "";
 
     @Nullable
     @Override
@@ -92,7 +95,7 @@ public class StudyMaterialFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<ListResponse> call = RetrofitApi.getServicesObject().getClassServerCall();
+                    Call<ListResponse> call = RetrofitApi.getServicesObject().getSubjectServerCall(new SubjectRequest(mClassId));
                     final Response<ListResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -108,10 +111,11 @@ public class StudyMaterialFragment extends BaseFragment {
                 if (response.isSuccessful()) {
                     final ListResponse listResponse = response.body();
                     if (listResponse != null) {
-                        if (!mClassList.isEmpty()) {
-                            mClassList.clear();
+                        if (!mSubjectList.isEmpty()) {
+                            mSubjectList.clear();
                         }
-                        mClassList = listResponse.getArrayList();
+                        mSubjectList = listResponse.getArrayList();
+                        classFirstTextView.setVisibility(View.VISIBLE);
                     }
                 }
                 stopProgress();
@@ -130,7 +134,11 @@ public class StudyMaterialFragment extends BaseFragment {
                 showListAlertDialog(classArray, R.id.selectClassTextView, "Select Class");
                 break;
             case R.id.classFirstTextView:
-                showListAlertDialog(TerminalConstant.CLASSES_ARRAY, R.id.classFirstTextView, "Select Sub Class");
+                String[] subjectArray = new String[mSubjectList.size()];
+                for (int position = 0; position < mSubjectList.size(); position++) {
+                    subjectArray[position] = mSubjectList.get(position).getName();
+                }
+                showListAlertDialog(subjectArray, R.id.classFirstTextView, "Select Sub Class");
                 break;
             case R.id.topicFirstTextView:
                 showListAlertDialog(TerminalConstant.TOPICS_ARRAY, R.id.topicFirstTextView, "Select Topic");
@@ -148,6 +156,7 @@ public class StudyMaterialFragment extends BaseFragment {
         switch (id) {
             case R.id.selectClassTextView:
                 selectClassTextView.setText(selectedItemStr);
+                getSubjectServerCall();
                 break;
             case R.id.classFirstTextView:
                 classFirstTextView.setText(selectedItemStr);

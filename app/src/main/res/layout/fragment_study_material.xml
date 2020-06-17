@@ -29,9 +29,9 @@
                 android:text="@string/get_notes"
                 android:visibility="invisible"
                 android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="@+id/topicFirstTextView"
-                app:layout_constraintStart_toStartOf="@+id/topicFirstTextView"
-                app:layout_constraintTop_toBottomOf="@+id/topicFirstTextView" />
+                app:layout_constraintEnd_toEndOf="@id/topicFirstTextView"
+                app:layout_constraintStart_toStartOf="@id/topicFirstTextView"
+                app:layout_constraintTop_toBottomOf="@id/topicFirstTextView" />
 
             <TextView
                 android:id="@+id/selectClassTextView"
@@ -52,7 +52,7 @@
                 android:textSize="@dimen/large_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTextView"
+                app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView"
                 tools:ignore="RtlCompat,RtlSymmetry" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:textSize="@dimen/large_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/selectClassTextView"
+                app:layout_constraintTop_toBottomOf="@id/selectClassTextView"
                 tools:ignore="RtlCompat,RtlSymmetry" />
 
             <TextView
@@ -98,7 +98,7 @@
                 android:textSize="@dimen/large_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/classFirstTextView"
+                app:layout_constraintTop_toBottomOf="@id/classFirstTextView"
                 tools:ignore="RtlCompat,RtlSymmetry" />
 
             <TextView

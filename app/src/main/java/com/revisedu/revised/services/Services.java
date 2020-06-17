@@ -6,6 +6,7 @@ import com.revisedu.revised.request.DetailRequest;
 import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.request.RegisterRequest;
+import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.response.CommonResponse;
 import com.revisedu.revised.response.ListResponse;
 import com.revisedu.revised.response.LoginResponse;
@@ -24,6 +25,9 @@ public interface Services {
 
     @POST("fetch_class.php")
     Call<ListResponse> getClassServerCall();
+
+    @POST("fetch_subject.php")
+    Call<ListResponse> getSubjectServerCall(@Body SubjectRequest request);
 
     @POST("fetch_area.php")
     Call<ListResponse> getAreaServerCall();

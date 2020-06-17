@@ -27,8 +27,8 @@ import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.BookingFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
-import com.revisedu.revised.activities.fragments.LocationFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
+import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
 import com.revisedu.revised.activities.fragments.SubjectsFragment;
 import com.revisedu.revised.activities.fragments.ViewDetailsFragment;
@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         if (preferences.getString(TerminalConstant.USER_LOGIN_DONE, "").equalsIgnoreCase(TerminalConstant.YES)) {
             launchFragment(new HomeScreenFragment(), true);
         } else {
-            launchFragment(new LocationFragment(), false);
+            launchFragment(new SignInFragment(), false);
         }
     }
 
@@ -190,7 +190,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         logoutBuilder.setCancelable(true);
         logoutBuilder.setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
             getCurrentFragment().storeStringDataInSharedPref(TerminalConstant.USER_LOGIN_DONE, TerminalConstant.NO);
-            launchFragment(new LocationFragment(), false);
+            launchFragment(new SignInFragment(), false);
         });
         AlertDialog alertDialog = logoutBuilder.create();
         alertDialog.show();
