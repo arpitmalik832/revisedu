@@ -1,6 +1,5 @@
 package com.revisedu.revised.activities.fragments;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
@@ -38,11 +36,6 @@ public class SignInFragment extends BaseFragment {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
-        LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
-        AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(4000);
-        animationDrawable.start();
         mActivity.hideBottomNavigationView();
         userNameEditText = mContentView.findViewById(R.id.userNameEditText);
         userEmailEditText = mContentView.findViewById(R.id.userEmail);

@@ -23,9 +23,13 @@ import com.revisedu.revised.activities.fragments.adapters.OffersAdapter;
 import com.revisedu.revised.activities.fragments.adapters.SuperTutorsAdapter;
 import com.revisedu.revised.activities.fragments.adapters.TutorNearYouAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
+import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
 import com.revisedu.revised.request.CommonRequest;
+import com.revisedu.revised.request.FavouriteRequest;
+import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.OffersResponse;
+import com.revisedu.revised.response.TutorsResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
 import retrofit2.Call;
@@ -35,7 +39,7 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class  HomeScreenFragment extends BaseFragment implements ICustomClickListener {
+public class HomeScreenFragment extends BaseFragment implements ICustomClickListener, IFavouriteClickListener {
 
     private static final String TAG = "HomeScreenFragment";
     private DiscountAdapter mDiscountAdapter;
@@ -77,7 +81,7 @@ public class  HomeScreenFragment extends BaseFragment implements ICustomClickLis
         //Featured Tutor Adapter Setup
         featuredTutorialRecyclerView = mContentView.findViewById(R.id.featuredTutorialRecyclerView);
         featuredTutorialRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, this);
+        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, this, this);
         featuredTutorialRecyclerView.setAdapter(mFeaturedTutorAdapter);
         //Offers Adapter Setup
         offersRecyclerView = mContentView.findViewById(R.id.offersRecyclerView);
@@ -87,8 +91,11 @@ public class  HomeScreenFragment extends BaseFragment implements ICustomClickLis
         //Super Tutor Adapter Setup
         superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
         superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity);
+        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this);
         superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
+        getSuperTutorsServerCall();
+        getFeaturedTutorsServerCall();
+        getNearMeTutorsServerCall();
         getOffersServerCall();
         getBannersServerCall();
         return mContentView;
@@ -98,15 +105,13 @@ public class  HomeScreenFragment extends BaseFragment implements ICustomClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tutor_near_text:
-                launchFragment(new AllTutorsFragment("Tutor Near me"), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_TUTOR_NEAR_ME), false);
                 break;
             case R.id.featuredTutorialText:
-                showToast("featuredTutorialText");
-                launchFragment(new AllTutorsFragment("Featured Tutor"), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURE_TUTOR), false);
                 break;
             case R.id.superTutorsText:
-                showToast("superTutorsText");
-                launchFragment(new AllTutorsFragment("Super Tutor"), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_TUTOR), false);
                 break;
             default:
                 break;
@@ -185,6 +190,105 @@ public class  HomeScreenFragment extends BaseFragment implements ICustomClickLis
         }).start();
     }
 
+    private void getNearMeTutorsServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_TUTOR_NEAR_ME, 0, userId));
+                    final Response<TutorsResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<TutorsResponse> response) {
+                if (response.isSuccessful()) {
+                    final TutorsResponse offersResponse = response.body();
+                    if (offersResponse != null) {
+                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
+                        if (!tutorsList.isEmpty()) {
+                            mTutorNearYouAdapter.setTutorsList(tutorsList);
+                            mTutorNearYouAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void getFeaturedTutorsServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0, userId));
+                    final Response<TutorsResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<TutorsResponse> response) {
+                if (response.isSuccessful()) {
+                    final TutorsResponse offersResponse = response.body();
+                    if (offersResponse != null) {
+                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
+                        if (!tutorsList.isEmpty()) {
+                            mFeaturedTutorAdapter.setTutorsList(tutorsList);
+                            mFeaturedTutorAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void getSuperTutorsServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0, userId));
+                    final Response<TutorsResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<TutorsResponse> response) {
+                if (response.isSuccessful()) {
+                    final TutorsResponse offersResponse = response.body();
+                    if (offersResponse != null) {
+                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
+                        if (!tutorsList.isEmpty()) {
+                            mSuperTutorsAdapter.setTutorsList(tutorsList);
+                            mSuperTutorsAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -210,7 +314,11 @@ public class  HomeScreenFragment extends BaseFragment implements ICustomClickLis
 
     @Override
     public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
-        showToast(itemValue);
-        launchFragment(new TutorDetailFragment(tutorType), true);
+        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+    }
+
+    @Override
+    public void onFavouriteItemClick(FavouriteRequest request) {
+        favouriteServerCall(request);
     }
 }
