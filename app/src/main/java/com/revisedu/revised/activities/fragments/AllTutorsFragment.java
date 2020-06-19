@@ -24,6 +24,8 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.revisedu.revised.TerminalConstant.USER_ID;
+
 public class AllTutorsFragment extends BaseFragment {
 
     private RecyclerView mAllTutorsRecyclerView;
@@ -103,7 +105,8 @@ public class AllTutorsFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(mTutorType, mTutorsList.size()));
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(mTutorType, mTutorsList.size(), userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {

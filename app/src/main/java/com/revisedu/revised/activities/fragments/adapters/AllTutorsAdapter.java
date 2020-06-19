@@ -51,6 +51,11 @@ public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.Subj
         holder.name.setText(item.getName());
         holder.location.setText(item.getLocation());
         holder.discount.setText(item.getDiscount());
+        if (item.isFavourite()) {
+            Picasso.get().load(R.drawable.ic_favorite).into(holder.favouriteImageView);
+        } else {
+            Picasso.get().load(R.drawable.ic_un_favorite).into(holder.favouriteImageView);
+        }
     }
 
     @Override
@@ -61,6 +66,7 @@ public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.Subj
     static class SubjectViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView subjectImageView;
+        private ImageView favouriteImageView;
         private TextView rating;
         private TextView name;
         private TextView location;
@@ -68,6 +74,7 @@ public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.Subj
 
         SubjectViewHolder(@NonNull View itemView) {
             super(itemView);
+            favouriteImageView = itemView.findViewById(R.id.favourite_tn);
             subjectImageView = itemView.findViewById(R.id.tutor_near_img);
             rating = itemView.findViewById(R.id.rating);
             name = itemView.findViewById(R.id.name);

@@ -42,6 +42,12 @@ public class TutorsResponse extends CommonResponse {
         private String location;
         @SerializedName("discount")
         private String discount;
+        @SerializedName("isFavourite")
+        private boolean isFavourite;
+
+        public boolean isFavourite() {
+            return isFavourite;
+        }
 
         public String getId() {
             return id;

@@ -5,11 +5,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.revisedu.revised.activities.HomeActivity;
+import com.revisedu.revised.request.FavouriteRequest;
+import com.revisedu.revised.response.CommonResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.revisedu.revised.TerminalConstant.SHARED_PREF_NAME;
@@ -63,6 +69,34 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
             editor.putString(keyName, value);
             editor.apply();
         }
+    }
+
+    void favouriteServerCall(FavouriteRequest request) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CommonResponse> call = RetrofitApi.getServicesObject().favouriteServerCall(request);
+                    final Response<CommonResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e("BaseFragment", e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    final CommonResponse commonResponse = response.body();
+                    if (commonResponse != null) {
+                        showToast(commonResponse.getErrorMessage());
+                    }
+                }
+            }
+        }).start();
     }
 
     String getStringDataFromSharedPref(String keyName) {

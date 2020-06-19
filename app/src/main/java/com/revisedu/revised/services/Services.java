@@ -4,6 +4,7 @@ import com.revisedu.revised.request.BookTutorRequest;
 import com.revisedu.revised.request.CityRequest;
 import com.revisedu.revised.request.CommonRequest;
 import com.revisedu.revised.request.DetailRequest;
+import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.request.RegisterRequest;
@@ -70,7 +71,8 @@ public interface Services {
     @POST("fetch_pref_subjects.php")
     Call<PrefSubjectsResponse> getPrefSubjectsServerCall(@Body CommonRequest request);
 
-
+    @POST("favourite.php")
+    Call<CommonResponse> favouriteServerCall(@Body FavouriteRequest request);
 
     @POST("fetch_tutors.php")
     Call<TutorsResponse> getTutorsServerCall(@Body TutorRequest request);
@@ -80,8 +82,6 @@ public interface Services {
 
     @POST("do_booking.php")
     Call<CommonResponse> doBookingServerCall(@Body BookTutorRequest request);
-
-
 
     @Multipart
     @POST("save_user_profile.php")

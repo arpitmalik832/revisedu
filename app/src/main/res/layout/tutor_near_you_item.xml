@@ -36,7 +36,7 @@
                 android:id="@+id/favourite_tn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_favorite_border_red_24dp"
+                android:src="@drawable/ic_un_favorite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toStartOf="parent"

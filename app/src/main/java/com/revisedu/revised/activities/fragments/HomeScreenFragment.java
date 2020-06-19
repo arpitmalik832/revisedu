@@ -23,7 +23,9 @@ import com.revisedu.revised.activities.fragments.adapters.OffersAdapter;
 import com.revisedu.revised.activities.fragments.adapters.SuperTutorsAdapter;
 import com.revisedu.revised.activities.fragments.adapters.TutorNearYouAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
+import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
 import com.revisedu.revised.request.CommonRequest;
+import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.OffersResponse;
@@ -37,7 +39,7 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class HomeScreenFragment extends BaseFragment implements ICustomClickListener {
+public class HomeScreenFragment extends BaseFragment implements ICustomClickListener, IFavouriteClickListener {
 
     private static final String TAG = "HomeScreenFragment";
     private DiscountAdapter mDiscountAdapter;
@@ -79,7 +81,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Featured Tutor Adapter Setup
         featuredTutorialRecyclerView = mContentView.findViewById(R.id.featuredTutorialRecyclerView);
         featuredTutorialRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, this);
+        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, this, this);
         featuredTutorialRecyclerView.setAdapter(mFeaturedTutorAdapter);
         //Offers Adapter Setup
         offersRecyclerView = mContentView.findViewById(R.id.offersRecyclerView);
@@ -193,7 +195,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             @Override
             public void run() {
                 try {
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_TUTOR_NEAR_ME, 0));
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_TUTOR_NEAR_ME, 0, userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -225,7 +228,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             @Override
             public void run() {
                 try {
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0));
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0, userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -257,7 +261,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             @Override
             public void run() {
                 try {
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0));
+                    String userId = getStringDataFromSharedPref(USER_ID);
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0, userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -308,5 +313,10 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     @Override
     public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
         launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+    }
+
+    @Override
+    public void onFavouriteItemClick(FavouriteRequest request) {
+        favouriteServerCall(request);
     }
 }
