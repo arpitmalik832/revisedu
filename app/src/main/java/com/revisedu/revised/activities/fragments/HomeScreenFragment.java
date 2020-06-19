@@ -89,9 +89,11 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Super Tutor Adapter Setup
         superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
         superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity);
+        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this);
         superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
-        getTutorsServerCall();
+        getSuperTutorsServerCall();
+        getFeaturedTutorsServerCall();
+        getNearMeTutorsServerCall();
         getOffersServerCall();
         getBannersServerCall();
         return mContentView;
@@ -186,7 +188,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         }).start();
     }
 
-    private void getTutorsServerCall() {
+    private void getNearMeTutorsServerCall() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -218,6 +220,70 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         }).start();
     }
 
+    private void getFeaturedTutorsServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0));
+                    final Response<TutorsResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<TutorsResponse> response) {
+                if (response.isSuccessful()) {
+                    final TutorsResponse offersResponse = response.body();
+                    if (offersResponse != null) {
+                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
+                        if (!tutorsList.isEmpty()) {
+                            mFeaturedTutorAdapter.setTutorsList(tutorsList);
+                            mFeaturedTutorAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void getSuperTutorsServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0));
+                    final Response<TutorsResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<TutorsResponse> response) {
+                if (response.isSuccessful()) {
+                    final TutorsResponse offersResponse = response.body();
+                    if (offersResponse != null) {
+                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
+                        if (!tutorsList.isEmpty()) {
+                            mSuperTutorsAdapter.setTutorsList(tutorsList);
+                            mSuperTutorsAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -241,7 +307,6 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
 
     @Override
     public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
-        showToast(itemValue);
         launchFragment(new TutorDetailFragment(tutorType, itemId), true);
     }
 }

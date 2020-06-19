@@ -63,6 +63,24 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/large_text" />
 
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/subjectTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ellipsize="marquee"
+                    android:maxLines="8"
+                    android:paddingEnd="@dimen/pad_small"
+                    android:paddingStart="@dimen/pad_small"
+                    android:text="@string/sample_tuition_intro"
+                    android:textSize="@dimen/normal_text" />
+
+            </androidx.core.widget.NestedScrollView>
+
         </LinearLayout>
 
         <LinearLayout

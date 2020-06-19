@@ -17,8 +17,8 @@ public class TutorDetailResponse extends CommonResponse {
     private String experience;
     @SerializedName("address")
     private String address;
-    @SerializedName("subjects")
-    private List<String> subjectsList = new ArrayList<>();
+    @SerializedName("subjectsList")
+    private List<TutorDetailSubjects> subjectsList = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -40,7 +40,16 @@ public class TutorDetailResponse extends CommonResponse {
         return address;
     }
 
-    public List<String> getSubjectsList() {
+    public List<TutorDetailSubjects> getSubjectsList() {
         return subjectsList;
+    }
+
+    public static class TutorDetailSubjects {
+
+        private String subjects = "";
+
+        public String getSubjects() {
+            return subjects;
+        }
     }
 }

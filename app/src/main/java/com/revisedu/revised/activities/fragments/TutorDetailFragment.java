@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import java.util.List;
+
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class TutorDetailFragment extends BaseFragment {
@@ -35,6 +37,7 @@ public class TutorDetailFragment extends BaseFragment {
     private String mExperience;
     private TextView addressTextView;
     private TextView experienceTextView;
+    private TextView subjectTextView;
     private ImageView homeImageViewTop;
     private Drawable mDefaultImage;
 
@@ -57,6 +60,7 @@ public class TutorDetailFragment extends BaseFragment {
         mActivity.isToggleButtonEnabled(false);
         homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
         addressTextView = mContentView.findViewById(R.id.addressTextView);
+        subjectTextView = mContentView.findViewById(R.id.subjectTextView);
         experienceTextView = mContentView.findViewById(R.id.experienceTextView);
         mDefaultImage = ContextCompat.getDrawable(mActivity, R.drawable.default_image);
         getTutorDetailServerCall();
@@ -66,7 +70,7 @@ public class TutorDetailFragment extends BaseFragment {
     private void showReadMoreDialog(String experience) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setTitle("My Experience");
-        builder.setMessage(mActivity.getString(R.string.sample_tuition_intro));
+        builder.setMessage(experience);
         builder.setCancelable(true);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -100,6 +104,14 @@ public class TutorDetailFragment extends BaseFragment {
                         addressTextView.setText(detailResponse.getAddress());
                         mExperience = detailResponse.getExperience();
                         experienceTextView.setText(mExperience);
+                        List<TutorDetailResponse.TutorDetailSubjects> subjects = detailResponse.getSubjectsList();
+                        if (subjects != null && !subjects.isEmpty()) {
+                            String subjectStr = "";
+                            for (TutorDetailResponse.TutorDetailSubjects subject : subjects) {
+                                subjectStr = "->  " + subject.getSubjects() + "\n";
+                            }
+                            subjectTextView.setText(subjectStr);
+                        }
                     }
                 }
                 stopProgress();
@@ -132,7 +144,6 @@ public class TutorDetailFragment extends BaseFragment {
                         if (commonResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             launchFragment(new HomeScreenFragment(), false);
                         }
-                        showToast(commonResponse.getErrorMessage());
                     }
                 }
                 stopProgress();
