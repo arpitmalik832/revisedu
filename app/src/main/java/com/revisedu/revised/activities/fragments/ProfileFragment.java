@@ -303,7 +303,7 @@ public class ProfileFragment extends BaseFragment {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.show_image);
-        ImageView imageView = dialog.findViewById(R.id.imageView);
+        ImageView imageView = dialog.findViewById(R.id.imgUserIcon);
         if (mProfilePhotoUrl.isEmpty()) {
             imageView.setImageBitmap(mPickResult.getBitmap());
         } else {

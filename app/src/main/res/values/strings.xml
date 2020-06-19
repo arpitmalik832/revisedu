@@ -57,6 +57,10 @@
     <string name="phone_number">Phone Number</string>
     <string name="save">Save</string>
     <string name="select_class">Select Class</string>
+    <string name="select_city">Select your City</string>
+    <string name="select_loc">Select your Location</string>
+    <string name="select_your_class">Select your Class</string>
+    <string name="select_sub">Select your Subject</string>
     <string name="get_notes">Get Notes</string>
     <string name="click_here_to_download_your_notes">Click here to download your Notes..</string>
     <string name="online_classes">Online Classes</string>
@@ -77,4 +81,7 @@ I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemist
     <string name="select_subject">Select Subject</string>
     <string name="select_topic">Select Topic</string>
     <string name="no_data_found">No data found</string>
+    <string name="search">Search</string>
+    <string name="empty" />
+    <string name="findCoaching">Find Coaching Center</string>
 </resources>

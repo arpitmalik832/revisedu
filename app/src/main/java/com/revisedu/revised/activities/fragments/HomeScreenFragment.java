@@ -35,7 +35,7 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class HomeScreenFragment extends BaseFragment implements ICustomClickListener {
+public class  HomeScreenFragment extends BaseFragment implements ICustomClickListener {
 
     private static final String TAG = "HomeScreenFragment";
     private DiscountAdapter mDiscountAdapter;
@@ -204,6 +204,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         mActivity.showBottomNavigationItem(2);
         mActivity.hideBackButton();
         mActivity.isToggleButtonEnabled(true);
+        mActivity.invalidateOptionsMenu();
+
     }
 
     @Override

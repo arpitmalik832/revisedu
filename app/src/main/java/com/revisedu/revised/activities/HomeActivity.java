@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.BookingFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
+import com.revisedu.revised.activities.fragments.SearchFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
 import com.revisedu.revised.activities.fragments.SubjectsFragment;
@@ -323,5 +325,22 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 Log.e("doSwitchToScreen", e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.side_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_search){
+            item.setVisible(false);
+            doSwitchToScreen(new SearchFragment(), true);
+            return true;
+        }
+        else{
+        return super.onOptionsItemSelected(item);}
     }
 }
