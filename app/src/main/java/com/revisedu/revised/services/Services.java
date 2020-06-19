@@ -77,6 +77,9 @@ public interface Services {
     @POST("fetch_tutors.php")
     Call<TutorsResponse> getTutorsServerCall(@Body TutorRequest request);
 
+    @POST("fetch_favourites.php")
+    Call<TutorsResponse> getFavTutorsServerCall(@Body CommonRequest request);
+
     @POST("fetch_tutor_detail.php")
     Call<TutorDetailResponse> getTutorDetailServerCall(@Body TutorDetailRequest request);
 
