@@ -1,12 +1,10 @@
 package com.revisedu.revised.activities.fragments;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.revisedu.revised.R;
@@ -26,11 +24,6 @@ public class ForgotPasswordFragment extends BaseFragment {
     }
 
     private void setupUI() {
-        LinearLayout loginParentContainer = mContentView.findViewById(R.id.signUpParentContainer);
-        AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(4000);
-        animationDrawable.start();
         mActivity.hideBottomNavigationView();
         userEmailEditText = mContentView.findViewById(R.id.userEmail);
         otpEditText = mContentView.findViewById(R.id.userOtpEditText);
