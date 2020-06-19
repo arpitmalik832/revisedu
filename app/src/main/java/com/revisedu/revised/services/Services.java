@@ -1,5 +1,6 @@
 package com.revisedu.revised.services;
 
+import com.revisedu.revised.request.BookTutorRequest;
 import com.revisedu.revised.request.CityRequest;
 import com.revisedu.revised.request.CommonRequest;
 import com.revisedu.revised.request.DetailRequest;
@@ -7,6 +8,8 @@ import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
+import com.revisedu.revised.request.TutorDetailRequest;
+import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.BookingsResponse;
 import com.revisedu.revised.response.ClassResponse;
 import com.revisedu.revised.response.CommonResponse;
@@ -16,6 +19,8 @@ import com.revisedu.revised.response.LoginResponse;
 import com.revisedu.revised.response.OffersResponse;
 import com.revisedu.revised.response.PrefSubjectsResponse;
 import com.revisedu.revised.response.ProfileResponse;
+import com.revisedu.revised.response.TutorDetailResponse;
+import com.revisedu.revised.response.TutorsResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -64,6 +69,19 @@ public interface Services {
 
     @POST("fetch_pref_subjects.php")
     Call<PrefSubjectsResponse> getPrefSubjectsServerCall(@Body CommonRequest request);
+
+
+
+    @POST("fetch_tutors.php")
+    Call<TutorsResponse> getTutorsServerCall(@Body TutorRequest request);
+
+    @POST("fetch_tutor_detail.php")
+    Call<TutorDetailResponse> getTutorDetailServerCall(@Body TutorDetailRequest request);
+
+    @POST("do_booking.php")
+    Call<CommonResponse> doBookingServerCall(@Body BookTutorRequest request);
+
+
 
     @Multipart
     @POST("save_user_profile.php")

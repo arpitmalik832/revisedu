@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/soBookingButton"
+            android:id="@+id/doBookingButton"
             style="@style/rounded_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,6 +87,7 @@
                 android:textSize="@dimen/large_text" />
 
             <TextView
+                android:id="@+id/addressTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/pad_small"
@@ -121,6 +122,7 @@
                 android:textSize="@dimen/large_text" />
 
             <TextView
+                android:id="@+id/experienceTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/pad_small"

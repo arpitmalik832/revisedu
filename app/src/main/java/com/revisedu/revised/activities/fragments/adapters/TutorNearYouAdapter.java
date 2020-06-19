@@ -10,15 +10,24 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
+import com.revisedu.revised.response.TutorsResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TutorNearYouAdapter extends RecyclerView.Adapter<TutorNearYouAdapter.TutorNearYourViewHolder> {
 
     private Context mContext;
     private ICustomClickListener listener;
+    private List<TutorsResponse.TutorsResponseItem> tutorsList = new ArrayList<>();
 
     public TutorNearYouAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
         this.listener = listener;
+    }
+
+    public void setTutorsList(List<TutorsResponse.TutorsResponseItem> tutorsList) {
+        this.tutorsList = tutorsList;
     }
 
     @NonNull
@@ -30,18 +39,14 @@ public class TutorNearYouAdapter extends RecyclerView.Adapter<TutorNearYouAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, final int position) {
+        TutorsResponse.TutorsResponseItem item = tutorsList.get(position);
         holder.mTutorNearItemImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.coaching2));
-        holder.mTutorNearItemImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onAdapterItemClick(String.valueOf(position), "Tutor near you item clicked :" + (position + 1), "Near Tutor");
-            }
-        });
+        holder.mTutorNearItemImageView.setOnClickListener(view -> listener.onAdapterItemClick(String.valueOf(position), "Tutor near you item clicked :" + (position + 1), "Near Tutor"));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return tutorsList.size();
     }
 
     static class TutorNearYourViewHolder extends RecyclerView.ViewHolder {
