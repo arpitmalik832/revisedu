@@ -37,7 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/scratch_card_dimen"
             android:padding="@dimen/pad_small"
-            android:scaleType="fitXY"
             android:src="@drawable/coachingclass"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
@@ -70,13 +69,13 @@
             android:id="@+id/tutorAddressContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/gap_medium"
+            android:layout_marginTop="8dp"
             android:background="@drawable/curve_white_background"
             android:orientation="vertical"
             android:padding="@dimen/pad_small_5"
             app:layout_constraintEnd_toEndOf="@+id/tutorSubjectContainer"
             app:layout_constraintStart_toStartOf="@+id/tutorExperienceContainer"
-            app:layout_constraintTop_toBottomOf="@+id/tutorExperienceContainer">
+            app:layout_constraintTop_toBottomOf="@+id/tutorSubjectContainer">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,8 +89,8 @@
                 android:id="@+id/addressTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/pad_small"
                 android:paddingEnd="@dimen/pad_small"
+                android:paddingStart="@dimen/pad_small"
                 android:text="@string/sample_address"
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text" />
@@ -101,7 +100,7 @@
         <LinearLayout
             android:id="@+id/tutorExperienceContainer"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginEnd="@dimen/gap_small"
             android:layout_marginStart="@dimen/gap_small"
             android:layout_marginTop="@dimen/gap_large"

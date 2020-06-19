@@ -207,12 +207,10 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                 if (response.isSuccessful()) {
                     final TutorsResponse offersResponse = response.body();
                     if (offersResponse != null) {
-                        if (offersResponse.getErrorCode() == TerminalConstant.SUCCESS) {
-                            List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
-                            if (!tutorsList.isEmpty()) {
-                                mTutorNearYouAdapter.setTutorsList(tutorsList);
-                                mTutorNearYouAdapter.notifyDataSetChanged();
-                            }
+                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
+                        if (!tutorsList.isEmpty()) {
+                            mTutorNearYouAdapter.setTutorsList(tutorsList);
+                            mTutorNearYouAdapter.notifyDataSetChanged();
                         }
                     }
                 }
