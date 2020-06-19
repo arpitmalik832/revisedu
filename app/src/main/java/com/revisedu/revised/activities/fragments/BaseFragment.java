@@ -2,15 +2,20 @@ package com.revisedu.revised.activities.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import com.revisedu.revised.activities.HomeActivity;
+import com.revisedu.revised.request.FavouriteRequest;
+import com.revisedu.revised.response.CommonResponse;
+import com.revisedu.revised.retrofit.RetrofitApi;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.revisedu.revised.TerminalConstant.SHARED_PREF_NAME;
@@ -41,12 +46,9 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     }
 
     protected void stopProgress() {
-        updateOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
+        updateOnUiThread(() -> {
+            if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
             }
         });
     }
@@ -69,7 +71,35 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public String getStringDataFromSharedPref(String keyName) {
+    void favouriteServerCall(FavouriteRequest request) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CommonResponse> call = RetrofitApi.getServicesObject().favouriteServerCall(request);
+                    final Response<CommonResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e("BaseFragment", e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    final CommonResponse commonResponse = response.body();
+                    if (commonResponse != null) {
+                        showToast(commonResponse.getErrorMessage());
+                    }
+                }
+            }
+        }).start();
+    }
+
+    String getStringDataFromSharedPref(String keyName) {
         SharedPreferences prefs = mActivity.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         return prefs.getString(keyName, "");
     }
@@ -91,20 +121,17 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void onBackPressedToExit() {
+    void onBackPressedToExit() {
         mActivity.finish();
     }
 
     void showListAlertDialog(final String[] list, final int id, String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setTitle(title);
-        builder.setItems(list, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                selectedItemStr = list[i];
-                onAlertDialogItemClicked(selectedItemStr, id, i);
-                dialogInterface.dismiss();
-            }
+        builder.setItems(list, (dialogInterface, i) -> {
+            selectedItemStr = list[i];
+            onAlertDialogItemClicked(selectedItemStr, id, i);
+            dialogInterface.dismiss();
         });
         builder.setCancelable(true);
         AlertDialog alertDialog = builder.create();
