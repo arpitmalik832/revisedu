@@ -115,8 +115,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.online_class:
-                showToast("Online Classes");
-                break;
+                showToast("Coming soon");
+                return false;
             case R.id.my_favourite:
                 showToast("Favourite");
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
