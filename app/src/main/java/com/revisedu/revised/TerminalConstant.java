@@ -22,6 +22,14 @@ public class TerminalConstant {
     public static final String MODE_FEATURE_TUTOR = "Featured Tutor";
     public static final String MODE_SUPER_TUTOR = "Super Tutor";
     public static final String MODE_CONTACT_US = "Contact Us";
+
+
+    public static final String MODE_SUBJECT = "Subject";
+    public static final String MODE_SEARCH = "Search";
+    public static final String MODE_NORMAL = "Normal";
+
     public static final String[] TOPICS_ARRAY = new String[]{"Topic 1","Topic 2","Topic 3","Topic 4"};
     public static final String[] SUBJECT_ARRAY = new String[]{"Sub 1","Sub 2","Sub 3","Sub 4"};
+
+
 }

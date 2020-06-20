@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.adapters.SubjectsAdapter;
+import com.revisedu.revised.activities.interfaces.IGetPositionClickListener;
 import com.revisedu.revised.request.CommonRequest;
 import com.revisedu.revised.response.PrefSubjectsResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
@@ -26,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.revisedu.revised.TerminalConstant.MODE_SUBJECT;
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class SubjectsFragment extends BaseFragment {
@@ -47,7 +49,14 @@ public class SubjectsFragment extends BaseFragment {
         getPrefSubjectsServerCall();
         subjectsRecyclerView = mContentView.findViewById(R.id.subjectsRecyclerView);
         subjectsRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,3));
-        mSubjectsAdapter = new SubjectsAdapter(mActivity, mPrefSubjectList);
+        IGetPositionClickListener clickListener = new IGetPositionClickListener() {
+            @Override
+            public void onAdapterItemClick(int position) {
+                PrefSubjectsResponse.ListItem selectedSubject = mPrefSubjectList.get(position);
+                launchFragment(new AllOptinsFragment(selectedSubject.getSubject(),MODE_SUBJECT),true);
+            }
+        };
+        mSubjectsAdapter = new SubjectsAdapter(mActivity, mPrefSubjectList,clickListener);
         subjectsRecyclerView.setAdapter(mSubjectsAdapter);
         return mContentView;
     }

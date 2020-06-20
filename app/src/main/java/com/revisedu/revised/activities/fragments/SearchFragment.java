@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
+import com.revisedu.revised.request.SearchRequestModel;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.response.ClassResponse;
 import com.revisedu.revised.response.SubjectResponse;
@@ -22,6 +23,8 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.revisedu.revised.TerminalConstant.MODE_SEARCH;
 
 public class SearchFragment extends BaseFragment {
 
@@ -148,8 +151,13 @@ public class SearchFragment extends BaseFragment {
                 showListAlertDialog(TerminalConstant.SUBJECT_ARRAY, R.id.selectSubjectTextView, "Select your Subject");
                 break;
             case R.id.doSearchButton:
-                showToast("Call Searching API from here");
-                //todo redirect to page
+                String city = selectCityTextView.getText().toString().contains("Select your")?"":selectCityTextView.getText().toString();
+                String location = selectLocationTextView.getText().toString().contains("Select your")?"":selectLocationTextView.getText().toString();
+                String classValue = selectClassTextView.getText().toString().contains("Select your")?"":selectClassTextView.getText().toString();
+                String  subject = selectSubjectTextView.getText().toString().contains("Select your")?"":selectSubjectTextView.getText().toString();
+                SearchRequestModel requestModel = new SearchRequestModel(city,location,classValue,subject);
+                launchFragment(new AllOptinsFragment(requestModel,MODE_SEARCH),true);
+
                 break;
             default:
                 break;

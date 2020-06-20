@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.activities.interfaces.IGetPositionClickListener;
 import com.revisedu.revised.response.PrefSubjectsResponse;
 
 import java.util.List;
@@ -24,9 +26,11 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
 
     private final List<PrefSubjectsResponse.ListItem> mPrefSubjectList;
     private Context mContext;
+    private IGetPositionClickListener mListener;
 
-    public SubjectsAdapter(Context context, List<PrefSubjectsResponse.ListItem> prefSubjectList) {
+    public SubjectsAdapter(Context context, List<PrefSubjectsResponse.ListItem> prefSubjectList, IGetPositionClickListener listener) {
         this.mPrefSubjectList = prefSubjectList;
+        this.mListener = listener;
         mContext = context;
     }
 
@@ -51,6 +55,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
         holder.nameInitials.setTextColor(Color.rgb(red, green, blue));
         holder.nameInitials.setVisibility(View.VISIBLE);
         holder.contactsDefaulImage.setVisibility(View.GONE);
+        holder.clSubjects.setOnClickListener(v -> mListener.onAdapterItemClick(position));
     }
 
     @Override
@@ -63,6 +68,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
         private TextView subjectTextView;
         private RelativeLayout thumbnail;
         private TextView nameInitials;
+        private ConstraintLayout clSubjects;
         private CircleImageView contactsDefaulImage;
 
         SubjectViewHolder(@NonNull View itemView) {
@@ -71,6 +77,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
             subjectTextView = itemView.findViewById(R.id.subjectTextView);
             nameInitials = itemView.findViewById(R.id.nameInitials);
             thumbnail = itemView.findViewById(R.id.thumbnail);
+            clSubjects = itemView.findViewById(R.id.clSubjects);
         }
     }
 }

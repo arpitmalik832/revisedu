@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/signUpParentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tint_grey"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txt_all_options_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/pad_small"
+                android:layout_marginEnd="@dimen/pad_small"
+                android:layout_marginTop="@dimen/pad_small"
+                android:layout_marginBottom="@dimen/pad_medium"
+                android:background="@color/tint_grey"
+                android:onClick="onClick"
+                android:textAlignment="center"
+                android:padding="@dimen/pad_small"
+                android:text="@string/sample_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/vv_large_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tutor_near_text"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:background="?selectableItemBackground"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:onClick="onClick"
+                android:padding="@dimen/pad_small"
+                android:text="@string/tutors_near_you"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/txt_all_options_heading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tutorNearYouRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/tutor_near_text" />
+
+            <TextView
+                android:id="@+id/featuredTutorialText"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:layout_marginTop="4dp"
+                android:background="?selectableItemBackground"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:onClick="onClick"
+                android:padding="@dimen/pad_small"
+                android:text="@string/featured_tutorials"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/tutorNearYouRecyclerView"
+                tools:layout_editor_absoluteX="5dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/featuredTutorialRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialText" />
+
+            <TextView
+                android:id="@+id/superTutorsText"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_small"
+                android:background="?selectableItemBackground"
+                android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
+                android:onClick="onClick"
+                android:padding="@dimen/pad_small"
+                android:text="@string/super_tutors"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialRecyclerView" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/superTutorsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/superTutorsText" />
+
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/noDataFoundGroup"
+                android:layout_width="wrap_content"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="noDataFoundImage,noDataFoundText" />
+
+            <ImageView
+                android:id="@+id/noDataFoundImage"
+                android:layout_width="75dp"
+                android:layout_height="100dp"
+                android:src="@drawable/no_data_found"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/noDataFoundText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:padding="@dimen/pad_small_5"
+                android:textSize="@dimen/normal_text"
+                android:text="@string/no_data_found"
+                app:layout_constraintEnd_toEndOf="@+id/noDataFoundImage"
+                app:layout_constraintStart_toStartOf="@+id/noDataFoundImage"
+                app:layout_constraintTop_toBottomOf="@+id/noDataFoundImage" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</LinearLayout>
