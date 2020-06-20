@@ -7,24 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.response.ClassResponse;
-import com.revisedu.revised.response.ListResponse;
+import com.revisedu.revised.response.SubjectResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class SearchFragment extends BaseFragment {
 
@@ -34,7 +31,7 @@ public class SearchFragment extends BaseFragment {
     private TextView selectClassTextView;
     private TextView selectSubjectTextView;
     private List<ClassResponse.ListItem> mClassList = new ArrayList<>();
-    private List<ListResponse.ListItem> mSubjectList = new ArrayList<>();
+    private List<SubjectResponse.ListItem> mSubjectList = new ArrayList<>();
     private String mClassId = "";
 
     @Nullable
@@ -95,8 +92,8 @@ public class SearchFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<ListResponse> call = RetrofitApi.getServicesObject().getSubjectServerCall(new SubjectRequest(mClassId));
-                    final Response<ListResponse> response = call.execute();
+                    Call<SubjectResponse> call = RetrofitApi.getServicesObject().getSubjectServerCall(new SubjectRequest(mClassId));
+                    final Response<SubjectResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -107,9 +104,9 @@ public class SearchFragment extends BaseFragment {
                 }
             }
 
-            private void handleResponse(Response<ListResponse> response) {
+            private void handleResponse(Response<SubjectResponse> response) {
                 if (response.isSuccessful()) {
-                    final ListResponse listResponse = response.body();
+                    final SubjectResponse listResponse = response.body();
                     if (listResponse != null) {
                         if (!mSubjectList.isEmpty()) {
                             mSubjectList.clear();
@@ -140,7 +137,7 @@ public class SearchFragment extends BaseFragment {
             case R.id.selectLocationTextView:
                 String[] subjectArray = new String[mSubjectList.size()];
                 for (int position = 0; position < mSubjectList.size(); position++) {
-                    subjectArray[position] = mSubjectList.get(position).getName();
+                    subjectArray[position] = mSubjectList.get(position).getSubjectName();
                 }
                 showListAlertDialog(subjectArray, R.id.selectLocationTextView, "Select your Location");
                 break;
