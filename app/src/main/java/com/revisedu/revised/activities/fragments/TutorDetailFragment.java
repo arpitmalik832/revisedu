@@ -41,7 +41,7 @@ public class TutorDetailFragment extends BaseFragment {
     private ImageView homeImageViewTop;
     private Drawable mDefaultImage;
 
-    TutorDetailFragment(String tutorType, String itemId) {
+    public TutorDetailFragment(String tutorType, String itemId) {
         mTutorType = tutorType;
         mTutorId = itemId;
     }

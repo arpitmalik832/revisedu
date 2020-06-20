@@ -74,6 +74,9 @@ public interface Services {
     @POST("fetch_booking.php")
     Call<BookingsResponse> getBookingsServerCall(@Body CommonRequest request);
 
+    @POST("fetch_favourites.php")
+    Call<TutorsResponse> getFavouriteServerCall(@Body CommonRequest request);
+
     @POST("fetch_pref_subjects.php")
     Call<PrefSubjectsResponse> getPrefSubjectsServerCall(@Body CommonRequest request);
 

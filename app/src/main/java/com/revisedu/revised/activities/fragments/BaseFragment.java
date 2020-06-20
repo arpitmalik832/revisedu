@@ -81,7 +81,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    void favouriteServerCall(FavouriteRequest request) {
+    public void favouriteServerCall(FavouriteRequest request) {
         new Thread(new Runnable() {
             @Override
             public void run() {

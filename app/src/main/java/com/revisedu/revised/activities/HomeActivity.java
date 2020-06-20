@@ -14,7 +14,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,13 +27,18 @@ import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.BookingFragment;
+import com.revisedu.revised.activities.fragments.FavouriteFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
 import com.revisedu.revised.activities.fragments.SearchFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
 import com.revisedu.revised.activities.fragments.SubjectsFragment;
+import com.revisedu.revised.activities.fragments.TutorDetailFragment;
 import com.revisedu.revised.activities.fragments.ViewDetailsFragment;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
+import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
+import com.revisedu.revised.request.FavouriteRequest;
 
 import java.util.List;
 
@@ -44,7 +48,7 @@ import static com.revisedu.revised.TerminalConstant.MODE_PRIVACY_POLICY;
 import static com.revisedu.revised.TerminalConstant.MODE_TERM_CONDITION;
 import static com.revisedu.revised.TerminalConstant.SHARED_PREF_NAME;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, IFavouriteClickListener, ICustomClickListener {
 
     private BottomNavigationView mBottomNavigationView;
     private DrawerLayout mSideNavigationDrawer;
@@ -121,7 +125,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 showToast("Coming soon");
                 return false;
             case R.id.my_favourite:
-                showToast("Favourite");
+                if (!(getCurrentFragment() instanceof FavouriteFragment)) {
+                    launchFragment(new FavouriteFragment(this, this), true);
+                }
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
                 return false;
             case R.id.nav_courses:
@@ -145,7 +151,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 }
                 break;
             case R.id.booking:
-                if (!(getCurrentFragment() instanceof SubjectsFragment)) {
+                if (!(getCurrentFragment() instanceof BookingFragment)) {
                     launchFragment(new BookingFragment(), true);
                 }
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
@@ -343,5 +349,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
         else{
         return super.onOptionsItemSelected(item);}
+    }
+
+    @Override
+    public void onFavouriteItemClick(FavouriteRequest request) {
+        getCurrentFragment().favouriteServerCall(request);
+    }
+
+    @Override
+    public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
+        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
     }
 }
