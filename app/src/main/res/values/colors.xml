@@ -11,4 +11,5 @@
     <color name="whiteRipple">#E9E9E9</color>
     <color name="dark_background">#242947</color>
     <color name="tint_grey">#F6F6F6</color>
+    <color name="zxing_transparent">#00000000</color>
 </resources>

@@ -32,6 +32,7 @@
     <dimen name="sc_small">45dp</dimen>
     <dimen name="floating_button_size">60dp</dimen>
     <dimen name="subject_card_size">100dp</dimen>
+    <dimen name="subject_card_size_height">120dp</dimen>
 
     <dimen name="split_panel_height">39dp</dimen>
     <dimen name="split_icon_size">65dp</dimen>

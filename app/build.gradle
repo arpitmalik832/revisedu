@@ -51,4 +51,5 @@ dependencies {
     implementation 'com.github.jrvansuita:PickImage:2.2.4'
     //image compression dependency
     implementation 'id.zelory:compressor:2.1.0'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }
