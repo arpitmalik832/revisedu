@@ -7,6 +7,7 @@ import com.revisedu.revised.request.DetailRequest;
 import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
+import com.revisedu.revised.request.NotesDownloadRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.request.TopicRequest;
@@ -86,8 +87,8 @@ public interface Services {
     @POST("fetch_tutors.php")
     Call<TutorsResponse> getTutorsServerCall(@Body TutorRequest request);
 
-    @POST("fetch_favourites.php")
-    Call<TutorsResponse> getFavTutorsServerCall(@Body CommonRequest request);
+    @POST("fetch_notes_download_detail.php")
+    Call<CommonResponse> getNotesDownloadServerCall(@Body NotesDownloadRequest request);
 
     @POST("fetch_tutor_detail.php")
     Call<TutorDetailResponse> getTutorDetailServerCall(@Body TutorDetailRequest request);
