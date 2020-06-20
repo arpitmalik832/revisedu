@@ -1,6 +1,10 @@
 package com.revisedu.revised.activities.fragments;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
@@ -16,9 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
+import com.revisedu.revised.request.NotesDownloadRequest;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.request.TopicRequest;
 import com.revisedu.revised.response.ClassResponse;
+import com.revisedu.revised.response.CommonResponse;
 import com.revisedu.revised.response.SubjectResponse;
 import com.revisedu.revised.response.TopicResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
@@ -27,6 +33,8 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class StudyMaterialFragment extends BaseFragment {
 
@@ -40,6 +48,9 @@ public class StudyMaterialFragment extends BaseFragment {
     private List<TopicResponse.ListItem> mTopicList = new ArrayList<>();
     private String mClassId = "";
     private String mSubjectId = "";
+    private String mTopicId = "";
+    private String mDownloadLink = "";
+    private TextView downloadNotesTextView;
 
     @Nullable
     @Override
@@ -54,7 +65,7 @@ public class StudyMaterialFragment extends BaseFragment {
         selectClassTextView = mContentView.findViewById(R.id.selectClassTextView);
         selectSubjectTextView = mContentView.findViewById(R.id.classFirstTextView);
         selectTopicTextView = mContentView.findViewById(R.id.topicFirstTextView);
-        TextView downloadNotesTextView = mContentView.findViewById(R.id.downloadNotesTextView);
+        downloadNotesTextView = mContentView.findViewById(R.id.downloadNotesTextView);
         SpannableString downloadNotesString = new SpannableString(mActivity.getString(R.string.click_here_to_download_your_notes));
         UnderlineSpan underlineSpan = new UnderlineSpan();
         downloadNotesString.setSpan(underlineSpan, 14, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -162,10 +173,71 @@ public class StudyMaterialFragment extends BaseFragment {
         }).start();
     }
 
+    private void getNotesDownloadServerCall() {
+        showProgress();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    NotesDownloadRequest request = new NotesDownloadRequest();
+                    request.setUserId(getStringDataFromSharedPref(USER_ID));
+                    request.setClassStr(mClassId);
+                    request.setSubjectStr(mSubjectId);
+                    request.setTopicStr(mTopicId);
+                    Call<CommonResponse> call = RetrofitApi.getServicesObject().getNotesDownloadServerCall(request);
+                    final Response<CommonResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CommonResponse> response) {
+                if (response.isSuccessful()) {
+                    final CommonResponse commonResponse = response.body();
+                    if (commonResponse != null) {
+                        if (commonResponse.getErrorMessage() != null && !commonResponse.getErrorMessage().isEmpty()) {
+                            downloadNotesTextView.setVisibility(View.VISIBLE);
+                            mDownloadLink = commonResponse.getErrorMessage();
+                        } else {
+                            showToast("No link available for download");
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
+    }
+
+    private void startDownloading() {
+        showToast("Downloading started...");
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(mDownloadLink));
+        request.setTitle(mTopicId);
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mTopicId + ".pdf");
+        request.setMimeType("application/pdf");
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        DownloadManager downloadManager = (DownloadManager) mActivity.getSystemService(Context.DOWNLOAD_SERVICE);
+        if (downloadManager != null) {
+            downloadManager.enqueue(request);
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.selectClassTextView:
+                selectSubjectTextView.setText(getString(R.string.select_subject));
+                selectTopicTextView.setText(getString(R.string.select_topic));
+                fetchDetailButton.setVisibility(View.INVISIBLE);
+                selectSubjectTextView.setVisibility(View.INVISIBLE);
+                selectTopicTextView.setVisibility(View.INVISIBLE);
+                downloadNotesTextView.setVisibility(View.INVISIBLE);
                 String[] classArray = new String[mClassList.size()];
                 for (int position = 0; position < mClassList.size(); position++) {
                     classArray[position] = mClassList.get(position).getClassName();
@@ -173,6 +245,10 @@ public class StudyMaterialFragment extends BaseFragment {
                 showListAlertDialog(classArray, R.id.selectClassTextView, "Select Class");
                 break;
             case R.id.classFirstTextView:
+                selectTopicTextView.setText(getString(R.string.select_topic));
+                fetchDetailButton.setVisibility(View.INVISIBLE);
+                selectTopicTextView.setVisibility(View.INVISIBLE);
+                downloadNotesTextView.setVisibility(View.INVISIBLE);
                 String[] subjectArray = new String[mSubjectList.size()];
                 for (int position = 0; position < mSubjectList.size(); position++) {
                     subjectArray[position] = mSubjectList.get(position).getSubjectName();
@@ -180,14 +256,18 @@ public class StudyMaterialFragment extends BaseFragment {
                 showListAlertDialog(subjectArray, R.id.classFirstTextView, "Select Subject");
                 break;
             case R.id.topicFirstTextView:
+                downloadNotesTextView.setVisibility(View.INVISIBLE);
                 String[] topicArray = new String[mTopicList.size()];
                 for (int position = 0; position < mTopicList.size(); position++) {
                     topicArray[position] = mTopicList.get(position).getTopicName();
                 }
                 showListAlertDialog(topicArray, R.id.topicFirstTextView, "Select Topic");
                 break;
+            case R.id.updateProfileButton:
+                getNotesDownloadServerCall();
+                break;
             case R.id.downloadNotesTextView:
-                showToast("downloading start...");
+                startDownloading();
                 break;
             default:
                 break;
@@ -212,6 +292,7 @@ public class StudyMaterialFragment extends BaseFragment {
             case R.id.topicFirstTextView:
                 selectTopicTextView.setText(selectedItemStr);
                 fetchDetailButton.setVisibility(View.VISIBLE);
+                mTopicId = mTopicList.get(position).getTopicName();
                 break;
         }
     }

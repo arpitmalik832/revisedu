@@ -54,9 +54,9 @@ public class FeaturedTutorAdapter extends RecyclerView.Adapter<FeaturedTutorAdap
     @Override
     public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, final int position) {
         TutorsResponse.TutorsResponseItem item = tutorsList.get(position);
-        holder.TutorNearItemImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Featured"));
+        holder.tutorNearItemImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Featured"));
         if (item.getImage() != null && !item.getImage().isEmpty()) {
-            Picasso.get().load(item.getImage()).placeholder(mDrawable).into(holder.TutorNearItemImageView);
+            Picasso.get().load(item.getImage()).placeholder(mDrawable).into(holder.tutorNearItemImageView);
         }
         holder.rating.setText(item.getRating());
         holder.name.setText(item.getName());
@@ -77,7 +77,7 @@ public class FeaturedTutorAdapter extends RecyclerView.Adapter<FeaturedTutorAdap
     class TutorNearYourViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView favouriteImageView;
-        private ImageView TutorNearItemImageView;
+        private ImageView tutorNearItemImageView;
         private TextView rating;
         private TextView name;
         private TextView location;
@@ -85,7 +85,7 @@ public class FeaturedTutorAdapter extends RecyclerView.Adapter<FeaturedTutorAdap
 
         TutorNearYourViewHolder(@NonNull View itemView) {
             super(itemView);
-            TutorNearItemImageView = itemView.findViewById(R.id.tutor_near_img);
+            tutorNearItemImageView = itemView.findViewById(R.id.tutor_near_img);
             favouriteImageView = itemView.findViewById(R.id.favourite_tn);
             rating = itemView.findViewById(R.id.rating);
             name = itemView.findViewById(R.id.name);
