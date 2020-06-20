@@ -4,8 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -61,6 +64,25 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
                 mProgressDialog.dismiss();
             }
         });
+    }
+
+    protected boolean haveNetworkConnection() {
+        boolean isConnected;
+        ConnectivityManager cm = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = null == cm ? null : cm.getActiveNetworkInfo();
+        isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (isConnected && activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            TelephonyManager tm = (TelephonyManager) mActivity.getSystemService(Context.TELEPHONY_SERVICE);
+            switch (null == tm ? TelephonyManager.NETWORK_TYPE_UNKNOWN : tm.getNetworkType()) {
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                    break;
+                default:
+                    break;
+            }
+        }
+        return isConnected;
     }
 
     @Override

@@ -169,9 +169,9 @@ public class FavouriteFragment extends BaseFragment {
             holder.subjectImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Favourite Tutor"));
             holder.discount.setText(item.getDiscount());
             if (item.isFavourite()) {
-                Picasso.get().load(R.drawable.ic_favorite).into(holder.favouriteImageView);
+                holder.favouriteImageView.setImageResource(R.drawable.ic_favorite);
             } else {
-                Picasso.get().load(R.drawable.ic_un_favorite).into(holder.favouriteImageView);
+                holder.favouriteImageView.setImageResource(R.drawable.ic_un_favorite);
             }
         }
 
