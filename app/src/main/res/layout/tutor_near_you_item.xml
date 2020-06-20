@@ -45,6 +45,7 @@
                 app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tutor_near_img"
+                android:layout_marginTop="2dp"
                 tools:ignore="ContentDescription" />
 
             <TextView
