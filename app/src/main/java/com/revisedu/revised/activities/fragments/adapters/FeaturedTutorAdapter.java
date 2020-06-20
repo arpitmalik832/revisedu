@@ -97,7 +97,7 @@ public class FeaturedTutorAdapter extends RecyclerView.Adapter<FeaturedTutorAdap
                 int position = getAdapterPosition();
                 TutorsResponse.TutorsResponseItem item = tutorsList.get(position);
                 Picasso.get().load(R.drawable.ic_favorite).into(favouriteImageView);
-                mFavouriteClickListener.onFavouriteItemClick(new FavouriteRequest(userId, item.getId(), !item.isFavourite())); //todo PIYUSH
+                mFavouriteClickListener.onFavouriteItemClick(new FavouriteRequest(userId, item.getId(), !item.isFavourite()));
             });
         }
     }
