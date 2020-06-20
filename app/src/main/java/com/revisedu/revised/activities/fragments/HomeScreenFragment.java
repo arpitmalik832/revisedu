@@ -29,6 +29,7 @@ import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.OffersResponse;
+import com.revisedu.revised.response.ProfileResponse;
 import com.revisedu.revised.response.TutorsResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
@@ -98,6 +99,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         getNearMeTutorsServerCall();
         getOffersServerCall();
         getBannersServerCall();
+        getProfileResponse();
         return mContentView;
     }
 
@@ -320,5 +322,37 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     @Override
     public void onFavouriteItemClick(FavouriteRequest request) {
         favouriteServerCall(request);
+    }
+
+    private void getProfileResponse() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<ProfileResponse> call = RetrofitApi.getServicesObject().getProfileResponse(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<ProfileResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<ProfileResponse> response) {
+                if (response.isSuccessful()) {
+                    final ProfileResponse profileResponse = response.body();
+                    if (profileResponse != null) {
+                        showToast(profileResponse.getErrorMessage());
+                        if (profileResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            setupNavigationHeader(profileResponse.getName(),profileResponse.getEmail(),profileResponse.getUserImageUrl());
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 }
