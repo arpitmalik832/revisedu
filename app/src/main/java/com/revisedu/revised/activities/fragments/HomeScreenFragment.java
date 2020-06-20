@@ -77,7 +77,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Tutor Near me Adapter Setup
         tutorNearYouRecyclerView = mContentView.findViewById(R.id.tutorNearYouRecyclerView);
         tutorNearYouRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, this);
+        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, this,this);
         tutorNearYouRecyclerView.setAdapter(mTutorNearYouAdapter);
         //Featured Tutor Adapter Setup
         featuredTutorialRecyclerView = mContentView.findViewById(R.id.featuredTutorialRecyclerView);
@@ -92,7 +92,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Super Tutor Adapter Setup
         superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
         superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this);
+        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this,this);
         superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
         getSuperTutorsServerCall();
         getFeaturedTutorsServerCall();

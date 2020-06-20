@@ -1,7 +1,6 @@
 package com.revisedu.revised.activities.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ import static com.revisedu.revised.TerminalConstant.MODE_SEARCH;
 import static com.revisedu.revised.TerminalConstant.MODE_SUBJECT;
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class AllOptinsFragment extends BaseFragment implements ICustomClickListener, IFavouriteClickListener {
+public class AllOptionsFragment extends BaseFragment implements ICustomClickListener, IFavouriteClickListener {
 
     private static final String TAG = "All Tutors";
     private String mSubject="";
@@ -54,12 +53,12 @@ public class AllOptinsFragment extends BaseFragment implements ICustomClickListe
     private String mMode = MODE_NORMAL;
     private SearchRequestModel mSearchModel= null;
 
-    public AllOptinsFragment(String subject, String mode) {
+    public AllOptionsFragment(String subject, String mode) {
         this.mSubject = subject;
         this.mMode = mode;
     }
 
-    public AllOptinsFragment(SearchRequestModel searchModel, String mode) {
+    public AllOptionsFragment(SearchRequestModel searchModel, String mode) {
         this.mSearchModel = searchModel;
         this.mMode = mode;
     }
@@ -71,7 +70,7 @@ public class AllOptinsFragment extends BaseFragment implements ICustomClickListe
         ToolBarManager.getInstance().hideToolBar(mActivity,false);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(TAG);
-        ToolBarManager.getInstance().onBackPressed(AllOptinsFragment.this);
+        ToolBarManager.getInstance().onBackPressed(AllOptionsFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
         mActivity.showBackButton();
@@ -159,7 +158,7 @@ public class AllOptinsFragment extends BaseFragment implements ICustomClickListe
                             mContentView.findViewById(R.id.noDataFoundGroup).setVisibility(View.GONE);
                             tutorNearYouRecyclerView.setVisibility(View.VISIBLE);
                             tutorNearYouRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-                            mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, AllOptinsFragment.this);
+                            mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, AllOptionsFragment.this,AllOptionsFragment.this);
                             mTutorNearYouAdapter.setTutorsList(tutorsList);
                             tutorNearYouRecyclerView.setAdapter(mTutorNearYouAdapter);
                         }
@@ -207,7 +206,7 @@ public class AllOptinsFragment extends BaseFragment implements ICustomClickListe
                             mContentView.findViewById(R.id.featuredTutorialText).setVisibility(View.VISIBLE);
                             mContentView.findViewById(R.id.noDataFoundGroup).setVisibility(View.GONE);
                             featuredTutorialRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-                            mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, AllOptinsFragment.this, AllOptinsFragment.this);
+                            mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, AllOptionsFragment.this, AllOptionsFragment.this);
                             mFeaturedTutorAdapter.setTutorsList(tutorsList);
                             featuredTutorialRecyclerView.setAdapter(mFeaturedTutorAdapter);
                         }
@@ -255,7 +254,7 @@ public class AllOptinsFragment extends BaseFragment implements ICustomClickListe
                             mContentView.findViewById(R.id.superTutorsText).setVisibility(View.VISIBLE);
                             mContentView.findViewById(R.id.noDataFoundGroup).setVisibility(View.GONE);
                             superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-                            mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, AllOptinsFragment.this);
+                            mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, AllOptionsFragment.this,AllOptionsFragment.this);
                             mSuperTutorsAdapter.setTutorsList(tutorsList);
                             superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
 
@@ -293,7 +292,12 @@ public class AllOptinsFragment extends BaseFragment implements ICustomClickListe
 
     @Override
     public void onBackPressed() {
-        launchFragment(new SubjectsFragment(), false);
+        if (mMode.equalsIgnoreCase(MODE_SEARCH)) {
+        launchFragment(new SearchFragment(), false);
+        }
+        else if (mMode.equalsIgnoreCase(MODE_SUBJECT)) {
+            launchFragment(new SubjectsFragment(), false);
+        }
     }
 
 }

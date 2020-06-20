@@ -22,7 +22,6 @@ import com.revisedu.revised.retrofit.RetrofitApi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -53,7 +52,7 @@ public class SubjectsFragment extends BaseFragment {
             @Override
             public void onAdapterItemClick(int position) {
                 PrefSubjectsResponse.ListItem selectedSubject = mPrefSubjectList.get(position);
-                launchFragment(new AllOptinsFragment(selectedSubject.getSubject(),MODE_SUBJECT),true);
+                launchFragment(new AllOptionsFragment(selectedSubject.getSubject(),MODE_SUBJECT),true);
             }
         };
         mSubjectsAdapter = new SubjectsAdapter(mActivity, mPrefSubjectList,clickListener);
