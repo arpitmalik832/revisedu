@@ -9,12 +9,12 @@
     android:gravity="bottom"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgUserIcon"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="16dp"
-        android:background="#e6f2fd"
+        android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_person_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

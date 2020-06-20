@@ -1,5 +1,8 @@
 package com.revisedu.revised.request;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchRequestModel {
 
     String city;
@@ -31,9 +34,29 @@ public class SearchRequestModel {
     }
 
     public String getShowText(){
-        if(city.isEmpty()&&location.isEmpty()&&mclass.isEmpty()&&subject.isEmpty()){
-            return "";
+        List<String> list = new ArrayList<>();
+        if(!city.isEmpty()) {
+            list.add(city);
         }
-        return city+", "+location+", "+mclass+", "+subject;
+        if(!location.isEmpty()) {
+            list.add(location);
+        }
+        if(!mclass.isEmpty()) {
+            list.add(mclass);
+        }
+        if(!subject.isEmpty()) {
+            list.add(subject);
+        }
+        String response = "";
+        for (int i = 0; i < list.size(); i++) {
+            if(i==0){
+                response+=list.get(i);
+            }
+            else {
+                response += ", "+list.get(i);
+            }
+        }
+
+        return response;
     }
 }
