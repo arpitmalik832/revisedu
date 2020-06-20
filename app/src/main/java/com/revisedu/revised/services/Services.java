@@ -9,6 +9,7 @@ import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
+import com.revisedu.revised.request.TopicRequest;
 import com.revisedu.revised.request.TutorDetailRequest;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.BookingsResponse;
@@ -20,6 +21,8 @@ import com.revisedu.revised.response.LoginResponse;
 import com.revisedu.revised.response.OffersResponse;
 import com.revisedu.revised.response.PrefSubjectsResponse;
 import com.revisedu.revised.response.ProfileResponse;
+import com.revisedu.revised.response.SubjectResponse;
+import com.revisedu.revised.response.TopicResponse;
 import com.revisedu.revised.response.TutorDetailResponse;
 import com.revisedu.revised.response.TutorsResponse;
 import okhttp3.MultipartBody;
@@ -42,7 +45,10 @@ public interface Services {
     Call<ClassResponse> getClassServerCall();
 
     @POST("fetch_subject.php")
-    Call<ListResponse> getSubjectServerCall(@Body SubjectRequest request);
+    Call<SubjectResponse> getSubjectServerCall(@Body SubjectRequest request);
+
+    @POST("fetch_topic.php")
+    Call<TopicResponse> getTopicServerCall(@Body TopicRequest request);
 
     @POST("fetch_area.php")
     Call<ListResponse> getAreaServerCall();
