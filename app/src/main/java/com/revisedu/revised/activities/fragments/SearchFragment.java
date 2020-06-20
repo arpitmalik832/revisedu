@@ -1,18 +1,17 @@
 package com.revisedu.revised.activities.fragments;
 
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
@@ -20,18 +19,20 @@ import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.response.ClassResponse;
 import com.revisedu.revised.response.ListResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
-import retrofit2.Call;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudyMaterialFragment extends BaseFragment {
+import retrofit2.Call;
+import retrofit2.Response;
 
-    private static final String TAG = "StudyMaterialFragment";
+public class SearchFragment extends BaseFragment {
+
+    private static final String TAG = "Search";
+    private TextView selectCityTextView;
+    private TextView selectLocationTextView;
     private TextView selectClassTextView;
-    private TextView classFirstTextView;
-    private TextView topicFirstTextView;
+    private TextView selectSubjectTextView;
     private List<ClassResponse.ListItem> mClassList = new ArrayList<>();
     private List<ListResponse.ListItem> mSubjectList = new ArrayList<>();
     private String mClassId = "";
@@ -39,21 +40,19 @@ public class StudyMaterialFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_study_material, container, false);
-        ToolBarManager.getInstance().hideToolBar(mActivity, true);
+        mContentView = inflater.inflate(R.layout.fragment_search, container, false);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(TAG);
+        ToolBarManager.getInstance().onBackPressed(SearchFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        mActivity.showBackButton();
+        mActivity.isToggleButtonEnabled(false);
+        selectCityTextView = mContentView.findViewById(R.id.selectCityTextView);
+        selectLocationTextView = mContentView.findViewById(R.id.selectLocationTextView);
         selectClassTextView = mContentView.findViewById(R.id.selectClassTextView);
-        classFirstTextView = mContentView.findViewById(R.id.classFirstTextView);
-        topicFirstTextView = mContentView.findViewById(R.id.topicFirstTextView);
-        TextView downloadNotesTextView = mContentView.findViewById(R.id.downloadNotesTextView);
-        SpannableString downloadNotesString = new SpannableString(mActivity.getString(R.string.click_here_to_download_your_notes));
-        UnderlineSpan underlineSpan = new UnderlineSpan();
-        downloadNotesString.setSpan(underlineSpan, 14, 22, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        downloadNotesTextView.setText(downloadNotesString);
-        getClassServerCall();
+        selectSubjectTextView = mContentView.findViewById(R.id.selectSubjectTextView);;
+//        getClassServerCall();
         return mContentView;
     }
 
@@ -116,7 +115,7 @@ public class StudyMaterialFragment extends BaseFragment {
                             mSubjectList.clear();
                         }
                         mSubjectList = listResponse.getArrayList();
-                        classFirstTextView.setVisibility(View.VISIBLE);
+                        selectLocationTextView.setVisibility(View.VISIBLE);
                     }
                 }
                 stopProgress();
@@ -127,25 +126,33 @@ public class StudyMaterialFragment extends BaseFragment {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.selectClassTextView:
+            case R.id.selectCityTextView:
+                mClassList = new ArrayList<>();
+                mClassList.add(new ClassResponse.ListItem("opt1")); //todo remove
+                mClassList.add(new ClassResponse.ListItem("opt2"));
+                mClassList.add(new ClassResponse.ListItem("opt3"));
                 String[] classArray = new String[mClassList.size()];
                 for (int position = 0; position < mClassList.size(); position++) {
                     classArray[position] = mClassList.get(position).getClassName();
                 }
-                showListAlertDialog(classArray, R.id.selectClassTextView, "Select Class");
+                showListAlertDialog(classArray, R.id.selectCityTextView, "Select your City");
                 break;
-            case R.id.classFirstTextView:
+            case R.id.selectLocationTextView:
                 String[] subjectArray = new String[mSubjectList.size()];
                 for (int position = 0; position < mSubjectList.size(); position++) {
                     subjectArray[position] = mSubjectList.get(position).getName();
                 }
-                showListAlertDialog(subjectArray, R.id.classFirstTextView, "Select Sub Class");
+                showListAlertDialog(subjectArray, R.id.selectLocationTextView, "Select your Location");
                 break;
-            case R.id.topicFirstTextView:
-                showListAlertDialog(TerminalConstant.TOPICS_ARRAY, R.id.topicFirstTextView, "Select Topic");
+            case R.id.selectClassTextView:
+                showListAlertDialog(TerminalConstant.TOPICS_ARRAY, R.id.selectClassTextView, "Select your Class");
                 break;
-            case R.id.downloadNotesTextView:
-                showToast("downloading start...");
+            case R.id.selectSubjectTextView:
+                showListAlertDialog(TerminalConstant.SUBJECT_ARRAY, R.id.selectSubjectTextView, "Select your Subject");
+                break;
+            case R.id.doSearchButton:
+                showToast("Call Searching API from here");
+                //todo redirect to page
                 break;
             default:
                 break;
@@ -155,29 +162,31 @@ public class StudyMaterialFragment extends BaseFragment {
     @Override
     protected void onAlertDialogItemClicked(String selectedItemStr, int id, int position) {
         switch (id) {
-            case R.id.selectClassTextView:
-                selectClassTextView.setText(selectedItemStr);
+            case R.id.selectCityTextView:
+                selectCityTextView.setText(selectedItemStr);
                 getSubjectServerCall();
                 break;
-            case R.id.classFirstTextView:
-                classFirstTextView.setText(selectedItemStr);
+            case R.id.selectLocationTextView:
+                selectLocationTextView.setText(selectedItemStr);
                 break;
-            case R.id.topicFirstTextView:
-                topicFirstTextView.setText(selectedItemStr);
+            case R.id.selectClassTextView:
+                selectClassTextView.setText(selectedItemStr);
+                break;
+                case R.id.selectSubjectTextView:
+                selectSubjectTextView.setText(selectedItemStr);
                 break;
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        launchFragment(new HomeScreenFragment(), false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mActivity.hideSideNavigationView();
-        mActivity.showBottomNavigationView();
-        mActivity.showBottomNavigationItem(3);
+        mActivity.hideBottomNavigationView();
+    }
+
+    @Override
+    public void onBackPressed() {
+        launchFragment(new HomeScreenFragment(), false);
     }
 }

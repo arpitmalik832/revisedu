@@ -19,6 +19,10 @@ public class ClassResponse {
         @SerializedName("class")
         private String className;
 
+        public ListItem(String className) { //todo remove
+            this.className = className;
+        }
+
         public String getClassName() {
             return className;
         }
