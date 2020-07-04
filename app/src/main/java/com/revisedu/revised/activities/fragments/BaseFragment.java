@@ -3,17 +3,30 @@ package com.revisedu.revised.activities.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.revisedu.revised.R;
 import com.revisedu.revised.activities.HomeActivity;
 import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.response.CommonResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
+import com.squareup.picasso.Picasso;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -53,10 +66,37 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    protected boolean haveNetworkConnection() {
+        boolean isConnected;
+        ConnectivityManager cm = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = null == cm ? null : cm.getActiveNetworkInfo();
+        isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (isConnected && activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            TelephonyManager tm = (TelephonyManager) mActivity.getSystemService(Context.TELEPHONY_SERVICE);
+            switch (null == tm ? TelephonyManager.NETWORK_TYPE_UNKNOWN : tm.getNetworkType()) {
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                    break;
+                default:
+                    break;
+            }
+        }
+        return isConnected;
+    }
+
     @Override
     public void onAttach(@NonNull Context activity) {
         super.onAttach(activity);
         mActivity = (HomeActivity) activity;
+    }
+
+    public void onPaymentSuccess(String txn) {
+
+    }
+
+    public void onPaymentError(int i, String s) {
+
     }
 
     protected void updateOnUiThread(Runnable runnable) {
@@ -71,7 +111,7 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    void favouriteServerCall(FavouriteRequest request) {
+    public void favouriteServerCall(FavouriteRequest request) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -153,5 +193,20 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
 
     protected void launchFragmentWithoutAnimation(Fragment fragment, boolean addBackStack) {
         mActivity.launchFragmentWithoutAnimation(fragment, addBackStack);
+    }
+
+    protected void setupNavigationHeader(String name, String email, String imgUrl){
+        Drawable mDefaultDrawable = ContextCompat.getDrawable(mActivity, R.drawable.ic_person_black_24dp);
+        ConstraintLayout nav_view_header_layout = mActivity.findViewById(R.id.nav_view_header_layout);
+        ImageView imgUserIcon = nav_view_header_layout.findViewById(R.id.imgUserIcon);
+        TextView txtEmailId = nav_view_header_layout.findViewById(R.id.txtEmailId);
+        TextView txtName = nav_view_header_layout.findViewById(R.id.txtName);
+        txtName.setText(name);
+        txtEmailId.setText(email);
+        if (imgUrl != null && !imgUrl.isEmpty()) {
+            Picasso.get().load(imgUrl).resize(100, 100).placeholder(mDefaultDrawable).into(imgUserIcon);
+        }
+
+
     }
 }

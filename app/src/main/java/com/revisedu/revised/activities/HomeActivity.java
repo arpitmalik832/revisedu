@@ -1,9 +1,11 @@
 package com.revisedu.revised.activities;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,19 +23,30 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.BookingFragment;
+import com.revisedu.revised.activities.fragments.FavouriteFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
+import com.revisedu.revised.activities.fragments.SearchFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
 import com.revisedu.revised.activities.fragments.SubjectsFragment;
+import com.revisedu.revised.activities.fragments.TutorDetailFragment;
 import com.revisedu.revised.activities.fragments.ViewDetailsFragment;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
+import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
+import com.revisedu.revised.request.FavouriteRequest;
+import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 
 import static com.revisedu.revised.TerminalConstant.MODE_ABOUT;
 import static com.revisedu.revised.TerminalConstant.MODE_CONTACT_US;
@@ -41,11 +54,13 @@ import static com.revisedu.revised.TerminalConstant.MODE_PRIVACY_POLICY;
 import static com.revisedu.revised.TerminalConstant.MODE_TERM_CONDITION;
 import static com.revisedu.revised.TerminalConstant.SHARED_PREF_NAME;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, IFavouriteClickListener, ICustomClickListener, PaymentResultListener {
 
     private BottomNavigationView mBottomNavigationView;
     private DrawerLayout mSideNavigationDrawer;
     private ActionBarDrawerToggle toggle;
+    private static final String TAG = "HomeActivity";
+    private Checkout mCheckoutInstance = new Checkout();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +74,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         ToolBarManager.getInstance().setupToolbar(toolbar);
         findViewById(R.id.backButtonToolbar).setVisibility(View.GONE);
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
+        Checkout.preload(getApplicationContext());
         toggle = new ActionBarDrawerToggle(
             this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mSideNavigationDrawer.addDrawerListener(toggle);
@@ -111,14 +127,35 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    public void startPayment(String cartPayableAmountStr) {
+        final Activity activity = this;
+        try {
+            mCheckoutInstance.setKeyID(getString(R.string.razor_pay_test_key));
+            double priceDouble = Double.parseDouble(cartPayableAmountStr);
+            double finalAmount = Double.parseDouble(new DecimalFormat("##.##").format(priceDouble));
+            String finalAmountToBePaid = String.valueOf(finalAmount * 100).contains(".") ? String.valueOf(finalAmount * 100).substring(0, String.valueOf(finalAmount * 100).indexOf('.')) : String.valueOf(finalAmount * 100);
+            JSONObject options = new JSONObject();
+            options.put("name", getString(R.string.application_name));
+            options.put("description", "Reference No. #" + new Random(6).nextInt());
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            options.put("currency", "INR");
+            options.put("amount", finalAmountToBePaid);
+            mCheckoutInstance.open(activity, options);
+        } catch (Exception e) {
+            Log.e(TAG, "Error in starting Razor-pay Checkout", e);
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.online_class:
-                showToast("Online Classes");
-                break;
+                showToast("Coming soon");
+                return false;
             case R.id.my_favourite:
-                showToast("Favourite");
+                if (!(getCurrentFragment() instanceof FavouriteFragment)) {
+                    launchFragment(new FavouriteFragment(this, this), true);
+                }
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
                 return false;
             case R.id.nav_courses:
@@ -142,7 +179,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 }
                 break;
             case R.id.booking:
-                if (!(getCurrentFragment() instanceof SubjectsFragment)) {
+                if (!(getCurrentFragment() instanceof BookingFragment)) {
                     launchFragment(new BookingFragment(), true);
                 }
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
@@ -322,6 +359,47 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             } catch (Exception e2) {
                 Log.e("doSwitchToScreen", e.getMessage(), e);
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.side_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            item.setVisible(false);
+            doSwitchToScreen(new SearchFragment(), true);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onFavouriteItemClick(FavouriteRequest request) {
+        getCurrentFragment().favouriteServerCall(request);
+    }
+
+    @Override
+    public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
+        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+    }
+
+    @Override
+    public void onPaymentSuccess(String txnId) {
+        if (getCurrentFragment() != null) {
+            getCurrentFragment().onPaymentSuccess(txnId);
+        }
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        if (getCurrentFragment() != null) {
+            getCurrentFragment().onPaymentError(i, s);
         }
     }
 }

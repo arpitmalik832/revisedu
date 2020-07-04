@@ -37,7 +37,7 @@ public class ViewDetailsFragment extends BaseFragment {
         mContentView = inflater.inflate(R.layout.fragment_view_details, container, false);
         setupToolbar();
         getDetailsResponse();
-        textView = mContentView.findViewById(R.id.textView);
+        textView = mContentView.findViewById(R.id.txtEmailId);
         return mContentView;
     }
 

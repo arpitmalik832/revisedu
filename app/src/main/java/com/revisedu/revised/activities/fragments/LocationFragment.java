@@ -1,13 +1,11 @@
 package com.revisedu.revised.activities.fragments;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,11 +40,6 @@ public class LocationFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_location, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
-        LinearLayout loginParentContainer = mContentView.findViewById(R.id.locationParentContainer);
-        AnimationDrawable animationDrawable = (AnimationDrawable) loginParentContainer.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(4000);
-        animationDrawable.start();
         getAreaServerCall();
         areaTextView = mContentView.findViewById(R.id.areaTextView);
         landmarkTextView = mContentView.findViewById(R.id.landmarkTextView);

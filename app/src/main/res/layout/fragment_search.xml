@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tint_grey">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:padding="@dimen/pad_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/doSearchButton"
+                style="@style/rounded_btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/gap_40"
+                android:onClick="onClick"
+                android:text="@string/search"
+                android:visibility="visible"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="@id/selectSubjectTextView"
+                app:layout_constraintStart_toStartOf="@id/selectSubjectTextView"
+                app:layout_constraintTop_toBottomOf="@id/selectSubjectTextView" />
+
+            <TextView
+                android:id="@+id/selectCityTextView"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:layout_marginTop="@dimen/gap_40"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                android:gravity="center_vertical"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:onClick="onClick"
+                android:paddingEnd="@dimen/pad_medium"
+                android:text="@string/select_city"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView"
+                tools:ignore="RtlCompat,RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/selectLocationTextView"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:layout_marginTop="@dimen/gap_vlarge"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                android:onClick="onClick"
+                android:gravity="center_vertical"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:visibility="visible"
+                android:paddingEnd="@dimen/pad_medium"
+                android:text="@string/select_loc"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectCityTextView"
+                tools:ignore="RtlCompat,RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/selectClassTextView"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:layout_marginTop="@dimen/gap_vlarge"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:visibility="visible"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/pad_medium"
+                android:text="@string/select_your_class"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectLocationTextView"
+                tools:ignore="RtlCompat,RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/selectSubjectTextView"
+                style="@style/edittext_style"
+                android:layout_marginEnd="@dimen/gap_extra_large"
+                android:layout_marginStart="@dimen/gap_extra_large"
+                android:layout_marginTop="@dimen/gap_vlarge"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:visibility="visible"
+                android:importantForAutofill="no"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/pad_medium"
+                android:text="@string/select_sub"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectClassTextView"
+                tools:ignore="RtlCompat,RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/forgotPasswordTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/gap_large"
+                android:drawablePadding="@dimen/pad_medium"
+                android:padding="@dimen/pad_small"
+                android:text="@string/findCoaching"
+                android:textColor="@color/black"
+                android:textSize="@dimen/extra_large_text"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

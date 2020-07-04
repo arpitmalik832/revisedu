@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
-    android:background="@drawable/login_gradient_list"
     tools:context=".activities.HomeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +48,7 @@
             android:text="@string/select_location_manually"
             android:textAlignment="center"
             android:padding="@dimen/pad_small"
-            android:textColor="@color/black"
+            android:textColor="@color/themeColor"
             android:textSize="@dimen/vv_large_text"
             android:textStyle="bold" />
 

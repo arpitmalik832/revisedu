@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassResponse {
+public class SubjectResponse {
 
     @SerializedName("list")
     private List<ListItem> mArrayList = new ArrayList<>();
@@ -16,15 +16,15 @@ public class ClassResponse {
 
     public static class ListItem {
 
-        @SerializedName("class")
-        private String className;
+        @SerializedName("subject")
+        private String mSubjectName;
 
-        public ListItem(String className) { //todo remove
-            this.className = className;
+        public ListItem(String mSubjectName) { //todo remove
+            this.mSubjectName = mSubjectName;
         }
 
-        public String getClassName() {
-            return className;
+        public String getSubjectName() {
+            return mSubjectName;
         }
     }
 }

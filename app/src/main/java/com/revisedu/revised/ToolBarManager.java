@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.revisedu.revised.activities.HomeActivity;
 
@@ -40,12 +39,9 @@ public class ToolBarManager {
 
     public void onBackPressed(final Fragment fragment) {
         ImageView backImage = mToolbar.findViewById(R.id.backButtonToolbar);
-        backImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (fragment.getActivity() != null) {
-                    fragment.getActivity().onBackPressed();
-                }
+        backImage.setOnClickListener(view -> {
+            if (fragment.getActivity() != null) {
+                fragment.getActivity().onBackPressed();
             }
         });
     }

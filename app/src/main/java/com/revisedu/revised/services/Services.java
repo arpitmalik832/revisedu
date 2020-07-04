@@ -7,8 +7,10 @@ import com.revisedu.revised.request.DetailRequest;
 import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.request.LandmarkRequest;
 import com.revisedu.revised.request.LoginRequest;
+import com.revisedu.revised.request.NotesDownloadRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
+import com.revisedu.revised.request.TopicRequest;
 import com.revisedu.revised.request.TutorDetailRequest;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.BookingsResponse;
@@ -20,6 +22,8 @@ import com.revisedu.revised.response.LoginResponse;
 import com.revisedu.revised.response.OffersResponse;
 import com.revisedu.revised.response.PrefSubjectsResponse;
 import com.revisedu.revised.response.ProfileResponse;
+import com.revisedu.revised.response.SubjectResponse;
+import com.revisedu.revised.response.TopicResponse;
 import com.revisedu.revised.response.TutorDetailResponse;
 import com.revisedu.revised.response.TutorsResponse;
 import okhttp3.MultipartBody;
@@ -42,7 +46,10 @@ public interface Services {
     Call<ClassResponse> getClassServerCall();
 
     @POST("fetch_subject.php")
-    Call<ListResponse> getSubjectServerCall(@Body SubjectRequest request);
+    Call<SubjectResponse> getSubjectServerCall(@Body SubjectRequest request);
+
+    @POST("fetch_topic.php")
+    Call<TopicResponse> getTopicServerCall(@Body TopicRequest request);
 
     @POST("fetch_area.php")
     Call<ListResponse> getAreaServerCall();
@@ -68,6 +75,9 @@ public interface Services {
     @POST("fetch_booking.php")
     Call<BookingsResponse> getBookingsServerCall(@Body CommonRequest request);
 
+    @POST("fetch_favourites.php")
+    Call<TutorsResponse> getFavouriteServerCall(@Body CommonRequest request);
+
     @POST("fetch_pref_subjects.php")
     Call<PrefSubjectsResponse> getPrefSubjectsServerCall(@Body CommonRequest request);
 
@@ -76,6 +86,9 @@ public interface Services {
 
     @POST("fetch_tutors.php")
     Call<TutorsResponse> getTutorsServerCall(@Body TutorRequest request);
+
+    @POST("fetch_notes_download_detail.php")
+    Call<CommonResponse> getNotesDownloadServerCall(@Body NotesDownloadRequest request);
 
     @POST("fetch_tutor_detail.php")
     Call<TutorDetailResponse> getTutorDetailServerCall(@Body TutorDetailRequest request);

@@ -29,6 +29,7 @@ import com.revisedu.revised.request.FavouriteRequest;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.OffersResponse;
+import com.revisedu.revised.response.ProfileResponse;
 import com.revisedu.revised.response.TutorsResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
@@ -76,7 +77,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Tutor Near me Adapter Setup
         tutorNearYouRecyclerView = mContentView.findViewById(R.id.tutorNearYouRecyclerView);
         tutorNearYouRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, this);
+        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, this,this);
         tutorNearYouRecyclerView.setAdapter(mTutorNearYouAdapter);
         //Featured Tutor Adapter Setup
         featuredTutorialRecyclerView = mContentView.findViewById(R.id.featuredTutorialRecyclerView);
@@ -91,13 +92,14 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         //Super Tutor Adapter Setup
         superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
         superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this);
+        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this,this);
         superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
         getSuperTutorsServerCall();
         getFeaturedTutorsServerCall();
         getNearMeTutorsServerCall();
         getOffersServerCall();
         getBannersServerCall();
+        getProfileResponse();
         return mContentView;
     }
 
@@ -308,6 +310,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         mActivity.showBottomNavigationItem(2);
         mActivity.hideBackButton();
         mActivity.isToggleButtonEnabled(true);
+        mActivity.invalidateOptionsMenu();
+
     }
 
     @Override
@@ -318,5 +322,37 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     @Override
     public void onFavouriteItemClick(FavouriteRequest request) {
         favouriteServerCall(request);
+    }
+
+    private void getProfileResponse() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<ProfileResponse> call = RetrofitApi.getServicesObject().getProfileResponse(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<ProfileResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<ProfileResponse> response) {
+                if (response.isSuccessful()) {
+                    final ProfileResponse profileResponse = response.body();
+                    if (profileResponse != null) {
+                        showToast(profileResponse.getErrorMessage());
+                        if (profileResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            setupNavigationHeader(profileResponse.getName(),profileResponse.getEmail(),profileResponse.getUserImageUrl());
+                        }
+                    }
+                }
+                stopProgress();
+            }
+        }).start();
     }
 }

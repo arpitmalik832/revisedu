@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    android:layout_margin="@dimen/gap_small"
+    android:background="@color/greyTextColor"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
@@ -11,9 +13,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/gap_small"
+        android:layout_margin="@dimen/gap_vsmall"
         android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,6 +45,7 @@
                 app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tutor_near_img"
+                android:layout_marginTop="2dp"
                 tools:ignore="ContentDescription" />
 
             <TextView

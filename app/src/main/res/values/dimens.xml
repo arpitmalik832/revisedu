@@ -4,6 +4,7 @@
     <dimen name="gap_40">40dp</dimen>
     <dimen name="gap_extra_large">30dp</dimen>
     <dimen name="gap_large">15dp</dimen>
+    <dimen name="gap_vlarge">20dp</dimen>
     <dimen name="gap_medium">10dp</dimen>
     <dimen name="gap_small">5dp</dimen>
     <dimen name="gap_vsmall">3dp</dimen>
@@ -31,6 +32,7 @@
     <dimen name="sc_small">45dp</dimen>
     <dimen name="floating_button_size">60dp</dimen>
     <dimen name="subject_card_size">100dp</dimen>
+    <dimen name="subject_card_size_height">120dp</dimen>
 
     <dimen name="split_panel_height">39dp</dimen>
     <dimen name="split_icon_size">65dp</dimen>
@@ -40,6 +42,7 @@
     <dimen name="scratch_card_dimen">140dp</dimen>
     <dimen name="scratch_card_dimen_large">220dp</dimen>
     <dimen name="merchant_offer_width">100dp</dimen>
+    <dimen name="offer_dimens">175dp</dimen>
     <!--Text Size-->
     <dimen name="extra_large_text">21sp</dimen>
     <dimen name="vv_large_text">18sp</dimen>
