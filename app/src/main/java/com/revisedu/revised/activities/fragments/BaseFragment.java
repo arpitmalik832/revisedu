@@ -91,6 +91,14 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
         mActivity = (HomeActivity) activity;
     }
 
+    public void onPaymentSuccess(String txn) {
+
+    }
+
+    public void onPaymentError(int i, String s) {
+
+    }
+
     protected void updateOnUiThread(Runnable runnable) {
         new Handler(Looper.getMainLooper()).post(runnable);
     }

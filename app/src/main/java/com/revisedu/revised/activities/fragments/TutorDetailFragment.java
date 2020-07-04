@@ -120,7 +120,6 @@ public class TutorDetailFragment extends BaseFragment {
     }
 
     private void doBookingServerCall() {
-        showProgress();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -158,11 +157,24 @@ public class TutorDetailFragment extends BaseFragment {
                 showReadMoreDialog(mExperience);
                 break;
             case R.id.doBookingButton:
-                doBookingServerCall();
+                showProgress();
+                mActivity.startPayment("100");
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onPaymentSuccess(String txn) {
+        showToast("Payment Done successfully");
+        doBookingServerCall();
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        stopProgress();
+        showToast("Payment failed :: " + s);
     }
 
     @Override
