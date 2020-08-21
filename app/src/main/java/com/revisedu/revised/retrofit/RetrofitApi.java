@@ -2,6 +2,8 @@ package com.revisedu.revised.retrofit;
 
 import com.revisedu.revised.services.Services;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.internal.Util;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,7 +18,7 @@ public class RetrofitApi {
          * */
     }
 
-    private static final String BASE_URL = "http://vgeekersinfotech.com/revised/dash/api/";
+    private static final String BASE_URL = "https://revisedu.com/dashboard/api/";
 
     private static Services sServices = null;
 
@@ -24,7 +26,7 @@ public class RetrofitApi {
         if (null == sServices) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.level(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).callTimeout(15, TimeUnit.SECONDS).build();
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).callTimeout(25, TimeUnit.SECONDS).protocols(Util.immutableListOf(Protocol.HTTP_1_1)).build();
             Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
