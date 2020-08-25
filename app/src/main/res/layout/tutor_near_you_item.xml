@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_margin="@dimen/gap_small"
-    android:background="@color/greyTextColor"
+    android:background="@color/dark_background"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
@@ -58,6 +58,9 @@
                 android:paddingEnd="@dimen/pad_small_3"
                 android:text="@string/sample_text"
                 android:textColor="#000"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:minLines="2"
                 android:textSize="@dimen/medium_text"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +76,9 @@
                 android:paddingStart="@dimen/pad_medium"
                 android:paddingEnd="@dimen/pad_small_3"
                 android:text="@string/place"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:minLines="2"
                 android:textSize="@dimen/small_text"
                 app:layout_constraintEnd_toEndOf="@+id/name"
                 app:layout_constraintStart_toStartOf="@+id/name"
@@ -85,6 +91,7 @@
                 android:drawableStart="@drawable/ic_local_offer_black_24dp"
                 android:paddingTop="@dimen/pad_small_3"
                 android:paddingBottom="@dimen/pad_small_3"
+                android:drawablePadding="@dimen/pad_small_5"
                 android:paddingStart="@dimen/pad_medium"
                 android:layout_marginBottom="@dimen/gap_small"
                 android:paddingEnd="@dimen/pad_small_3"
