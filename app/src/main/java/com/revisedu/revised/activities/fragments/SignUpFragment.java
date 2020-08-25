@@ -31,13 +31,11 @@ public class SignUpFragment extends BaseFragment {
     private String mobile = "";
     private String areaId;
     private String landmarkId;
-    private String cityId;
 
-    static SignUpFragment newInstance(String areaId, String landmarkId, String cityId) {
+    static SignUpFragment newInstance(String areaId, String landmarkId) {
         SignUpFragment fragment = new SignUpFragment();
         fragment.areaId = areaId;
         fragment.landmarkId = landmarkId;
-        fragment.cityId = cityId;
         return fragment;
     }
 
@@ -119,7 +117,6 @@ public class SignUpFragment extends BaseFragment {
                     registerRequest.setName(userName);
                     registerRequest.setPassword(password);
                     registerRequest.setMobile(mobile);
-                    registerRequest.setCity(cityId);
                     registerRequest.setLandmark(landmarkId);
                     registerRequest.setArea(areaId);
                     Call<LoginResponse> call = RetrofitApi.getServicesObject().getRegisterServerCall(registerRequest);

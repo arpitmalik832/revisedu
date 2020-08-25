@@ -14,8 +14,6 @@ public class RegisterRequest {
     private String mobile = "";
     @SerializedName("area")
     private String area = "";
-    @SerializedName("city")
-    private String city = "";
     @SerializedName("landmark")
     private String landmark = "";
 
@@ -37,10 +35,6 @@ public class RegisterRequest {
 
     public void setArea(String area) {
         this.area = area;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public void setLandmark(String landmark) {

@@ -40,7 +40,7 @@ public class ForgotPasswordFragment extends BaseFragment {
                     userEmailEditText.requestFocus();
                     return;
                 }
-                launchFragment(new HomeScreenFragment(), true);
+                //launchFragment(new HomeScreenFragment(), true);
                 break;
             default:
                 break;

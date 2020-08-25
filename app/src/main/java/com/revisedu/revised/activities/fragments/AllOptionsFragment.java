@@ -9,13 +9,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
@@ -29,11 +27,10 @@ import com.revisedu.revised.request.SearchRequestModel;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.TutorsResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
-
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Response;
+
+import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.MODE_NORMAL;
 import static com.revisedu.revised.TerminalConstant.MODE_SEARCH;
@@ -128,7 +125,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
                     String userId = getStringDataFromSharedPref(USER_ID);
                     TutorRequest request = new TutorRequest(TerminalConstant.MODE_TUTOR_NEAR_ME, 0, userId);
                     if(mMode.equalsIgnoreCase(MODE_SUBJECT) && !mSubject.isEmpty()){
-                        request.setmSubject(mSubject);
+                        request.setSubject(mSubject);
                     }
                     else if(mMode.equalsIgnoreCase(MODE_SEARCH)){
                         request.setSearchParams(mSearchModel);
@@ -176,7 +173,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
                     String userId = getStringDataFromSharedPref(USER_ID);
                     TutorRequest request = new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0, userId);
                     if(mMode.equalsIgnoreCase(MODE_SUBJECT) && !mSubject.isEmpty()){
-                        request.setmSubject(mSubject);
+                        request.setSubject(mSubject);
                     }
                     else if(mMode.equalsIgnoreCase(MODE_SEARCH)){
                         request.setSearchParams(mSearchModel);
@@ -224,7 +221,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
                     String userId = getStringDataFromSharedPref(USER_ID);
                     TutorRequest request = new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0, userId);
                     if(mMode.equalsIgnoreCase(MODE_SUBJECT) && !mSubject.isEmpty()){
-                        request.setmSubject(mSubject);
+                        request.setSubject(mSubject);
                     }
                     else if(mMode.equalsIgnoreCase(MODE_SEARCH)){
                         request.setSearchParams(mSearchModel);

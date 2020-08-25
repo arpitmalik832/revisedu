@@ -25,11 +25,11 @@ public class TutorRequest {
         this.mUserId = userId;
     }
 
-    public String getmSubject() {
+    public String getSubject() {
         return mSubject;
     }
 
-    public void setmSubject(String mSubject) {
+    public void setSubject(String mSubject) {
         this.mSubject = mSubject;
     }
 

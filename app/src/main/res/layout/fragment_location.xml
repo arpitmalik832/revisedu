@@ -91,26 +91,6 @@
             android:maxLines="1"
             tools:ignore="RtlCompat" />
 
-        <TextView
-            android:id="@+id/cityTextView"
-            style="@style/edittext_style"
-            android:layout_marginBottom="@dimen/gap_medium"
-            android:layout_marginTop="@dimen/gap_medium"
-            android:layout_marginEnd="@dimen/gap_medium"
-            android:paddingEnd="@dimen/gap_medium"
-            android:paddingStart="@dimen/pad_large"
-            android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
-            android:onClick="onClick"
-            android:visibility="invisible"
-            android:layout_marginStart="@dimen/gap_medium"
-            android:gravity="center_vertical"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:text="@string/city"
-            android:importantForAutofill="no"
-            android:maxLines="1"
-            tools:ignore="RtlCompat" />
-
     </LinearLayout>
 
     <Button
