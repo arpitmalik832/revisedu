@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:alpha="0.2"
         android:scaleType="fitXY"
-        android:src="@drawable/book_bg" />
+        android:src="@drawable/book_bg"
+        android:contentDescription="@string/background" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -50,7 +51,7 @@
                 android:padding="@dimen/pad_small"
                 android:onClick="onClick"
                 android:background="?selectableItemBackground"
-                android:text="@string/tutors_near_you"
+                android:text="@string/popular_coaching"
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
@@ -64,7 +65,7 @@
                 android:layout_marginTop="4dp"
                 android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
                 android:padding="@dimen/pad_small"
-                android:text="@string/featured_tutorials"
+                android:text="@string/featured_coaching"
                 android:onClick="onClick"
                 android:background="?selectableItemBackground"
                 android:textColor="@color/black"
@@ -95,7 +96,7 @@
                 android:padding="@dimen/pad_small"
                 android:onClick="onClick"
                 android:background="?selectableItemBackground"
-                android:text="@string/super_tutors"
+                android:text="@string/super_coaching"
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
@@ -130,7 +131,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/offersRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/recycler_view_height"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/offersText" />
 
             <androidx.recyclerview.widget.RecyclerView

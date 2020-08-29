@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Revised</string>
+    <string name="app_name"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">Revised</string>
     <string name="application_name">Revised</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -86,4 +88,8 @@ I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemist
     <string name="empty" />
     <string name="findCoaching">Find Coaching Center</string>
     <string name="razor_pay_test_key">rzp_test_oS2MAcgMSAyAxN</string>
+    <string name="background">background</string>
+    <string name="popular_coaching">Popular Coaching</string>
+    <string name="featured_coaching">Featured Coaching</string>
+    <string name="super_coaching">Super Coaching</string>
 </resources>

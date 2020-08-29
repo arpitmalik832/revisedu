@@ -10,6 +10,7 @@
         android:id="@+id/discountItemImageView"
         android:layout_width="@dimen/offer_dimens"
         android:layout_height="@dimen/offer_dimens"
+        android:scaleType="fitXY"
         android:src="@drawable/discount"
         tools:ignore="ContentDescription" />
 
