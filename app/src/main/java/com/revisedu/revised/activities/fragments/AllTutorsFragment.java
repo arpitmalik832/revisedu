@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.adapters.AllTutorsAdapter;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.request.TutorRequest;
 import com.revisedu.revised.response.TutorsResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class AllTutorsFragment extends BaseFragment {
+public class AllTutorsFragment extends BaseFragment implements ICustomClickListener {
 
     private RecyclerView mAllTutorsRecyclerView;
     private AllTutorsAdapter mAllTutorsAdapter;
@@ -59,7 +60,7 @@ public class AllTutorsFragment extends BaseFragment {
         mContentView.findViewById(R.id.subjectTextView).setVisibility(View.GONE);
         mGridLayoutManager = new GridLayoutManager(mActivity, 2);
         mAllTutorsRecyclerView.setLayoutManager(mGridLayoutManager);
-        mAllTutorsAdapter = new AllTutorsAdapter(mActivity);
+        mAllTutorsAdapter = new AllTutorsAdapter(mActivity, this);
         mAllTutorsRecyclerView.setAdapter(mAllTutorsAdapter);
         mAllTutorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -133,5 +134,10 @@ public class AllTutorsFragment extends BaseFragment {
                 stopProgress();
             }
         }).start();
+    }
+
+    @Override
+    public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
+        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
     }
 }

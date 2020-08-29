@@ -108,13 +108,13 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tutor_near_text:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_TUTOR_NEAR_ME), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_POPULAR_COACHING), false);
                 break;
             case R.id.featuredTutorialText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURE_TUTOR), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURED_COACHING), false);
                 break;
             case R.id.superTutorsText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_TUTOR), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_COACHING), false);
                 break;
             default:
                 break;
@@ -199,7 +199,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             public void run() {
                 try {
                     String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_TUTOR_NEAR_ME, 0, userId));
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_POPULAR_COACHING, 0, userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -232,7 +232,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             public void run() {
                 try {
                     String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0, userId));
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURED_COACHING, 0, userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -265,7 +265,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
             public void run() {
                 try {
                     String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0, userId));
+                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_COACHING, 0, userId));
                     final Response<TutorsResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {

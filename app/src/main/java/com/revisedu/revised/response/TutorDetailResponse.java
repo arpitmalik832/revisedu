@@ -1,5 +1,7 @@
 package com.revisedu.revised.response;
 
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -33,7 +35,11 @@ public class TutorDetailResponse extends CommonResponse {
     }
 
     public String getExperience() {
-        return experience;
+        return getDescription(experience);
+    }
+
+    private String getDescription(String experience) {
+        return Html.fromHtml(experience).toString();
     }
 
     public String getAddress() {

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.response.TutorsResponse;
 import com.squareup.picasso.Picasso;
 
@@ -21,11 +22,13 @@ import java.util.List;
 public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.SubjectViewHolder> {
 
     private Context mContext;
+    private ICustomClickListener listener;
     private List<TutorsResponse.TutorsResponseItem> tutorsList = new ArrayList<>();
     private Drawable mDrawable;
 
-    public AllTutorsAdapter(Context context) {
+    public AllTutorsAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
+        this.listener = listener;
     }
 
     public void setTutorsList(List<TutorsResponse.TutorsResponseItem> tutorsList) {
@@ -43,6 +46,7 @@ public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.Subj
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
         TutorsResponse.TutorsResponseItem item = tutorsList.get(position);
+        holder.subjectImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Coaching Center"));
         holder.subjectImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_left_to_right_transition));
         if (item.getImage() != null && !item.getImage().isEmpty()) {
             Picasso.get().load(item.getImage()).placeholder(mDrawable).into(holder.subjectImageView);

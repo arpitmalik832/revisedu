@@ -107,11 +107,11 @@ public class TutorDetailFragment extends BaseFragment {
                         experienceTextView.setText(mExperience);
                         List<TutorDetailResponse.TutorDetailSubjects> subjects = detailResponse.getSubjectsList();
                         if (subjects != null && !subjects.isEmpty()) {
-                            String subjectStr = "";
+                            StringBuilder subjectStr = new StringBuilder();
                             for (TutorDetailResponse.TutorDetailSubjects subject : subjects) {
-                                subjectStr = "->  " + subject.getSubjects() + "\n";
+                                subjectStr.append("->  ").append(subject.getSubjects()).append("\n");
                             }
-                            subjectTextView.setText(subjectStr);
+                            subjectTextView.setText(subjectStr.toString());
                         }
                     }
                 }

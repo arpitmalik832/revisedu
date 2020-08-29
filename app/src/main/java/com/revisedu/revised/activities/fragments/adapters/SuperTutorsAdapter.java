@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
 import com.revisedu.revised.request.FavouriteRequest;
@@ -54,7 +55,7 @@ public class SuperTutorsAdapter extends RecyclerView.Adapter<SuperTutorsAdapter.
     @Override
     public void onBindViewHolder(@NonNull TutorNearYourViewHolder holder, int position) {
         TutorsResponse.TutorsResponseItem item = tutorsList.get(position);
-        holder.TutorNearItemImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Featured"));
+        holder.TutorNearItemImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", TerminalConstant.MODE_SUPER_COACHING));
         if (item.getImage() != null && !item.getImage().isEmpty()) {
             Picasso.get().load(item.getImage()).placeholder(mDrawable).into(holder.TutorNearItemImageView);
         }

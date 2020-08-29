@@ -105,13 +105,13 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tutor_near_text:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_TUTOR_NEAR_ME), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_POPULAR_COACHING), false);
                 break;
             case R.id.featuredTutorialText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURE_TUTOR), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURED_COACHING), false);
                 break;
             case R.id.superTutorsText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_TUTOR), false);
+                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_COACHING), false);
                 break;
             default:
                 break;
@@ -124,7 +124,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
             public void run() {
                 try {
                     String userId = getStringDataFromSharedPref(USER_ID);
-                    TutorRequest request = new TutorRequest(TerminalConstant.MODE_TUTOR_NEAR_ME, 0, userId);
+                    TutorRequest request = new TutorRequest(TerminalConstant.MODE_POPULAR_COACHING, 0, userId);
                     if(mMode.equalsIgnoreCase(MODE_SUBJECT) && !mSubject.isEmpty()){
                         request.setSubject(mSubject);
                     }
@@ -172,7 +172,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
             public void run() {
                 try {
                     String userId = getStringDataFromSharedPref(USER_ID);
-                    TutorRequest request = new TutorRequest(TerminalConstant.MODE_FEATURE_TUTOR, 0, userId);
+                    TutorRequest request = new TutorRequest(TerminalConstant.MODE_FEATURED_COACHING, 0, userId);
                     if(mMode.equalsIgnoreCase(MODE_SUBJECT) && !mSubject.isEmpty()){
                         request.setSubject(mSubject);
                     }
@@ -220,7 +220,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
             public void run() {
                 try {
                     String userId = getStringDataFromSharedPref(USER_ID);
-                    TutorRequest request = new TutorRequest(TerminalConstant.MODE_SUPER_TUTOR, 0, userId);
+                    TutorRequest request = new TutorRequest(TerminalConstant.MODE_SUPER_COACHING, 0, userId);
                     if(mMode.equalsIgnoreCase(MODE_SUBJECT) && !mSubject.isEmpty()){
                         request.setSubject(mSubject);
                     }
