@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#1583E9</color>
+    <color name="colorPrimaryDark">#1E61B1</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="background">#e6f2fd</color>
     <color name="black">#000</color>
@@ -9,7 +9,7 @@
     <color name="themeColor">#1E61B1</color>
     <color name="greyTextColor">#87848B</color>
     <color name="whiteRipple">#E9E9E9</color>
-    <color name="dark_background">#242947</color>
+    <color name="dark_background">#1583E9</color>
     <color name="tint_grey">#F6F6F6</color>
     <color name="zxing_transparent">#00000000</color>
 </resources>

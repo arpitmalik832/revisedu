@@ -46,7 +46,7 @@ public class SignInFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.alreadySignInText:
-                launchFragment(new LocationFragment(), false);
+                launchFragment(new SignUpFragment(), false);
                 break;
             case R.id.forgotPasswordTextView:
                 launchFragment(new ForgotPasswordFragment(), true);
