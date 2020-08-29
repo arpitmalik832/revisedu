@@ -51,6 +51,7 @@ public class TutorDetailFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_tutor_detail, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(mTutorType);
         ToolBarManager.getInstance().onBackPressed(TutorDetailFragment.this);

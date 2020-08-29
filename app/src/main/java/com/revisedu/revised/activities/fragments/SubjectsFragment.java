@@ -41,6 +41,7 @@ public class SubjectsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_subjects, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
@@ -48,12 +49,9 @@ public class SubjectsFragment extends BaseFragment {
         getPrefSubjectsServerCall();
         subjectsRecyclerView = mContentView.findViewById(R.id.subjectsRecyclerView);
         subjectsRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,3));
-        IGetPositionClickListener clickListener = new IGetPositionClickListener() {
-            @Override
-            public void onAdapterItemClick(int position) {
-                PrefSubjectsResponse.ListItem selectedSubject = mPrefSubjectList.get(position);
-                launchFragment(new AllOptionsFragment(selectedSubject.getSubject(),MODE_SUBJECT),true);
-            }
+        IGetPositionClickListener clickListener = position -> {
+            PrefSubjectsResponse.ListItem selectedSubject = mPrefSubjectList.get(position);
+            launchFragment(new AllOptionsFragment(selectedSubject.getSubject(),MODE_SUBJECT),true);
         };
         mSubjectsAdapter = new SubjectsAdapter(mActivity, mPrefSubjectList,clickListener);
         subjectsRecyclerView.setAdapter(mSubjectsAdapter);
@@ -62,10 +60,6 @@ public class SubjectsFragment extends BaseFragment {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            default:
-                break;
-        }
     }
 
 

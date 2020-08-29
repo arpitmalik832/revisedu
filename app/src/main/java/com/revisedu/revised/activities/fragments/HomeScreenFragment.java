@@ -63,10 +63,11 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_home_screen, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,false);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.app_name));
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
-        ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        ToolBarManager.getInstance().setHeaderTextGravity(Gravity.CENTER);
         homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
         homeImageViewSecond = mContentView.findViewById(R.id.imageView2);
         //Discount Adapter Setup

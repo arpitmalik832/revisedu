@@ -65,6 +65,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_all_options, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity,false);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().onBackPressed(AllOptionsFragment.this);

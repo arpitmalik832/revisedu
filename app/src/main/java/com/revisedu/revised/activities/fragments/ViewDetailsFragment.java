@@ -77,6 +77,7 @@ public class ViewDetailsFragment extends BaseFragment {
 
     private void setupToolbar() {
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(mMode);
         ToolBarManager.getInstance().onBackPressed(ViewDetailsFragment.this);

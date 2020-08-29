@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -59,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView mBottomNavigationView;
     private DrawerLayout mSideNavigationDrawer;
     private ActionBarDrawerToggle toggle;
+    private TextView searchBar;
     private static final String TAG = "HomeActivity";
     private Checkout mCheckoutInstance = new Checkout();
 
@@ -76,7 +78,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         mSideNavigationDrawer = findViewById(R.id.drawer_layout);
         Checkout.preload(getApplicationContext());
         toggle = new ActionBarDrawerToggle(
-            this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mSideNavigationDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mSideNavigationDrawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -87,6 +89,10 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         } else {
             launchFragment(new SignInFragment(), false);
         }
+
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setOnClickListener(v -> doSwitchToScreen(new SearchFragment(), true)
+        );
     }
 
     public void showBottomNavigationView() {
@@ -359,23 +365,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             } catch (Exception e2) {
                 Log.e("doSwitchToScreen", e.getMessage(), e);
             }
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.side_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
-            item.setVisible(false);
-            doSwitchToScreen(new SearchFragment(), true);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
         }
     }
 

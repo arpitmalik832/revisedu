@@ -47,6 +47,7 @@ public class SearchFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_search, container, false);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().onBackPressed(SearchFragment.this);

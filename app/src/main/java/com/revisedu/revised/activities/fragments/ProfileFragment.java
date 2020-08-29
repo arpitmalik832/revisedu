@@ -38,6 +38,7 @@ import retrofit2.Response;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
@@ -67,6 +68,7 @@ public class ProfileFragment extends BaseFragment {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
@@ -207,7 +209,7 @@ public class ProfileFragment extends BaseFragment {
                     RequestBody phoneRequestBody = RequestBody.create(phone, MultipartBody.FORM);
                     File originalFile = new File(mPickResult.getPath());
                     File compressedFile = new Compressor(mActivity).compressToFile(originalFile);
-                    RequestBody fileRequestBody = RequestBody.create(compressedFile, MediaType.parse(mActivity.getContentResolver().getType(mPickResult.getUri())));
+                    RequestBody fileRequestBody = RequestBody.create(compressedFile, MediaType.parse(Objects.requireNonNull(mActivity.getContentResolver().getType(mPickResult.getUri()))));
                     MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", compressedFile.getName(), fileRequestBody);
                     Call<CommonResponse> call = RetrofitApi.getServicesObject().uploadUserProfileServerCall(userIdRequestBody,
                                                                                                             nameBody,

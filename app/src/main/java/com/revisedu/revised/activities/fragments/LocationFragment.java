@@ -37,6 +37,7 @@ public class LocationFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContentView = inflater.inflate(R.layout.fragment_location, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         getAreaServerCall();
         areaTextView = mContentView.findViewById(R.id.areaTextView);
         landmarkTextView = mContentView.findViewById(R.id.landmarkTextView);

@@ -1,5 +1,6 @@
 package com.revisedu.revised;
 
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,9 +58,17 @@ public class ToolBarManager {
 
     public void hideToolBar(HomeActivity mActivity, boolean toHide) {
         if (toHide) {
-            mActivity.findViewById(R.id.toolbarLayout).setVisibility(View.GONE);
+            mActivity.findViewById(R.id.appBarLayout).setVisibility(View.GONE);
         } else {
-            mActivity.findViewById(R.id.toolbarLayout).setVisibility(View.VISIBLE);
+            mActivity.findViewById(R.id.appBarLayout).setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideSearchBar(HomeActivity mActivity, boolean toHide) {
+        if (toHide) {
+            mActivity.findViewById(R.id.searchBar).setVisibility(View.GONE);
+        } else {
+            mActivity.findViewById(R.id.searchBar).setVisibility(View.VISIBLE);
         }
     }
 }

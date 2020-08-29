@@ -49,6 +49,7 @@ public class SignUpFragment extends BaseFragment {
 
     private void setupUI() {
         ToolBarManager.getInstance().hideToolBar(mActivity, true);
+        ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         mActivity.hideBottomNavigationView();
         userNameEditText = mContentView.findViewById(R.id.userNameEditText);
         userEmailEditText = mContentView.findViewById(R.id.userEmailEditText);
