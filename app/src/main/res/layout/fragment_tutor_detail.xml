@@ -1,167 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/tint_grey"
-    android:fillViewport="true"
-    android:padding="@dimen/pad_small">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/doBookingButton"
-            style="@style/rounded_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/gap_extra_large"
-            android:layout_marginEnd="@dimen/image_size"
-            android:layout_marginStart="@dimen/image_size"
-            android:onClick="onClick"
-            android:text="@string/book_this_coaching"
-            android:textColor="@android:color/white"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tutorAddressContainer"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <ImageView
-            android:id="@+id/homeImageViewTop"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/scratch_card_dimen"
-            android:padding="@dimen/pad_small"
-            android:src="@drawable/coachingclass"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+        android:layout_height="0dp"
+        android:background="@color/tint_grey"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/doBookingButton">
 
         <LinearLayout
-            android:id="@+id/tutorSubjectContainer"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginEnd="@dimen/gap_small"
-            android:layout_marginStart="@dimen/gap_small"
-            android:background="@drawable/curve_white_background"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tutorExperienceContainer"
-            app:layout_constraintTop_toTopOf="@+id/tutorExperienceContainer">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
+            <ImageView
+                android:id="@+id/homeImageViewTop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/pad_small"
-                android:text="@string/subjects"
-                android:textColor="@color/black"
-                android:textSize="@dimen/large_text" />
+                android:layout_height="@dimen/scratch_card_dimen"
+                android:src="@drawable/coachingclass"
+                tools:ignore="ContentDescription"
+                android:layout_marginTop="10dp"/>
 
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
+                android:id="@+id/aboutInstituteContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="200dp"
+                android:background="@drawable/curve_white_background"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/subjectTextView"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:ellipsize="marquee"
-                    android:maxLines="8"
-                    android:paddingEnd="@dimen/pad_small"
+                    android:layout_weight="2"
+                    android:src="@drawable/coaching2"
+                    android:paddingTop="@dimen/pad_small"
+                    android:paddingBottom="@dimen/pad_small"
+                    android:paddingEnd="0dp"
                     android:paddingStart="@dimen/pad_small"
-                    android:text="@string/sample_tuition_intro"
-                    android:textSize="@dimen/normal_text" />
+                    android:contentDescription="@string/about_institute"/>
 
-            </androidx.core.widget.NestedScrollView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/pad_small"
+                        android:text="@string/about_institute"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_text" />
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                        <TextView
+                            android:id="@+id/aboutInstitute"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:ellipsize="marquee"
+                            android:text="@string/sample_tuition_intro"
+                            android:textSize="@dimen/normal_text"
+                            android:paddingEnd="@dimen/pad_small"
+                            android:paddingStart="@dimen/pad_small"
+                            android:paddingBottom="@dimen/pad_small"
+                            android:gravity="center"/>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/aboutTeachersContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/curve_white_background"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/pad_small"
+                        android:text="@string/about_teachers"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_text" />
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                        <TextView
+                            android:id="@+id/aboutTeachers"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:ellipsize="marquee"
+                            android:text="@string/sample_tuition_intro"
+                            android:textSize="@dimen/normal_text"
+                            android:paddingEnd="@dimen/pad_small"
+                            android:paddingStart="@dimen/pad_small"
+                            android:paddingBottom="@dimen/pad_small"
+                            android:gravity="center"/>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:src="@drawable/coaching2"
+                    android:paddingTop="@dimen/pad_small"
+                    android:paddingBottom="@dimen/pad_small"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="@dimen/pad_small"
+                    android:contentDescription="@string/about_teachers"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:id="@+id/tutorSubjectContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/curve_white_background"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/pad_small"
+                        android:text="@string/subjects"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_text" />
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                        <TextView
+                            android:id="@+id/subject"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:ellipsize="marquee"
+                            android:text="@string/sample_tuition_intro"
+                            android:textSize="@dimen/normal_text"
+                            android:paddingEnd="@dimen/pad_small"
+                            android:paddingStart="@dimen/pad_small"/>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addressContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/curve_white_background"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/pad_small"
+                        android:text="@string/address"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/large_text" />
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+                        <TextView
+                            android:id="@+id/address"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:ellipsize="marquee"
+                            android:text="@string/sample_address"
+                            android:textSize="@dimen/normal_text"
+                            android:paddingEnd="@dimen/pad_small"
+                            android:paddingStart="@dimen/pad_small"/>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/tutorAddressContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/curve_white_background"
-            android:orientation="vertical"
-            android:padding="@dimen/pad_small_5"
-            app:layout_constraintEnd_toEndOf="@+id/tutorSubjectContainer"
-            app:layout_constraintStart_toStartOf="@+id/tutorExperienceContainer"
-            app:layout_constraintTop_toBottomOf="@+id/tutorSubjectContainer">
+    </androidx.core.widget.NestedScrollView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/pad_small"
-                android:text="@string/address"
-                android:textColor="@color/black"
-                android:textSize="@dimen/large_text" />
+    <Button
+        android:id="@+id/doBookingButton"
+        style="@style/rounded_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="@dimen/gap_extra_large"
+        android:layout_marginEnd="@dimen/image_size"
+        android:layout_marginStart="@dimen/image_size"
+        android:onClick="onClick"
+        android:text="@string/book_this_coaching"
+        android:textColor="@android:color/white"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/nestedScrollView"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/addressTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/pad_small"
-                android:paddingStart="@dimen/pad_small"
-                android:text="@string/sample_address"
-                android:textColor="@color/black"
-                android:textSize="@dimen/normal_text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tutorExperienceContainer"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginEnd="@dimen/gap_small"
-            android:layout_marginStart="@dimen/gap_small"
-            android:layout_marginTop="@dimen/gap_large"
-            android:background="@drawable/curve_white_background"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toStartOf="@+id/tutorSubjectContainer"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeImageViewTop">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/pad_small"
-                android:text="@string/experience"
-                android:textColor="@color/black"
-                android:textSize="@dimen/large_text" />
-
-            <TextView
-                android:id="@+id/experienceTextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="@dimen/pad_small"
-                android:paddingEnd="@dimen/pad_small"
-                android:text="@string/sample_tuition_intro"
-                android:ellipsize="marquee"
-                android:maxLines="8"
-                android:textSize="@dimen/normal_text" />
-
-            <TextView
-                android:id="@+id/readMoreTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:onClick="onClick"
-                android:padding="@dimen/pad_small"
-                android:text="@string/read_more_question"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/small_text" />
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

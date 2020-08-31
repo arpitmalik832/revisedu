@@ -2,6 +2,7 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,10 +36,11 @@ public class TutorDetailFragment extends BaseFragment {
     private String mTutorType = "";
     private String mTutorId;
     private String mExperience;
-    private TextView addressTextView;
-    private TextView experienceTextView;
-    private TextView subjectTextView;
     private ImageView homeImageViewTop;
+    private TextView aboutInstituteTV;
+    private TextView aboutTeachersTV;
+    private TextView subjectTV;
+    private TextView addressTV;
     private Drawable mDefaultImage;
 
     public TutorDetailFragment(String tutorType, String itemId) {
@@ -59,11 +61,14 @@ public class TutorDetailFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
+
         homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
-        addressTextView = mContentView.findViewById(R.id.addressTextView);
-        subjectTextView = mContentView.findViewById(R.id.subjectTextView);
-        experienceTextView = mContentView.findViewById(R.id.experienceTextView);
+        aboutInstituteTV = mContentView.findViewById(R.id.aboutInstitute);
+        aboutTeachersTV = mContentView.findViewById(R.id.aboutTeachers);
+        subjectTV = mContentView.findViewById(R.id.subject);
+        addressTV = mContentView.findViewById(R.id.address);
         mDefaultImage = ContextCompat.getDrawable(mActivity, R.drawable.default_image);
+
         getTutorDetailServerCall();
         return mContentView;
     }
@@ -102,16 +107,16 @@ public class TutorDetailFragment extends BaseFragment {
                         if (detailResponse.getImage() != null && !detailResponse.getImage().isEmpty()) {
                             Picasso.get().load(detailResponse.getImage()).placeholder(mDefaultImage).into(homeImageViewTop);
                         }
-                        addressTextView.setText(detailResponse.getAddress());
+                        addressTV.setText(detailResponse.getAddress());
                         mExperience = detailResponse.getExperience();
-                        experienceTextView.setText(mExperience);
+                        aboutInstituteTV.setText(mExperience);
                         List<TutorDetailResponse.TutorDetailSubjects> subjects = detailResponse.getSubjectsList();
                         if (subjects != null && !subjects.isEmpty()) {
                             StringBuilder subjectStr = new StringBuilder();
                             for (TutorDetailResponse.TutorDetailSubjects subject : subjects) {
                                 subjectStr.append("->  ").append(subject.getSubjects()).append("\n");
                             }
-                            subjectTextView.setText(subjectStr.toString());
+                            subjectTV.setText(subjectStr.toString());
                         }
                     }
                 }
@@ -154,9 +159,6 @@ public class TutorDetailFragment extends BaseFragment {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.readMoreTextView:
-                showReadMoreDialog(mExperience);
-                break;
             case R.id.doBookingButton:
                 showProgress();
                 mActivity.startPayment("100");
