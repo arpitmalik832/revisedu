@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -21,21 +20,19 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.ViewHolder> {
+public class SuperCoachingAdapter extends RecyclerView.Adapter<SuperCoachingAdapter.ViewHolder> {
 
     private Context mContext;
     private ICustomClickListener listener;
     private List<CoachingResponse.CoachingResponseItem> coachingList = new ArrayList<>();
     private Drawable mDrawable;
 
-    public AllTutorsAdapter(Context context, ICustomClickListener listener) {
+    public SuperCoachingAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
         this.listener = listener;
     }
 
-    public void setTutorsList(List<CoachingResponse.CoachingResponseItem> coachingList) {
-        this.coachingList = coachingList;
-    }
+    public void setCoachingList(List<CoachingResponse.CoachingResponseItem> coachingList) { this.coachingList = coachingList; }
 
     @NonNull
     @Override
@@ -49,8 +46,7 @@ public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CoachingResponse.CoachingResponseItem item = coachingList.get(position);
 
-        holder.mParentLayout.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", TerminalConstant.COACHING_CENTER));
-        holder.mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_left_to_right_transition));
+        holder.mParentLayout.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", TerminalConstant.MODE_SUPER_COACHING));
         if (item.getImage() != null && !item.getImage().isEmpty()) {
             Picasso.get().load(item.getImage()).placeholder(mDrawable).into(holder.mImageView);
         }

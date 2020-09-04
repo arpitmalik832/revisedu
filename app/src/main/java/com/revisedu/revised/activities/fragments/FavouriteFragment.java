@@ -1,7 +1,6 @@
 package com.revisedu.revised.activities.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,20 +11,21 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
 import com.revisedu.revised.request.CommonRequest;
-import com.revisedu.revised.request.FavouriteRequest;
-import com.revisedu.revised.response.TutorsResponse;
+import com.revisedu.revised.response.CoachingResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
 import retrofit2.Call;
@@ -34,8 +34,6 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.revisedu.revised.TerminalConstant.SHARED_PREF_NAME;
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class FavouriteFragment extends BaseFragment {
@@ -43,11 +41,9 @@ public class FavouriteFragment extends BaseFragment {
     private static final String TAG = "Favourites";
     private FavouriteAdapter mFavouriteAdapter;
     private View noDataFoundGroup;
-    private IFavouriteClickListener mFavouriteClickListener;
     private ICustomClickListener listener;
 
-    public FavouriteFragment(IFavouriteClickListener favouriteClickListener, ICustomClickListener listener) {
-        mFavouriteClickListener = favouriteClickListener;
+    public FavouriteFragment(ICustomClickListener listener) {
         this.listener = listener;
     }
 
@@ -83,8 +79,8 @@ public class FavouriteFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getFavouriteServerCall(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
-                    final Response<TutorsResponse> response = call.execute();
+                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getFavouriteServerCall(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<CoachingResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -95,11 +91,11 @@ public class FavouriteFragment extends BaseFragment {
                 }
             }
 
-            private void handleResponse(Response<TutorsResponse> response) {
+            private void handleResponse(Response<CoachingResponse> response) {
                 if (response.isSuccessful()) {
-                    final TutorsResponse bookingsResponse = response.body();
+                    final CoachingResponse bookingsResponse = response.body();
                     if (bookingsResponse != null) {
-                        List<TutorsResponse.TutorsResponseItem> list = bookingsResponse.getArrayList();
+                        List<CoachingResponse.CoachingResponseItem> list = bookingsResponse.getArrayList();
                         if (!list.isEmpty()) {
                             mFavouriteAdapter.setFavouriteList(list);
                             mFavouriteAdapter.notifyDataSetChanged();
@@ -136,7 +132,7 @@ public class FavouriteFragment extends BaseFragment {
 
     private class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.FavouriteViewHolder> {
 
-        private List<TutorsResponse.TutorsResponseItem> favouriteList = new ArrayList<>();
+        private List<CoachingResponse.CoachingResponseItem> favouriteList = new ArrayList<>();
 
         private Context mContext;
         private Drawable mDefaultImage;
@@ -145,35 +141,29 @@ public class FavouriteFragment extends BaseFragment {
             mContext = context;
         }
 
-        void setFavouriteList(List<TutorsResponse.TutorsResponseItem> favouriteList) {
+        void setFavouriteList(List<CoachingResponse.CoachingResponseItem> favouriteList) {
             this.favouriteList = favouriteList;
         }
 
         @NonNull
         @Override
         public FavouriteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tutor_near_you_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.popular_coaching_item, parent, false);
             mDefaultImage = ContextCompat.getDrawable(mContext, R.drawable.default_image);
             return new FavouriteViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull FavouriteViewHolder holder, final int position) {
-            TutorsResponse.TutorsResponseItem item = favouriteList.get(position);
-            holder.subjectImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_left_to_right_transition));
+            CoachingResponse.CoachingResponseItem item = favouriteList.get(position);
+
+            holder.mParentLayout.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Favourite Tutor"));
+            holder.mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_left_to_right_transition));
             if (item.getImage() != null && !item.getImage().isEmpty()) {
-                Picasso.get().load(item.getImage()).placeholder(mDefaultImage).into(holder.subjectImageView);
+                Picasso.get().load(item.getImage()).placeholder(mDefaultImage).into(holder.mImageView);
             }
-            holder.rating.setText(item.getRating());
-            holder.name.setText(item.getName());
-            holder.location.setText(item.getLocation());
-            holder.subjectImageView.setOnClickListener(view -> listener.onAdapterItemClick(item.getId(), "", "Favourite Tutor"));
-            holder.discount.setText(item.getDiscount());
-            if (item.isFavourite()) {
-                holder.favouriteImageView.setImageResource(R.drawable.ic_favorite);
-            } else {
-                holder.favouriteImageView.setImageResource(R.drawable.ic_un_favorite);
-            }
+            holder.mNameView.setText(item.getName());
+            holder.mDiscountView.setText(TerminalConstant.SAMPLE_DISCOUNT);
         }
 
         @Override
@@ -183,31 +173,17 @@ public class FavouriteFragment extends BaseFragment {
 
         class FavouriteViewHolder extends RecyclerView.ViewHolder {
 
-            private ImageView subjectImageView;
-            private ImageView favouriteImageView;
-            private TextView rating;
-            private TextView name;
-            private TextView location;
-            private TextView discount;
+            private ConstraintLayout mParentLayout;
+            private AppCompatImageView mImageView;
+            private AppCompatTextView mNameView;
+            private AppCompatTextView mDiscountView;
 
             FavouriteViewHolder(@NonNull View itemView) {
                 super(itemView);
-                favouriteImageView = itemView.findViewById(R.id.favourite_tn);
-                subjectImageView = itemView.findViewById(R.id.tutor_near_img);
-                rating = itemView.findViewById(R.id.rating);
-                name = itemView.findViewById(R.id.name);
-                location = itemView.findViewById(R.id.name_place);
-                discount = itemView.findViewById(R.id.discount_img);
-                favouriteImageView.setOnClickListener(view -> {
-                    SharedPreferences preferences = mContext.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-                    String userId = preferences.getString(USER_ID, "");
-                    int position = getAdapterPosition();
-                    TutorsResponse.TutorsResponseItem item = favouriteList.get(position);
-                    Picasso.get().load(R.drawable.ic_favorite).into(favouriteImageView);
-                    mFavouriteClickListener.onFavouriteItemClick(new FavouriteRequest(userId, item.getId(), !item.isFavourite()));
-                    favouriteList.remove(position);
-                    notifyDataSetChanged();
-                });
+                mParentLayout = itemView.findViewById(R.id.cardLayout);
+                mImageView = itemView.findViewById(R.id.image);
+                mNameView = itemView.findViewById(R.id.name);
+                mDiscountView = itemView.findViewById(R.id.discount);
             }
         }
     }

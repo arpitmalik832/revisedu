@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/signUpParentContainer"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.2"
@@ -16,16 +18,18 @@
         android:contentDescription="@string/background" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nestedLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/homeImageViewTop"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/firstImage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/scratch_card_dimen"
                 android:padding="@dimen/pad_small"
@@ -33,17 +37,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
-            <ImageView
-                android:id="@+id/imageView2"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/secondImage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/merchant_offer_width"
                 android:padding="@dimen/pad_small_5"
                 android:src="@drawable/coupon"
-                app:layout_constraintTop_toBottomOf="@+id/discountRecyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/firstImage"
                 tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/tutor_near_text"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/popularCoachingText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/pad_small"
@@ -55,10 +59,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintTop_toBottomOf="@+id/secondImage" />
 
-            <TextView
-                android:id="@+id/featuredTutorialText"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popularCoachingRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/popularCoachingText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/featuredCoachingText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/pad_small"
@@ -71,10 +81,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/tutorNearYouRecyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/popularCoachingRecyclerView"
                 tools:layout_editor_absoluteX="5dp" />
 
-            <TextView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/featuredCoachingRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/featuredCoachingText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/offersText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,11 +100,17 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialRecyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/featuredCoachingRecyclerView"
                 tools:layout_editor_absoluteX="5dp" />
 
-            <TextView
-                android:id="@+id/superTutorsText"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/offersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/offersText" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/superCoachingText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/pad_small"
@@ -102,43 +124,17 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/offersRecyclerView" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/superCoachingRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/superCoachingText" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/minheightEditText"
                 android:background="@android:color/transparent"
-                app:layout_constraintTop_toBottomOf="@+id/superTutorsRecyclerView" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/discountRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/recycler_view_height"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/homeImageViewTop"
-                tools:layout_editor_absoluteX="0dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tutorNearYouRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tutor_near_text" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/featuredTutorialRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialText" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/offersRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/offersText" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/superTutorsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/superTutorsText" />
+                app:layout_constraintTop_toBottomOf="@+id/superCoachingRecyclerView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

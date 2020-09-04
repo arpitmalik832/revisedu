@@ -160,7 +160,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 return false;
             case R.id.my_favourite:
                 if (!(getCurrentFragment() instanceof FavouriteFragment)) {
-                    launchFragment(new FavouriteFragment(this, this), true);
+                    launchFragment(new FavouriteFragment(this), true);
                 }
                 mSideNavigationDrawer.closeDrawer(GravityCompat.START);
                 return false;

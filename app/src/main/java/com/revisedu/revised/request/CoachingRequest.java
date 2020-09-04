@@ -2,7 +2,14 @@ package com.revisedu.revised.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TutorRequest {
+public class CoachingRequest {
+
+    @SerializedName("package_id")
+    private String packageId;
+
+    public CoachingRequest(String packageId) {
+        this.packageId = packageId;
+    }
 
     @SerializedName("mode")
     private String mMode = "";
@@ -18,12 +25,6 @@ public class TutorRequest {
     private String mClass = "";
     @SerializedName("index")
     private int mIndex;
-
-    public TutorRequest(String mode, int index, String userId) {
-        this.mMode = mode;
-        this.mIndex = index;
-        this.mUserId = userId;
-    }
 
     public String getSubject() {
         return mSubject;

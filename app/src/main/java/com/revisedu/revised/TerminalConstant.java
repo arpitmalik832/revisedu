@@ -5,6 +5,22 @@ public class TerminalConstant {
     private TerminalConstant() {
     }
 
+    public static final String SAMPLE_DISCOUNT = "Discount Given";
+
+    public static final String COACHING_CENTER = "Coaching Center";
+
+    public static final String MODE_POPULAR_COACHING = "Popular Coaching";
+    public static final String PACKAGE_ID_FOR_POPULAR_COACHING = "1";
+
+    public static final String MODE_FEATURED_COACHING = "Featured Coaching";
+    public static final String PACKAGE_ID_FOR_FEATURED_COACHING = "2";
+
+    public static final String MODE_SUPER_COACHING = "Super Coaching";
+    public static final String PACKAGE_ID_FOR_SUPER_COACHING = "3";
+
+
+
+
     public static final int SPLASH_TIME_INTERVAL = 2500;
     public static final int BACK_PRESS_TIME_INTERVAL = 2000;
     public static final String SHARED_PREF_NAME = "SHARED_PREF_COMPLY_GATE";
@@ -18,9 +34,6 @@ public class TerminalConstant {
     public static final String MODE_PRIVACY_POLICY = "Privacy Policy";
     public static final String MODE_TERM_CONDITION = "Term & Condition";
     public static final String MODE_ABOUT = "About";
-    public static final String MODE_POPULAR_COACHING = "Popular Coaching";
-    public static final String MODE_FEATURED_COACHING = "Featured Coaching";
-    public static final String MODE_SUPER_COACHING = "Super Coaching";
     public static final String MODE_CONTACT_US = "Contact Us";
 
 

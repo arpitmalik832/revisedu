@@ -16,16 +16,14 @@ import com.revisedu.revised.R;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.activities.fragments.adapters.AllTutorsAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
-import com.revisedu.revised.request.TutorRequest;
-import com.revisedu.revised.response.TutorsResponse;
+import com.revisedu.revised.request.CoachingRequest;
+import com.revisedu.revised.response.CoachingResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.revisedu.revised.TerminalConstant.USER_ID;
 
 public class AllTutorsFragment extends BaseFragment implements ICustomClickListener {
 
@@ -39,7 +37,7 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
     private GridLayoutManager mGridLayoutManager;
     private boolean mIsDataAvailable;
     private static final String TAG = "AllTutorsFragment";
-    private List<TutorsResponse.TutorsResponseItem> mTutorsList = new ArrayList<>();
+    private List<CoachingResponse.CoachingResponseItem> mTutorsList = new ArrayList<>();
 
     AllTutorsFragment(String tutorType) {
         mTutorType = tutorType;
@@ -107,9 +105,8 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
             @Override
             public void run() {
                 try {
-                    String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(mTutorType, mTutorsList.size(), userId));
-                    final Response<TutorsResponse> response = call.execute();
+                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getCoachingServerCall(new CoachingRequest(mTutorType));
+                    final Response<CoachingResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -120,12 +117,12 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
                 }
             }
 
-            private void handleResponse(Response<TutorsResponse> response) {
+            private void handleResponse(Response<CoachingResponse> response) {
                 if (response.isSuccessful()) {
-                    final TutorsResponse tutorsResponse = response.body();
-                    if (tutorsResponse != null) {
-                        mIsDataAvailable = tutorsResponse.isDataAvailable();
-                        List<TutorsResponse.TutorsResponseItem> tutorsList = tutorsResponse.getArrayList();
+                    final CoachingResponse coachingResponse = response.body();
+                    if (coachingResponse != null) {
+                        mIsDataAvailable = coachingResponse.isDataAvailable();
+                        List<CoachingResponse.CoachingResponseItem> tutorsList = coachingResponse.getArrayList();
                         mTutorsList.addAll(tutorsList);
                         mAllTutorsAdapter.setTutorsList(mTutorsList);
                         mAllTutorsAdapter.notifyDataSetChanged();

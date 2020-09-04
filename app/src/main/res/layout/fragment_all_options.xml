@@ -37,7 +37,7 @@
 
 
             <TextView
-                android:id="@+id/tutor_near_text"
+                android:id="@+id/popularCoachingText"
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="wrap_content"
@@ -53,14 +53,14 @@
                 app:layout_constraintTop_toBottomOf="@id/txt_all_options_heading" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tutorNearYouRecyclerView"
+                android:id="@+id/popularCoachingRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/tutor_near_text" />
+                app:layout_constraintTop_toBottomOf="@+id/popularCoachingText" />
 
             <TextView
-                android:id="@+id/featuredTutorialText"
+                android:id="@+id/featuredCoachingText"
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="wrap_content"
@@ -74,18 +74,18 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/tutorNearYouRecyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/popularCoachingRecyclerView"
                 tools:layout_editor_absoluteX="5dp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/featuredTutorialRecyclerView"
+                android:id="@+id/featuredCoachingRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialText" />
+                app:layout_constraintTop_toBottomOf="@+id/featuredCoachingText" />
 
             <TextView
-                android:id="@+id/superTutorsText"
+                android:id="@+id/superCoachingText"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,15 +98,14 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/featuredTutorialRecyclerView" />
-
+                app:layout_constraintTop_toBottomOf="@+id/featuredCoachingRecyclerView" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/superTutorsRecyclerView"
+                android:id="@+id/superCoachingRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/superTutorsText" />
+                app:layout_constraintTop_toBottomOf="@+id/superCoachingText" />
 
 
             <androidx.constraintlayout.widget.Group

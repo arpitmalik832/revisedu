@@ -17,20 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
-import com.revisedu.revised.activities.fragments.adapters.DiscountAdapter;
-import com.revisedu.revised.activities.fragments.adapters.FeaturedTutorAdapter;
+import com.revisedu.revised.activities.fragments.adapters.FeaturedCoachingAdapter;
 import com.revisedu.revised.activities.fragments.adapters.OffersAdapter;
-import com.revisedu.revised.activities.fragments.adapters.SuperTutorsAdapter;
-import com.revisedu.revised.activities.fragments.adapters.TutorNearYouAdapter;
+import com.revisedu.revised.activities.fragments.adapters.SuperCoachingAdapter;
+import com.revisedu.revised.activities.fragments.adapters.PopularCoachingAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
-import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
 import com.revisedu.revised.request.CommonRequest;
-import com.revisedu.revised.request.FavouriteRequest;
-import com.revisedu.revised.request.TutorRequest;
+import com.revisedu.revised.request.CoachingRequest;
 import com.revisedu.revised.response.FetchBannersResponse;
 import com.revisedu.revised.response.OffersResponse;
 import com.revisedu.revised.response.ProfileResponse;
-import com.revisedu.revised.response.TutorsResponse;
+import com.revisedu.revised.response.CoachingResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
 import retrofit2.Call;
@@ -40,23 +37,23 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class HomeScreenFragment extends BaseFragment implements ICustomClickListener, IFavouriteClickListener {
+public class HomeScreenFragment extends BaseFragment implements ICustomClickListener {
 
     private static final String TAG = "HomeScreenFragment";
-    private DiscountAdapter mDiscountAdapter;
-    private RecyclerView discountRecyclerView;
-    private TutorNearYouAdapter mTutorNearYouAdapter;
-    private RecyclerView tutorNearYouRecyclerView;
-    private FeaturedTutorAdapter mFeaturedTutorAdapter;
-    private RecyclerView featuredTutorialRecyclerView;
+
+    private ImageView firstImage;
+    private ImageView secondImage;
+
+    private PopularCoachingAdapter mPopularCoachingAdapter;
+    private FeaturedCoachingAdapter mFeaturedCoachingAdapter;
+    private SuperCoachingAdapter mSuperCoachingAdapter;
     private OffersAdapter mOffersAdapter;
-    private RecyclerView offersRecyclerView;
-    private SuperTutorsAdapter mSuperTutorsAdapter;
-    private RecyclerView superTutorsRecyclerView;
+
     private boolean doubleBackToExitPressedOnce = false;
-    private ImageView homeImageViewTop;
-    private ImageView homeImageViewSecond;
     private Drawable mDefaultDrawable;
+
+    //private DiscountAdapter mDiscountAdapter;
+    //private RecyclerView discountRecyclerView;
 
     @Nullable
     @Override
@@ -68,52 +65,66 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.app_name));
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.CENTER);
-        homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
-        homeImageViewSecond = mContentView.findViewById(R.id.imageView2);
-        //Discount Adapter Setup
-        discountRecyclerView = mContentView.findViewById(R.id.discountRecyclerView);
-        discountRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mDiscountAdapter = new DiscountAdapter(mActivity, this);
-        discountRecyclerView.setAdapter(mDiscountAdapter);
-        //Tutor Near me Adapter Setup
-        tutorNearYouRecyclerView = mContentView.findViewById(R.id.tutorNearYouRecyclerView);
-        tutorNearYouRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mTutorNearYouAdapter = new TutorNearYouAdapter(mActivity, this,this);
-        tutorNearYouRecyclerView.setAdapter(mTutorNearYouAdapter);
-        //Featured Tutor Adapter Setup
-        featuredTutorialRecyclerView = mContentView.findViewById(R.id.featuredTutorialRecyclerView);
-        featuredTutorialRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mFeaturedTutorAdapter = new FeaturedTutorAdapter(mActivity, this, this);
-        featuredTutorialRecyclerView.setAdapter(mFeaturedTutorAdapter);
+
+        //Banners Setup
+        firstImage = mContentView.findViewById(R.id.firstImage);
+        secondImage = mContentView.findViewById(R.id.secondImage);
+
+        getBannersServerCall();
+
+        //Popular Coaching Adapter Setup
+        RecyclerView popularCoachingRecyclerView = mContentView.findViewById(R.id.popularCoachingRecyclerView);
+        popularCoachingRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        mPopularCoachingAdapter = new PopularCoachingAdapter(mActivity, this);
+        popularCoachingRecyclerView.setAdapter(mPopularCoachingAdapter);
+
+        getPopularCoachingServerCall();
+
+        //Featured Coaching Adapter Setup
+        RecyclerView featuredCoachingRecyclerView = mContentView.findViewById(R.id.featuredCoachingRecyclerView);
+        featuredCoachingRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        mFeaturedCoachingAdapter = new FeaturedCoachingAdapter(mActivity, this);
+        featuredCoachingRecyclerView.setAdapter(mFeaturedCoachingAdapter);
+
+        getFeaturedCoachingServerCall();
+
+        //Super Coaching Adapter Setup
+        RecyclerView superCoachingRecyclerView = mContentView.findViewById(R.id.superCoachingRecyclerView);
+        superCoachingRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        mSuperCoachingAdapter = new SuperCoachingAdapter(mActivity, this);
+        superCoachingRecyclerView.setAdapter(mSuperCoachingAdapter);
+
+        getSuperCoachingServerCall();
+
         //Offers Adapter Setup
-        offersRecyclerView = mContentView.findViewById(R.id.offersRecyclerView);
+        RecyclerView offersRecyclerView = mContentView.findViewById(R.id.offersRecyclerView);
         offersRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
         mOffersAdapter = new OffersAdapter(mActivity);
         offersRecyclerView.setAdapter(mOffersAdapter);
-        //Super Tutor Adapter Setup
-        superTutorsRecyclerView = mContentView.findViewById(R.id.superTutorsRecyclerView);
-        superTutorsRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
-        mSuperTutorsAdapter = new SuperTutorsAdapter(mActivity, this,this);
-        superTutorsRecyclerView.setAdapter(mSuperTutorsAdapter);
-        getSuperTutorsServerCall();
-        getFeaturedTutorsServerCall();
-        getNearMeTutorsServerCall();
+
         getOffersServerCall();
-        getBannersServerCall();
+
         getProfileResponse();
+
+        //Discount Adapter Setup
+        //discountRecyclerView = mContentView.findViewById(R.id.discountRecyclerView);
+        //discountRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
+        //mDiscountAdapter = new DiscountAdapter(mActivity, this);
+        //discountRecyclerView.setAdapter(mDiscountAdapter);
+
         return mContentView;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tutor_near_text:
+            case R.id.popularCoachingText:
                 launchFragment(new AllTutorsFragment(TerminalConstant.MODE_POPULAR_COACHING), false);
                 break;
-            case R.id.featuredTutorialText:
+            case R.id.featuredCoachingText:
                 launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURED_COACHING), false);
                 break;
-            case R.id.superTutorsText:
+            case R.id.superCoachingText:
                 launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_COACHING), false);
                 break;
             default:
@@ -146,15 +157,111 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                     if (bannersResponse != null) {
                         if (bannersResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             if (bannersResponse.getBannerOne() != null && !bannersResponse.getBannerOne().isEmpty()) {
-                                Picasso.get().load(bannersResponse.getBannerOne()).placeholder(mDefaultDrawable).into(homeImageViewTop);
+                                Picasso.get().load(bannersResponse.getBannerOne()).placeholder(mDefaultDrawable).into(firstImage);
                             }
                             if (bannersResponse.getBannerTwo() != null && !bannersResponse.getBannerTwo().isEmpty()) {
-                                Picasso.get().load(bannersResponse.getBannerTwo()).placeholder(mDefaultDrawable).into(homeImageViewSecond);
+                                Picasso.get().load(bannersResponse.getBannerTwo()).placeholder(mDefaultDrawable).into(secondImage);
                             }
                         }
                     }
                 }
                 stopProgress();
+            }
+        }).start();
+    }
+
+    private void getPopularCoachingServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getCoachingServerCall(new CoachingRequest(TerminalConstant.PACKAGE_ID_FOR_POPULAR_COACHING));
+                    final Response<CoachingResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CoachingResponse> response) {
+                if (response.isSuccessful()) {
+                    final CoachingResponse coachingResponse = response.body();
+                    if (coachingResponse != null) {
+                        List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
+                        if (!coachingList.isEmpty()) {
+                            mPopularCoachingAdapter.setCoachingList(coachingList);
+                            mPopularCoachingAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void getFeaturedCoachingServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getCoachingServerCall(new CoachingRequest(TerminalConstant.PACKAGE_ID_FOR_FEATURED_COACHING));
+                    final Response<CoachingResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CoachingResponse> response) {
+                if (response.isSuccessful()) {
+                    final CoachingResponse coachingResponse = response.body();
+                    if (coachingResponse != null) {
+                        List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
+                        if (!coachingList.isEmpty()) {
+                            mFeaturedCoachingAdapter.setCoachingList(coachingList);
+                            mFeaturedCoachingAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private void getSuperCoachingServerCall() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getCoachingServerCall(new CoachingRequest(TerminalConstant.PACKAGE_ID_FOR_SUPER_COACHING));
+                    final Response<CoachingResponse> response = call.execute();
+                    updateOnUiThread(() -> handleResponse(response));
+                } catch (final Exception e) {
+                    updateOnUiThread(() -> {
+                        showToast(e.toString());
+                        stopProgress();
+                    });
+                    Log.e(TAG, e.getMessage(), e);
+                }
+            }
+
+            private void handleResponse(Response<CoachingResponse> response) {
+                if (response.isSuccessful()) {
+                    final CoachingResponse coachingResponse = response.body();
+                    if (coachingResponse != null) {
+                        List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
+                        if (!coachingList.isEmpty()) {
+                            mSuperCoachingAdapter.setCoachingList(coachingList);
+                            mSuperCoachingAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
             }
         }).start();
     }
@@ -193,14 +300,13 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         }).start();
     }
 
-    private void getNearMeTutorsServerCall() {
+    private void getProfileResponse() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_POPULAR_COACHING, 0, userId));
-                    final Response<TutorsResponse> response = call.execute();
+                    Call<ProfileResponse> call = RetrofitApi.getServicesObject().getProfileResponse(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
+                    final Response<ProfileResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -211,83 +317,17 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                 }
             }
 
-            private void handleResponse(Response<TutorsResponse> response) {
+            private void handleResponse(Response<ProfileResponse> response) {
                 if (response.isSuccessful()) {
-                    final TutorsResponse offersResponse = response.body();
-                    if (offersResponse != null) {
-                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
-                        if (!tutorsList.isEmpty()) {
-                            mTutorNearYouAdapter.setTutorsList(tutorsList);
-                            mTutorNearYouAdapter.notifyDataSetChanged();
+                    final ProfileResponse profileResponse = response.body();
+                    if (profileResponse != null) {
+                        showToast(profileResponse.getErrorMessage());
+                        if (profileResponse.getErrorCode() == TerminalConstant.SUCCESS) {
+                            setupNavigationHeader(profileResponse.getName(),profileResponse.getEmail(),profileResponse.getUserImageUrl());
                         }
                     }
                 }
-            }
-        }).start();
-    }
-
-    private void getFeaturedTutorsServerCall() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_FEATURED_COACHING, 0, userId));
-                    final Response<TutorsResponse> response = call.execute();
-                    updateOnUiThread(() -> handleResponse(response));
-                } catch (final Exception e) {
-                    updateOnUiThread(() -> {
-                        showToast(e.toString());
-                        stopProgress();
-                    });
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
-
-            private void handleResponse(Response<TutorsResponse> response) {
-                if (response.isSuccessful()) {
-                    final TutorsResponse offersResponse = response.body();
-                    if (offersResponse != null) {
-                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
-                        if (!tutorsList.isEmpty()) {
-                            mFeaturedTutorAdapter.setTutorsList(tutorsList);
-                            mFeaturedTutorAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            }
-        }).start();
-    }
-
-    private void getSuperTutorsServerCall() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String userId = getStringDataFromSharedPref(USER_ID);
-                    Call<TutorsResponse> call = RetrofitApi.getServicesObject().getTutorsServerCall(new TutorRequest(TerminalConstant.MODE_SUPER_COACHING, 0, userId));
-                    final Response<TutorsResponse> response = call.execute();
-                    updateOnUiThread(() -> handleResponse(response));
-                } catch (final Exception e) {
-                    updateOnUiThread(() -> {
-                        showToast(e.toString());
-                        stopProgress();
-                    });
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
-
-            private void handleResponse(Response<TutorsResponse> response) {
-                if (response.isSuccessful()) {
-                    final TutorsResponse offersResponse = response.body();
-                    if (offersResponse != null) {
-                        List<TutorsResponse.TutorsResponseItem> tutorsList = offersResponse.getArrayList();
-                        if (!tutorsList.isEmpty()) {
-                            mSuperTutorsAdapter.setTutorsList(tutorsList);
-                            mSuperTutorsAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
+                stopProgress();
             }
         }).start();
     }
@@ -320,40 +360,4 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         launchFragment(new TutorDetailFragment(tutorType, itemId), true);
     }
 
-    @Override
-    public void onFavouriteItemClick(FavouriteRequest request) {
-        favouriteServerCall(request);
-    }
-
-    private void getProfileResponse() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Call<ProfileResponse> call = RetrofitApi.getServicesObject().getProfileResponse(new CommonRequest(getStringDataFromSharedPref(USER_ID)));
-                    final Response<ProfileResponse> response = call.execute();
-                    updateOnUiThread(() -> handleResponse(response));
-                } catch (final Exception e) {
-                    updateOnUiThread(() -> {
-                        showToast(e.toString());
-                        stopProgress();
-                    });
-                    Log.e(TAG, e.getMessage(), e);
-                }
-            }
-
-            private void handleResponse(Response<ProfileResponse> response) {
-                if (response.isSuccessful()) {
-                    final ProfileResponse profileResponse = response.body();
-                    if (profileResponse != null) {
-                        showToast(profileResponse.getErrorMessage());
-                        if (profileResponse.getErrorCode() == TerminalConstant.SUCCESS) {
-                            setupNavigationHeader(profileResponse.getName(),profileResponse.getEmail(),profileResponse.getUserImageUrl());
-                        }
-                    }
-                }
-                stopProgress();
-            }
-        }).start();
-    }
 }

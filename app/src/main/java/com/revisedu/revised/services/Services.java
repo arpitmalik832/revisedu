@@ -12,7 +12,7 @@ import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.request.TopicRequest;
 import com.revisedu.revised.request.TutorDetailRequest;
-import com.revisedu.revised.request.TutorRequest;
+import com.revisedu.revised.request.CoachingRequest;
 import com.revisedu.revised.response.BookingsResponse;
 import com.revisedu.revised.response.ClassResponse;
 import com.revisedu.revised.response.CommonResponse;
@@ -25,7 +25,7 @@ import com.revisedu.revised.response.ProfileResponse;
 import com.revisedu.revised.response.SubjectResponse;
 import com.revisedu.revised.response.TopicResponse;
 import com.revisedu.revised.response.TutorDetailResponse;
-import com.revisedu.revised.response.TutorsResponse;
+import com.revisedu.revised.response.CoachingResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -35,6 +35,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface Services {
+
+    @POST("fetch_package.php")
+    Call<CoachingResponse> getCoachingServerCall(@Body CoachingRequest request);
+
+
+
 
     @POST("fetch_details.php")
     Call<CommonResponse> getDetailsResponse(@Body DetailRequest request);
@@ -76,16 +82,13 @@ public interface Services {
     Call<BookingsResponse> getBookingsServerCall(@Body CommonRequest request);
 
     @POST("fetch_favourites.php")
-    Call<TutorsResponse> getFavouriteServerCall(@Body CommonRequest request);
+    Call<CoachingResponse> getFavouriteServerCall(@Body CommonRequest request);
 
     @POST("fetch_pref_subjects.php")
     Call<PrefSubjectsResponse> getPrefSubjectsServerCall(@Body CommonRequest request);
 
     @POST("favourite.php")
     Call<CommonResponse> favouriteServerCall(@Body FavouriteRequest request);
-
-    @POST("fetch_tutors.php")
-    Call<TutorsResponse> getTutorsServerCall(@Body TutorRequest request);
 
     @POST("fetch_notes_download_detail.php")
     Call<CommonResponse> getNotesDownloadServerCall(@Body NotesDownloadRequest request);
