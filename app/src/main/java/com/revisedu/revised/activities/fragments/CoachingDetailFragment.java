@@ -2,7 +2,6 @@ package com.revisedu.revised.activities.fragments;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,15 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
 import com.revisedu.revised.request.BookTutorRequest;
-import com.revisedu.revised.request.TutorDetailRequest;
+import com.revisedu.revised.request.CoachingDetailRequest;
 import com.revisedu.revised.response.CommonResponse;
-import com.revisedu.revised.response.TutorDetailResponse;
+import com.revisedu.revised.response.CoachingDetailResponse;
 import com.revisedu.revised.retrofit.RetrofitApi;
 import com.squareup.picasso.Picasso;
 import retrofit2.Call;
@@ -30,66 +28,74 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class TutorDetailFragment extends BaseFragment {
+public class CoachingDetailFragment extends BaseFragment {
 
-    private static final String TAG = "TutorDetailFragment";
-    private String mTutorType = "";
-    private String mTutorId;
-    private String mExperience;
-    private ImageView homeImageViewTop;
+    private static final String TAG = "CoachingDetailFragment";
+
+    private String mCoachingType;
+    private String mCoachingId;
+
+    private ImageView firstImage;
     private TextView aboutInstituteTV;
+    private ImageView instituteIV;
     private TextView aboutTeachersTV;
-    private TextView subjectTV;
+    private ImageView teacherIV;
+    private TextView subjectsTV;
     private TextView addressTV;
+
     private Drawable mDefaultImage;
 
-    public TutorDetailFragment(String tutorType, String itemId) {
-        mTutorType = tutorType;
-        mTutorId = itemId;
+    public CoachingDetailFragment(String tutorType, String itemId) {
+        mCoachingType = tutorType;
+        mCoachingId = itemId;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_tutor_detail, container, false);
+        mContentView = inflater.inflate(R.layout.fragment_coaching_detail, container, false);
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
-        ToolBarManager.getInstance().setHeaderTitle(mTutorType);
-        ToolBarManager.getInstance().onBackPressed(TutorDetailFragment.this);
+        ToolBarManager.getInstance().setHeaderTitle(mCoachingType);
+        ToolBarManager.getInstance().onBackPressed(CoachingDetailFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
 
-        homeImageViewTop = mContentView.findViewById(R.id.homeImageViewTop);
+        firstImage = mContentView.findViewById(R.id.firstImage);
         aboutInstituteTV = mContentView.findViewById(R.id.aboutInstitute);
+        instituteIV = mContentView.findViewById(R.id.instituteImage);
         aboutTeachersTV = mContentView.findViewById(R.id.aboutTeachers);
-        subjectTV = mContentView.findViewById(R.id.subject);
+        teacherIV = mContentView.findViewById(R.id.teacherImage);
+        subjectsTV = mContentView.findViewById(R.id.subjects);
         addressTV = mContentView.findViewById(R.id.address);
+
+        getCoachingDetailServerCall();
+
         mDefaultImage = ContextCompat.getDrawable(mActivity, R.drawable.default_image);
 
-        getTutorDetailServerCall();
         return mContentView;
     }
 
-    private void showReadMoreDialog(String experience) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setTitle("My Experience");
-        builder.setMessage(experience);
-        builder.setCancelable(true);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+   // private void showReadMoreDialog(String experience) {
+     //   AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+       // builder.setTitle("My Experience");
+       // builder.setMessage(experience);
+        //builder.setCancelable(true);
+        //AlertDialog alertDialog = builder.create();
+       // alertDialog.show();
+   // }
 
-    private void getTutorDetailServerCall() {
+    private void getCoachingDetailServerCall() {
         showProgress();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Call<TutorDetailResponse> call = RetrofitApi.getServicesObject().getTutorDetailServerCall(new TutorDetailRequest(mTutorId));
-                    final Response<TutorDetailResponse> response = call.execute();
+                    Call<CoachingDetailResponse> call = RetrofitApi.getServicesObject().getCoachingDetailServerCall(new CoachingDetailRequest(mCoachingId));
+                    final Response<CoachingDetailResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
                     updateOnUiThread(() -> {
@@ -100,24 +106,37 @@ public class TutorDetailFragment extends BaseFragment {
                 }
             }
 
-            private void handleResponse(Response<TutorDetailResponse> response) {
+            private void handleResponse(Response<CoachingDetailResponse> response) {
                 if (response.isSuccessful()) {
-                    final TutorDetailResponse detailResponse = response.body();
-                    if (detailResponse != null) {
-                        if (detailResponse.getImage() != null && !detailResponse.getImage().isEmpty()) {
-                            Picasso.get().load(detailResponse.getImage()).placeholder(mDefaultImage).into(homeImageViewTop);
+                    final CoachingDetailResponse responseBody = response.body();
+                    if (responseBody != null) {
+                        CoachingDetailResponse.CoachingDetail coachingDetail = responseBody.getCoachingDetail();
+
+                        if (coachingDetail.getBanner() != null && !coachingDetail.getBanner().isEmpty()) {
+                            Picasso.get().load(coachingDetail.getBanner()).placeholder(mDefaultImage).into(firstImage);
                         }
-                        addressTV.setText(detailResponse.getAddress());
-                        mExperience = detailResponse.getExperience();
-                        aboutInstituteTV.setText(mExperience);
-                        List<TutorDetailResponse.TutorDetailSubjects> subjects = detailResponse.getSubjectsList();
+
+                        aboutInstituteTV.setText(coachingDetail.getAboutInstitute());
+                        if (coachingDetail.getInstituteImage() != null && !coachingDetail.getInstituteImage().isEmpty()) {
+                            Picasso.get().load(coachingDetail.getInstituteImage()).placeholder(mDefaultImage).into(instituteIV);
+                        }
+
+                        aboutTeachersTV.setText(coachingDetail.getAboutTeacher());
+                        if (coachingDetail.getTeacherImage() != null && !coachingDetail.getTeacherImage().isEmpty()) {
+                            Picasso.get().load(coachingDetail.getTeacherImage()).placeholder(mDefaultImage).into(teacherIV);
+                        }
+
+                        List<String> subjects = coachingDetail.getSubjects();
                         if (subjects != null && !subjects.isEmpty()) {
                             StringBuilder subjectStr = new StringBuilder();
-                            for (TutorDetailResponse.TutorDetailSubjects subject : subjects) {
-                                subjectStr.append("->  ").append(subject.getSubjects()).append("\n");
+                            for (String subject : subjects) {
+                                subjectStr.append("->  ").append(subject).append("\n");
                             }
-                            subjectTV.setText(subjectStr.toString());
+                            subjectsTV.setText(subjectStr.toString());
                         }
+
+                        addressTV.setText(coachingDetail.getAddress());
+
                     }
                 }
                 stopProgress();
@@ -130,7 +149,7 @@ public class TutorDetailFragment extends BaseFragment {
             @Override
             public void run() {
                 try {
-                    Call<CommonResponse> call = RetrofitApi.getServicesObject().doBookingServerCall(new BookTutorRequest(getStringDataFromSharedPref(USER_ID), mTutorId));
+                    Call<CommonResponse> call = RetrofitApi.getServicesObject().doBookingServerCall(new BookTutorRequest(getStringDataFromSharedPref(USER_ID), mCoachingId));
                     final Response<CommonResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {

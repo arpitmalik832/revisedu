@@ -66,7 +66,6 @@
     <string name="select_sub">Select your Subject</string>
     <string name="get_notes">Get Notes</string>
     <string name="click_here_to_download_your_notes">Click here to download your Notes..</string>
-    <string name="online_classes">Online Classes</string>
     <string name="address">Address</string>
     <string name="sample_address">C 2/42, Hindon Cut Canal Road, Block C, New Ashok Nagar, Noida, Uttar Pradesh 110096</string>
     <string name="experience">Experience</string>
@@ -95,4 +94,6 @@ I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemist
     <string name="search_for_your_coaching_here">Search for your coaching here</string>
     <string name="about_teachers">About Teachers</string>
     <string name="about_institute">About Institute</string>
+    <string name="live_classes">Live Classes</string>
+    <string name="sample_name">Sample Name</string>
 </resources>

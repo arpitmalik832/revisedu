@@ -62,8 +62,6 @@ public class SubjectsFragment extends BaseFragment {
     public void onClick(View view) {
     }
 
-
-
     @Override
     public void onBackPressed() {
         launchFragment(new HomeScreenFragment(), false);
@@ -77,7 +75,6 @@ public class SubjectsFragment extends BaseFragment {
         mActivity.showBottomNavigationView();
         mActivity.showBottomNavigationItem(1);
     }
-
 
     private void getPrefSubjectsServerCall() {
         showProgress();

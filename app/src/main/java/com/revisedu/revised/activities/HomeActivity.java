@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,12 +32,13 @@ import com.revisedu.revised.activities.fragments.BaseFragment;
 import com.revisedu.revised.activities.fragments.BookingFragment;
 import com.revisedu.revised.activities.fragments.FavouriteFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
+import com.revisedu.revised.activities.fragments.LiveClassesFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
 import com.revisedu.revised.activities.fragments.SearchFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
 import com.revisedu.revised.activities.fragments.StudyMaterialFragment;
 import com.revisedu.revised.activities.fragments.SubjectsFragment;
-import com.revisedu.revised.activities.fragments.TutorDetailFragment;
+import com.revisedu.revised.activities.fragments.CoachingDetailFragment;
 import com.revisedu.revised.activities.fragments.ViewDetailsFragment;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.activities.interfaces.IFavouriteClickListener;
@@ -114,7 +114,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void showBottomNavigationItem(int count) {
         switch (count) {
             case 0:
-                mBottomNavigationView.setSelectedItemId(R.id.online_class);
+                mBottomNavigationView.setSelectedItemId(R.id.live_class);
                 break;
             case 1:
                 mBottomNavigationView.setSelectedItemId(R.id.nav_courses);
@@ -155,9 +155,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.online_class:
-                showToast("Coming soon");
-                return false;
+            case R.id.live_class:
+                if (!(getCurrentFragment() instanceof LiveClassesFragment)) {
+                    launchFragment(new LiveClassesFragment(), true);
+                }
+                break;
             case R.id.my_favourite:
                 if (!(getCurrentFragment() instanceof FavouriteFragment)) {
                     launchFragment(new FavouriteFragment(this), true);
@@ -375,7 +377,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
-        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+        launchFragment(new CoachingDetailFragment(tutorType, itemId), true);
     }
 
     @Override

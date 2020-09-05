@@ -54,7 +54,7 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
         holder.nameInitials.setText(initials.substring(0, 1));
         holder.nameInitials.setTextColor(Color.rgb(red, green, blue));
         holder.nameInitials.setVisibility(View.VISIBLE);
-        holder.contactsDefaulImage.setVisibility(View.GONE);
+        holder.contactsDefaultImage.setVisibility(View.GONE);
         holder.clSubjects.setOnClickListener(v -> mListener.onAdapterItemClick(position));
     }
 
@@ -69,11 +69,11 @@ public class SubjectsAdapter extends RecyclerView.Adapter<SubjectsAdapter.Subjec
         private RelativeLayout thumbnail;
         private TextView nameInitials;
         private ConstraintLayout clSubjects;
-        private CircleImageView contactsDefaulImage;
+        private CircleImageView contactsDefaultImage;
 
         SubjectViewHolder(@NonNull View itemView) {
             super(itemView);
-            contactsDefaulImage = itemView.findViewById(R.id.contactsDefaulImage);
+            contactsDefaultImage = itemView.findViewById(R.id.contactsDefaulImage);
             subjectTextView = itemView.findViewById(R.id.subjectTextView);
             nameInitials = itemView.findViewById(R.id.nameInitials);
             thumbnail = itemView.findViewById(R.id.thumbnail);

@@ -28,6 +28,7 @@ import com.revisedu.revised.retrofit.RetrofitApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.MODE_NORMAL;
@@ -36,16 +37,20 @@ import static com.revisedu.revised.TerminalConstant.MODE_SUBJECT;
 
 public class AllOptionsFragment extends BaseFragment implements ICustomClickListener {
 
-    private static final String TAG = "All Tutors";
-    private String mSubject="";
+    private static final String TAG = "All Options";
+
+    private String mSubject;
+    private SearchRequestModel mSearchModel;
+    private String mMode;
+
     private PopularCoachingAdapter mPopularCoachingAdapter;
     private RecyclerView popularCoachingRecyclerView;
+
     private FeaturedCoachingAdapter mFeaturedCoachingAdapter;
     private RecyclerView featuredCoachingRecyclerView;
+
     private SuperCoachingAdapter mSuperCoachingAdapter;
     private RecyclerView superCoachingRecyclerView;
-    private String mMode = MODE_NORMAL;
-    private SearchRequestModel mSearchModel= null;
 
     public AllOptionsFragment(String subject, String mode) {
         this.mSubject = subject;
@@ -103,13 +108,13 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.popularCoachingText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_POPULAR_COACHING), false);
+                launchFragment(new AllCoachingFragment(TerminalConstant.MODE_POPULAR_COACHING), true);
                 break;
             case R.id.featuredCoachingText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURED_COACHING), false);
+                launchFragment(new AllCoachingFragment(TerminalConstant.MODE_FEATURED_COACHING), true);
                 break;
             case R.id.superCoachingText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_COACHING), false);
+                launchFragment(new AllCoachingFragment(TerminalConstant.MODE_SUPER_COACHING), true);
                 break;
             default:
                 break;
@@ -154,7 +159,16 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
                             popularCoachingRecyclerView.setVisibility(View.VISIBLE);
                             popularCoachingRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                             mPopularCoachingAdapter = new PopularCoachingAdapter(mActivity, AllOptionsFragment.this);
-                            mPopularCoachingAdapter.setCoachingList(coachingList);
+
+                            ArrayList<CoachingResponse.CoachingResponseItem> newCoachingList = new ArrayList<>();
+                            if(coachingList.size()<=10) {
+                                newCoachingList.addAll(coachingList);
+                            } else {
+                                for(int i = 0; i < 10; i++) {
+                                    newCoachingList.add(coachingList.get(i));
+                                }
+                            }
+                            mPopularCoachingAdapter.setCoachingList(newCoachingList);
                             popularCoachingRecyclerView.setAdapter(mPopularCoachingAdapter);
                         }
                     }
@@ -201,7 +215,16 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
                             mContentView.findViewById(R.id.noDataFoundGroup).setVisibility(View.GONE);
                             featuredCoachingRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                             mFeaturedCoachingAdapter = new FeaturedCoachingAdapter(mActivity, AllOptionsFragment.this);
-                            mFeaturedCoachingAdapter.setCoachingList(coachingList);
+
+                            ArrayList<CoachingResponse.CoachingResponseItem> newCoachingList = new ArrayList<>();
+                            if(coachingList.size()<=10) {
+                                newCoachingList.addAll(coachingList);
+                            } else {
+                                for(int i = 0; i < 10; i++) {
+                                    newCoachingList.add(coachingList.get(i));
+                                }
+                            }
+                            mFeaturedCoachingAdapter.setCoachingList(newCoachingList);
                             featuredCoachingRecyclerView.setAdapter(mFeaturedCoachingAdapter);
                         }
                     }
@@ -237,10 +260,10 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
             private void handleResponse(Response<CoachingResponse> response) {
                 stopProgress();
                 if (response.isSuccessful()) {
-                    final CoachingResponse offersResponse = response.body();
-                    if (offersResponse != null) {
-                        List<CoachingResponse.CoachingResponseItem> tutorsList = offersResponse.getArrayList();
-                        if (!tutorsList.isEmpty()) {
+                    final CoachingResponse coachingResponse = response.body();
+                    if (coachingResponse != null) {
+                        List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
+                        if (!coachingList.isEmpty()) {
                             //Super Coaching Adapter Setup
                             superCoachingRecyclerView = mContentView.findViewById(R.id.superCoachingRecyclerView);
                             superCoachingRecyclerView.setVisibility(View.VISIBLE);
@@ -248,7 +271,16 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
                             mContentView.findViewById(R.id.noDataFoundGroup).setVisibility(View.GONE);
                             superCoachingRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.HORIZONTAL, false));
                             mSuperCoachingAdapter = new SuperCoachingAdapter(mActivity, AllOptionsFragment.this);
-                            mSuperCoachingAdapter.setCoachingList(tutorsList);
+
+                            ArrayList<CoachingResponse.CoachingResponseItem> newCoachingList = new ArrayList<>();
+                            if(coachingList.size()<=10) {
+                                newCoachingList.addAll(coachingList);
+                            } else {
+                                for(int i = 0; i < 10; i++) {
+                                    newCoachingList.add(coachingList.get(i));
+                                }
+                            }
+                            mSuperCoachingAdapter.setCoachingList(newCoachingList);
                             superCoachingRecyclerView.setAdapter(mSuperCoachingAdapter);
                         }
                     }
@@ -274,7 +306,7 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
 
     @Override
     public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
-        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+        launchFragment(new CoachingDetailFragment(tutorType, itemId), true);
     }
 
     @Override

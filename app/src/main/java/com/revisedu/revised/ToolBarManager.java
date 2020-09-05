@@ -1,6 +1,6 @@
 package com.revisedu.revised;
 
-import android.view.Gravity;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +31,11 @@ public class ToolBarManager {
     public void setHeaderTitle(String title) {
         TextView v = mToolbar.findViewById(R.id.AppTitle);
         v.setText(title);
+    }
+
+    public void setHeaderTitle(SpannableStringBuilder title, TextView.BufferType type) {
+        TextView v = mToolbar.findViewById(R.id.AppTitle);
+        v.setText(title, type);
     }
 
     public void setHeaderTextGravity(int gravityCenter) {

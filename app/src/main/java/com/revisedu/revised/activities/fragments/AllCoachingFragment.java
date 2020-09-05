@@ -6,15 +6,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.revisedu.revised.R;
+import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
-import com.revisedu.revised.activities.fragments.adapters.AllTutorsAdapter;
+import com.revisedu.revised.activities.fragments.adapters.AllCoachingAdapter;
 import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.request.CoachingRequest;
 import com.revisedu.revised.response.CoachingResponse;
@@ -25,22 +25,25 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllTutorsFragment extends BaseFragment implements ICustomClickListener {
+public class AllCoachingFragment extends BaseFragment implements ICustomClickListener {
 
-    private RecyclerView mAllTutorsRecyclerView;
-    private AllTutorsAdapter mAllTutorsAdapter;
-    private boolean isScrolling = false;
-    private int currentItems;
-    private int totalItems;
-    private int scrollOutItems;
-    private String mTutorType = "";
-    private GridLayoutManager mGridLayoutManager;
-    private boolean mIsDataAvailable;
-    private static final String TAG = "AllTutorsFragment";
-    private List<CoachingResponse.CoachingResponseItem> mTutorsList = new ArrayList<>();
+    private static final String TAG = "AllCoachingFragment";
 
-    AllTutorsFragment(String tutorType) {
-        mTutorType = tutorType;
+    private AllCoachingAdapter mAllCoachingAdapter;
+
+    private String mCoachingType;
+    private String packageId;
+
+    private List<CoachingResponse.CoachingResponseItem> mCoachingList = new ArrayList<>();
+
+    AllCoachingFragment(String tutorType) {
+        mCoachingType = tutorType;
+        if(tutorType.equals(TerminalConstant.MODE_POPULAR_COACHING))
+            packageId = TerminalConstant.PACKAGE_ID_FOR_POPULAR_COACHING;
+        if(tutorType.equals(TerminalConstant.MODE_FEATURED_COACHING))
+            packageId = TerminalConstant.PACKAGE_ID_FOR_FEATURED_COACHING;
+        if(tutorType.equals(TerminalConstant.MODE_SUPER_COACHING))
+            packageId = TerminalConstant.PACKAGE_ID_FOR_SUPER_COACHING;
     }
 
     @Nullable
@@ -50,45 +53,25 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().hideSearchBar(mActivity,true);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
-        ToolBarManager.getInstance().setHeaderTitle(mTutorType);
+        ToolBarManager.getInstance().setHeaderTitle(mCoachingType);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
-        ToolBarManager.getInstance().onBackPressed(AllTutorsFragment.this);
-        mAllTutorsRecyclerView = mContentView.findViewById(R.id.subjectsRecyclerView);
-        mContentView.findViewById(R.id.subjectTextView).setVisibility(View.GONE);
-        mGridLayoutManager = new GridLayoutManager(mActivity, 2);
-        mAllTutorsRecyclerView.setLayoutManager(mGridLayoutManager);
-        mAllTutorsAdapter = new AllTutorsAdapter(mActivity, this);
-        mAllTutorsRecyclerView.setAdapter(mAllTutorsAdapter);
-        mAllTutorsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    isScrolling = true;
-                }
-            }
+        ToolBarManager.getInstance().onBackPressed(AllCoachingFragment.this);
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                currentItems = mGridLayoutManager.getChildCount();
-                totalItems = mGridLayoutManager.getItemCount();
-                scrollOutItems = mGridLayoutManager.findFirstVisibleItemPosition();
-                if (isScrolling && (currentItems + scrollOutItems == totalItems) && mIsDataAvailable) {
-                    isScrolling = false;
-                    getTutorsServerCall();
-                }
-            }
-        });
-        getTutorsServerCall();
+        mContentView.findViewById(R.id.subjectTextView).setVisibility(View.GONE);
+
+        //All Coaching Recycler View Setup
+        RecyclerView mAllCoachingRecyclerView = mContentView.findViewById(R.id.subjectsRecyclerView);
+        mAllCoachingRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
+        mAllCoachingAdapter = new AllCoachingAdapter(mActivity, this);
+        mAllCoachingRecyclerView.setAdapter(mAllCoachingAdapter);
+
+        getCoachingServerCall();
         return mContentView;
     }
 
     @Override
-    public void onBackPressed() {
-        launchFragment(new HomeScreenFragment(), false);
-    }
+    public void onBackPressed() { launchFragment(new HomeScreenFragment(), false); }
 
     @Override
     public void onStart() {
@@ -99,13 +82,13 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
         mActivity.isToggleButtonEnabled(false);
     }
 
-    private void getTutorsServerCall() {
+    private void getCoachingServerCall() {
         showProgress();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getCoachingServerCall(new CoachingRequest(mTutorType));
+                    Call<CoachingResponse> call = RetrofitApi.getServicesObject().getCoachingServerCall(new CoachingRequest(packageId));
                     final Response<CoachingResponse> response = call.execute();
                     updateOnUiThread(() -> handleResponse(response));
                 } catch (final Exception e) {
@@ -121,11 +104,10 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
                 if (response.isSuccessful()) {
                     final CoachingResponse coachingResponse = response.body();
                     if (coachingResponse != null) {
-                        mIsDataAvailable = coachingResponse.isDataAvailable();
                         List<CoachingResponse.CoachingResponseItem> tutorsList = coachingResponse.getArrayList();
-                        mTutorsList.addAll(tutorsList);
-                        mAllTutorsAdapter.setTutorsList(mTutorsList);
-                        mAllTutorsAdapter.notifyDataSetChanged();
+                        mCoachingList.addAll(tutorsList);
+                        mAllCoachingAdapter.setTutorsList(mCoachingList);
+                        mAllCoachingAdapter.notifyDataSetChanged();
                     }
                 }
                 stopProgress();
@@ -135,6 +117,6 @@ public class AllTutorsFragment extends BaseFragment implements ICustomClickListe
 
     @Override
     public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
-        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+        launchFragment(new CoachingDetailFragment(tutorType, itemId), true);
     }
 }

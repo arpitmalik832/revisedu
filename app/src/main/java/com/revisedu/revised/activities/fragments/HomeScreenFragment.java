@@ -3,12 +3,17 @@ package com.revisedu.revised.activities.fragments;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -33,7 +38,9 @@ import com.squareup.picasso.Picasso;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
@@ -62,8 +69,36 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().hideSearchBar(mActivity,false);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
-        ToolBarManager.getInstance().setHeaderTitle(mActivity.getString(R.string.app_name));
-        ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
+
+        SpannableStringBuilder header = new SpannableStringBuilder();
+        SpannableString str = new SpannableString("RevisED");
+        str.setSpan(
+            new ForegroundColorSpan(
+                    ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_2)
+            ),
+            0,
+            1,
+            0
+        );
+        str.setSpan(
+                new ForegroundColorSpan(
+                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_1)
+                ),
+                1,
+                5,
+                0
+        );
+        str.setSpan(
+                new ForegroundColorSpan(
+                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_2)
+                ),
+                5,
+                str.length(),
+                0
+        );
+        header.append(str);
+        ToolBarManager.getInstance().setHeaderTitle(header, TextView.BufferType.SPANNABLE);
+
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.CENTER);
 
         //Banners Setup
@@ -119,13 +154,13 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.popularCoachingText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_POPULAR_COACHING), false);
+                launchFragment(new AllCoachingFragment(TerminalConstant.MODE_POPULAR_COACHING), true);
                 break;
             case R.id.featuredCoachingText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_FEATURED_COACHING), false);
+                launchFragment(new AllCoachingFragment(TerminalConstant.MODE_FEATURED_COACHING), true);
                 break;
             case R.id.superCoachingText:
-                launchFragment(new AllTutorsFragment(TerminalConstant.MODE_SUPER_COACHING), false);
+                launchFragment(new AllCoachingFragment(TerminalConstant.MODE_SUPER_COACHING), true);
                 break;
             default:
                 break;
@@ -193,7 +228,15 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                     if (coachingResponse != null) {
                         List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
                         if (!coachingList.isEmpty()) {
-                            mPopularCoachingAdapter.setCoachingList(coachingList);
+                            ArrayList<CoachingResponse.CoachingResponseItem> newCoachingList = new ArrayList<>();
+                            if(coachingList.size()<=10) {
+                                newCoachingList.addAll(coachingList);
+                            } else {
+                                for(int i = 0; i < 10; i++) {
+                                    newCoachingList.add(coachingList.get(i));
+                                }
+                            }
+                            mPopularCoachingAdapter.setCoachingList(newCoachingList);
                             mPopularCoachingAdapter.notifyDataSetChanged();
                         }
                     }
@@ -225,7 +268,15 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                     if (coachingResponse != null) {
                         List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
                         if (!coachingList.isEmpty()) {
-                            mFeaturedCoachingAdapter.setCoachingList(coachingList);
+                            ArrayList<CoachingResponse.CoachingResponseItem> newCoachingList = new ArrayList<>();
+                            if(coachingList.size()<=10) {
+                                newCoachingList.addAll(coachingList);
+                            } else {
+                                for(int i = 0; i < 10; i++) {
+                                    newCoachingList.add(coachingList.get(i));
+                                }
+                            }
+                            mFeaturedCoachingAdapter.setCoachingList(newCoachingList);
                             mFeaturedCoachingAdapter.notifyDataSetChanged();
                         }
                     }
@@ -257,7 +308,15 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                     if (coachingResponse != null) {
                         List<CoachingResponse.CoachingResponseItem> coachingList = coachingResponse.getArrayList();
                         if (!coachingList.isEmpty()) {
-                            mSuperCoachingAdapter.setCoachingList(coachingList);
+                            ArrayList<CoachingResponse.CoachingResponseItem> newCoachingList = new ArrayList<>();
+                            if(coachingList.size()<=10) {
+                                newCoachingList.addAll(coachingList);
+                            } else {
+                                for(int i = 0; i < 10; i++) {
+                                    newCoachingList.add(coachingList.get(i));
+                                }
+                            }
+                            mSuperCoachingAdapter.setCoachingList(newCoachingList);
                             mSuperCoachingAdapter.notifyDataSetChanged();
                         }
                     }
@@ -356,8 +415,8 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
     }
 
     @Override
-    public void onAdapterItemClick(String itemId, String itemValue, String tutorType) {
-        launchFragment(new TutorDetailFragment(tutorType, itemId), true);
+    public void onAdapterItemClick(String itemId, String itemValue, String coachingType) {
+        launchFragment(new CoachingDetailFragment(coachingType, itemId), true);
     }
 
 }

@@ -21,14 +21,14 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllTutorsAdapter extends RecyclerView.Adapter<AllTutorsAdapter.ViewHolder> {
+public class AllCoachingAdapter extends RecyclerView.Adapter<AllCoachingAdapter.ViewHolder> {
 
     private Context mContext;
     private ICustomClickListener listener;
     private List<CoachingResponse.CoachingResponseItem> coachingList = new ArrayList<>();
     private Drawable mDrawable;
 
-    public AllTutorsAdapter(Context context, ICustomClickListener listener) {
+    public AllCoachingAdapter(Context context, ICustomClickListener listener) {
         mContext = context;
         this.listener = listener;
     }

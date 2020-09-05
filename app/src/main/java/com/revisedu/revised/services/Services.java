@@ -11,7 +11,7 @@ import com.revisedu.revised.request.NotesDownloadRequest;
 import com.revisedu.revised.request.RegisterRequest;
 import com.revisedu.revised.request.SubjectRequest;
 import com.revisedu.revised.request.TopicRequest;
-import com.revisedu.revised.request.TutorDetailRequest;
+import com.revisedu.revised.request.CoachingDetailRequest;
 import com.revisedu.revised.request.CoachingRequest;
 import com.revisedu.revised.response.BookingsResponse;
 import com.revisedu.revised.response.ClassResponse;
@@ -24,7 +24,7 @@ import com.revisedu.revised.response.PrefSubjectsResponse;
 import com.revisedu.revised.response.ProfileResponse;
 import com.revisedu.revised.response.SubjectResponse;
 import com.revisedu.revised.response.TopicResponse;
-import com.revisedu.revised.response.TutorDetailResponse;
+import com.revisedu.revised.response.CoachingDetailResponse;
 import com.revisedu.revised.response.CoachingResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -39,6 +39,8 @@ public interface Services {
     @POST("fetch_package.php")
     Call<CoachingResponse> getCoachingServerCall(@Body CoachingRequest request);
 
+    @POST("fetch_package_detail.php")
+    Call<CoachingDetailResponse> getCoachingDetailServerCall(@Body CoachingDetailRequest request);
 
 
 
@@ -92,9 +94,6 @@ public interface Services {
 
     @POST("fetch_notes_download_detail.php")
     Call<CommonResponse> getNotesDownloadServerCall(@Body NotesDownloadRequest request);
-
-    @POST("fetch_tutor_detail.php")
-    Call<TutorDetailResponse> getTutorDetailServerCall(@Body TutorDetailRequest request);
 
     @POST("do_booking.php")
     Call<CommonResponse> doBookingServerCall(@Body BookTutorRequest request);
