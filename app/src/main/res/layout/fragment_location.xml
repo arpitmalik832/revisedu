@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,12 +10,23 @@
     android:animateLayoutChanges="true"
     tools:context=".activities.HomeActivity">
 
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:scaleType="fitXY"
+        android:src="@drawable/book_bg"
+        android:contentDescription="@string/background" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/locrelative"
         android:layout_width="match_parent"
         android:animateLayoutChanges="true"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_layout">
 
         <ImageView
             android:layout_width="@dimen/scratch_card_dimen"
@@ -32,12 +44,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_marginTop="@dimen/gap_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        android:padding="@dimen/pad_large">
+        android:padding="@dimen/pad_large"
+        app:layout_constraintTop_toBottomOf="@id/locrelative"
+        app:layout_constraintBottom_toTopOf="@id/continueLocationButton">
 
         <TextView
             android:id="@+id/textman"
@@ -106,6 +121,7 @@
         android:onClick="onClick"
         android:visibility="invisible"
         android:text="@string/txt_continue"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/main_layout"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

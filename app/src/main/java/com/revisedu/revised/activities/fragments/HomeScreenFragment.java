@@ -71,10 +71,10 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
 
         SpannableStringBuilder header = new SpannableStringBuilder();
-        SpannableString str = new SpannableString("RevisED");
+        SpannableString str = new SpannableString("RevisEDu");
         str.setSpan(
             new ForegroundColorSpan(
-                    ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_2)
+                    ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_1)
             ),
             0,
             1,
@@ -82,7 +82,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         );
         str.setSpan(
                 new ForegroundColorSpan(
-                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_1)
+                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_2)
                 ),
                 1,
                 5,
@@ -90,7 +90,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         );
         str.setSpan(
                 new ForegroundColorSpan(
-                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_2)
+                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_1)
                 ),
                 5,
                 str.length(),
@@ -380,7 +380,6 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                 if (response.isSuccessful()) {
                     final ProfileResponse profileResponse = response.body();
                     if (profileResponse != null) {
-                        showToast(profileResponse.getErrorMessage());
                         if (profileResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             setupNavigationHeader(profileResponse.getName(),profileResponse.getEmail(),profileResponse.getUserImageUrl());
                         }

@@ -32,7 +32,7 @@
                 android:id="@+id/firstImage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/scratch_card_dimen"
-                android:src="@drawable/coachingclass"
+                android:src="@drawable/default_image"
                 tools:ignore="ContentDescription"
                 android:layout_marginTop="10dp"/>
 
@@ -51,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:src="@drawable/coaching2"
+                    android:src="@drawable/default_image"
                     android:paddingTop="@dimen/pad_small"
                     android:paddingBottom="@dimen/pad_small"
                     android:paddingEnd="0dp"
@@ -83,7 +83,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:ellipsize="marquee"
-                            android:text="@string/sample_tuition_intro"
                             android:textSize="@dimen/normal_text"
                             android:paddingEnd="@dimen/pad_small"
                             android:paddingStart="@dimen/pad_small"
@@ -131,7 +130,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:ellipsize="marquee"
-                            android:text="@string/sample_tuition_intro"
                             android:textSize="@dimen/normal_text"
                             android:paddingEnd="@dimen/pad_small"
                             android:paddingStart="@dimen/pad_small"
@@ -147,7 +145,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:src="@drawable/coaching2"
+                    android:src="@drawable/default_image"
                     android:paddingTop="@dimen/pad_small"
                     android:paddingBottom="@dimen/pad_small"
                     android:paddingStart="0dp"
@@ -193,7 +191,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:ellipsize="marquee"
-                            android:text="@string/sample_tuition_intro"
                             android:textSize="@dimen/normal_text"
                             android:paddingEnd="@dimen/pad_small"
                             android:paddingStart="@dimen/pad_small"/>
@@ -231,7 +228,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:ellipsize="marquee"
-                            android:text="@string/sample_address"
                             android:textSize="@dimen/normal_text"
                             android:paddingEnd="@dimen/pad_small"
                             android:paddingStart="@dimen/pad_small"/>
@@ -239,6 +235,35 @@
                     </androidx.core.widget.NestedScrollView>
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/youtubeLinksContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/curve_white_background"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/pad_small"
+                    android:text="@string/youtube_links"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/large_text" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/youtubeLinksRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
 
