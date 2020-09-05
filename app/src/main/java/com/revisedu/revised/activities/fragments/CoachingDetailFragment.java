@@ -126,11 +126,11 @@ public class CoachingDetailFragment extends BaseFragment {
                             Picasso.get().load(coachingDetail.getTeacherImage()).placeholder(mDefaultImage).into(teacherIV);
                         }
 
-                        List<String> subjects = coachingDetail.getSubjects();
+                        List<CoachingDetailResponse.CoachingDetail.CoachingSubject> subjects = coachingDetail.getSubjects();
                         if (subjects != null && !subjects.isEmpty()) {
                             StringBuilder subjectStr = new StringBuilder();
-                            for (String subject : subjects) {
-                                subjectStr.append("->  ").append(subject).append("\n");
+                            for (CoachingDetailResponse.CoachingDetail.CoachingSubject subject : subjects) {
+                                subjectStr.append("->  ").append(subject.getName()).append("\n");
                             }
                             subjectsTV.setText(subjectStr.toString());
                         }

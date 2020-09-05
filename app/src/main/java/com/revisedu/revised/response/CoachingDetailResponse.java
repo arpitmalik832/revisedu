@@ -32,8 +32,8 @@ public class CoachingDetailResponse {
         private String teacherImage;
         @SerializedName("address")
         private String address;
-        @SerializedName("subjects")
-        private List<String> subjects;
+        @SerializedName("subject")
+        private List<CoachingSubject> subjects;
         @SerializedName("price")
         private String price;
 
@@ -47,7 +47,7 @@ public class CoachingDetailResponse {
 
         public String getTeacherImage() { return teacherImage; }
 
-        public List<String> getSubjects() { return subjects; }
+        public List<CoachingSubject> getSubjects() { return subjects; }
 
         public String getAddress() { return address; }
 
@@ -55,6 +55,13 @@ public class CoachingDetailResponse {
 
         private String getData(String data) {
             return Html.fromHtml(data).toString();
+        }
+
+        public static class CoachingSubject {
+            @SerializedName("name")
+            private String name;
+
+            public String getName() { return name; }
         }
 
     }
