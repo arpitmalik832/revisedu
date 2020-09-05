@@ -48,8 +48,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
 
     private static final String TAG = "HomeScreenFragment";
 
-    private ImageView firstImage;
-    private ImageView secondImage;
+    private ImageView mBannerImage;
 
     private PopularCoachingAdapter mPopularCoachingAdapter;
     private FeaturedCoachingAdapter mFeaturedCoachingAdapter;
@@ -102,8 +101,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.CENTER);
 
         //Banners Setup
-        firstImage = mContentView.findViewById(R.id.firstImage);
-        secondImage = mContentView.findViewById(R.id.secondImage);
+        mBannerImage = mContentView.findViewById(R.id.bannerImage);
 
         getBannersServerCall();
 
@@ -192,10 +190,7 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
                     if (bannersResponse != null) {
                         if (bannersResponse.getErrorCode() == TerminalConstant.SUCCESS) {
                             if (bannersResponse.getBannerOne() != null && !bannersResponse.getBannerOne().isEmpty()) {
-                                Picasso.get().load(bannersResponse.getBannerOne()).placeholder(mDefaultDrawable).into(firstImage);
-                            }
-                            if (bannersResponse.getBannerTwo() != null && !bannersResponse.getBannerTwo().isEmpty()) {
-                                Picasso.get().load(bannersResponse.getBannerTwo()).placeholder(mDefaultDrawable).into(secondImage);
+                                Picasso.get().load(bannersResponse.getBannerOne()).placeholder(mDefaultDrawable).into(mBannerImage);
                             }
                         }
                     }

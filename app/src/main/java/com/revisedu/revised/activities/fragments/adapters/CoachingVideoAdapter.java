@@ -16,9 +16,9 @@ import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.response.CoachingDetailResponse;
 import com.squareup.picasso.Picasso;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CoachingVideoAdapter extends RecyclerView.Adapter<CoachingVideoAdapter.ViewHolder> {
 
@@ -44,29 +44,25 @@ public class CoachingVideoAdapter extends RecyclerView.Adapter<CoachingVideoAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (mVideoList.get(position).getVideo() != null && !mVideoList.get(position).getVideo().isEmpty()) {
-            String videoId= null;
-            try {
-                videoId = extractYoutubeId(mVideoList.get(position).getVideo());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            String videoId = getYoutubeVideoIdFromUrl(mVideoList.get(position).getVideo());
             String img_url="http://img.youtube.com/vi/"+videoId+"/0.jpg";
             Picasso.get().load(img_url).placeholder(mDrawable).into(holder.thumbnail);
         }
         holder.thumbnail.setOnClickListener(view -> listener.onAdapterItemClick(mVideoList.get(position).getTopic(), mVideoList.get(position).getVideo(), ""));
     }
 
-    public String extractYoutubeId(String url) throws MalformedURLException {
-        String query = new URL(url).getQuery();
-        String[] param = query.split("&");
-        String id = null;
-        for (String row : param) {
-            String[] param1 = row.split("=");
-            if (param1[0].equals("v")) {
-                id = param1[1];
-            }
+    public static String getYoutubeVideoIdFromUrl(String inUrl) {
+        inUrl = inUrl.replace("&feature=youtu.be", "");
+        if (inUrl.toLowerCase().contains("youtu.be")) {
+            return inUrl.substring(inUrl.lastIndexOf("/") + 1);
         }
-        return id;
+        String pattern = "(?<=watch\\?v=|/videos/|embed/)[^#&?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(inUrl);
+        if (matcher.find()) {
+            return matcher.group();
+        }
+        return null;
     }
 
     @Override

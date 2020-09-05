@@ -29,21 +29,12 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/firstImage"
+                android:id="@+id/bannerImage"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/scratch_card_dimen"
-                android:padding="@dimen/pad_small"
+                android:layout_height="250dp"
+                android:padding="5dp"
                 android:src="@drawable/coachingclass"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/secondImage"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/merchant_offer_width"
-                android:padding="@dimen/pad_small_5"
-                android:src="@drawable/coupon"
-                app:layout_constraintTop_toBottomOf="@+id/firstImage"
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -59,7 +50,7 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/normal_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/secondImage" />
+                app:layout_constraintTop_toBottomOf="@+id/bannerImage" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popularCoachingRecyclerView"
