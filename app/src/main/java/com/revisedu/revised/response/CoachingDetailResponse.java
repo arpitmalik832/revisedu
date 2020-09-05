@@ -36,6 +36,8 @@ public class CoachingDetailResponse {
         private List<CoachingSubject> subjects;
         @SerializedName("price")
         private String price;
+        @SerializedName("video")
+        private List<Video> video;
 
         public String getBanner() { return banner; }
 
@@ -53,6 +55,8 @@ public class CoachingDetailResponse {
 
         public String getPrice() { return price; }
 
+        public List<Video> getVideo() { return video; }
+
         private String getData(String data) {
             return Html.fromHtml(data).toString();
         }
@@ -62,6 +66,17 @@ public class CoachingDetailResponse {
             private String name;
 
             public String getName() { return name; }
+        }
+
+        public static class Video {
+            @SerializedName("video")
+            private String video;
+            @SerializedName("topic")
+            private String topic;
+
+            public String getVideo() { return video; }
+
+            public String getTopic() { return topic; }
         }
 
     }

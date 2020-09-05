@@ -1,6 +1,8 @@
 package com.revisedu.revised.activities.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -8,13 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.revisedu.revised.R;
 import com.revisedu.revised.TerminalConstant;
 import com.revisedu.revised.ToolBarManager;
+import com.revisedu.revised.activities.fragments.adapters.CoachingVideoAdapter;
+import com.revisedu.revised.activities.interfaces.ICustomClickListener;
 import com.revisedu.revised.request.BookTutorRequest;
 import com.revisedu.revised.request.CoachingDetailRequest;
 import com.revisedu.revised.response.CommonResponse;
@@ -28,7 +36,7 @@ import java.util.List;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
-public class CoachingDetailFragment extends BaseFragment {
+public class CoachingDetailFragment extends BaseFragment implements ICustomClickListener {
 
     private static final String TAG = "CoachingDetailFragment";
 
@@ -42,6 +50,9 @@ public class CoachingDetailFragment extends BaseFragment {
     private ImageView teacherIV;
     private TextView subjectsTV;
     private TextView addressTV;
+
+    private CoachingVideoAdapter mCoachingVideoAdapter;
+    private LinearLayout mCoachingVideoContainer;
 
     private Drawable mDefaultImage;
 
@@ -71,6 +82,8 @@ public class CoachingDetailFragment extends BaseFragment {
         teacherIV = mContentView.findViewById(R.id.teacherImage);
         subjectsTV = mContentView.findViewById(R.id.subjects);
         addressTV = mContentView.findViewById(R.id.address);
+
+        mCoachingVideoContainer = mContentView.findViewById(R.id.youtubeLinksContainer);
 
         getCoachingDetailServerCall();
 
@@ -136,6 +149,16 @@ public class CoachingDetailFragment extends BaseFragment {
                         }
 
                         addressTV.setText(coachingDetail.getAddress());
+
+                        if(!coachingDetail.getVideo().isEmpty()) {
+                            //Youtube Videos Adapter Setup
+                            RecyclerView coachingVideoRecyclerView = mContentView.findViewById(R.id.youtubeLinksRecyclerView);
+                            coachingVideoRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
+                            mCoachingVideoAdapter = new CoachingVideoAdapter(mActivity, coachingDetail.getVideo(), CoachingDetailFragment.this);
+                            coachingVideoRecyclerView.setAdapter(mCoachingVideoAdapter);
+                        } else {
+                            mCoachingVideoContainer.setVisibility(View.GONE);
+                        }
 
                     }
                 }
@@ -209,5 +232,10 @@ public class CoachingDetailFragment extends BaseFragment {
         super.onStart();
         mActivity.hideSideNavigationView();
         mActivity.hideBottomNavigationView();
+    }
+
+    @Override
+    public void onAdapterItemClick(String itemId, String itemValue, String coachingType) {
+        mActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(itemValue)));
     }
 }
