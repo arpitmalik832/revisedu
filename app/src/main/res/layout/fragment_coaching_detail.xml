@@ -159,7 +159,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:baselineAligned="false">
 
                 <LinearLayout
@@ -261,9 +260,55 @@
                     android:id="@+id/youtubeLinksRecyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/coaching_video_item"
+                    tools:itemCount="4"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tutorRatingContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/curve_white_background"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/pad_small"
+                    android:text="@string/give_us_rating"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/large_text" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/rb_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:progressTint="@color/colorOrange"
+                    android:layout_margin="5dp"
+                    tools:ignore="UnusedAttribute" />
+
+                <Button
+                    android:id="@+id/addARating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/rounded_btn"
+                    android:text="@string/add_a_rating"
+                    android:textColor="@android:color/white"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:onClick="onClick"/>
 
             </LinearLayout>
 

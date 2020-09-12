@@ -32,6 +32,7 @@
                 android:id="@+id/bannerImage"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:scaleType="fitXY"
                 android:padding="5dp"
                 android:src="@drawable/coachingclass"
                 app:layout_constraintTop_toTopOf="parent"

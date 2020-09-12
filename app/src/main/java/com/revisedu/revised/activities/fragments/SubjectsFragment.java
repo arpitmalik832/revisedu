@@ -46,6 +46,8 @@ public class SubjectsFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         getPrefSubjectsServerCall();
         subjectsRecyclerView = mContentView.findViewById(R.id.subjectsRecyclerView);
         subjectsRecyclerView.setLayoutManager(new GridLayoutManager(mActivity,3));

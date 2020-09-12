@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import com.revisedu.revised.activities.fragments.BookingFragment;
 import com.revisedu.revised.activities.fragments.FavouriteFragment;
 import com.revisedu.revised.activities.fragments.HomeScreenFragment;
 import com.revisedu.revised.activities.fragments.LiveClassesFragment;
+import com.revisedu.revised.activities.fragments.NotificationsFragment;
 import com.revisedu.revised.activities.fragments.ProfileFragment;
 import com.revisedu.revised.activities.fragments.SearchFragment;
 import com.revisedu.revised.activities.fragments.SignInFragment;
@@ -150,6 +152,24 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         } catch (Exception e) {
             Log.e(TAG, "Error in starting Razor-pay Checkout", e);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(getCurrentFragment() instanceof HomeScreenFragment) {
+            getMenuInflater().inflate(R.menu.side_menu,menu);
+            return true;
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_notification) {
+            launchFragment(new NotificationsFragment(),true);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

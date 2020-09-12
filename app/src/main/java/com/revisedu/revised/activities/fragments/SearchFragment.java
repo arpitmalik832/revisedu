@@ -53,6 +53,8 @@ public class SearchFragment extends BaseFragment {
         ToolBarManager.getInstance().onBackPressed(SearchFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
         selectCityTextView = mContentView.findViewById(R.id.selectCityTextView);

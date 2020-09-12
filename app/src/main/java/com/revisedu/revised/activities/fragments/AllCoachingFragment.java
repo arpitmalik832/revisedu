@@ -57,6 +57,7 @@ public class AllCoachingFragment extends BaseFragment implements ICustomClickLis
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
         ToolBarManager.getInstance().onBackPressed(AllCoachingFragment.this);
+        setHasOptionsMenu(false);
 
         mContentView.findViewById(R.id.subjectTextView).setVisibility(View.GONE);
 

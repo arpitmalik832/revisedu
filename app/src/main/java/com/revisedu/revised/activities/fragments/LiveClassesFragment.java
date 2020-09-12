@@ -39,6 +39,7 @@ public class LiveClassesFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
 
         // Live Classes Recycler View
         RecyclerView liveClassesRecyclerView = mContentView.findViewById(R.id.liveClassesRecyclerView);
@@ -56,19 +57,19 @@ public class LiveClassesFragment extends BaseFragment {
         liveClassesList.clear();
         liveClassesList.add(new LiveClassesResponse.LiveClassesResponseItem(
                 "Thumbnail 1",
-                "Name 1"
+                "Interesting Live Class in Mathematics"
         ));
         liveClassesList.add(new LiveClassesResponse.LiveClassesResponseItem(
                 "Thumbnail 1",
-                "Name 1"
+                "Interesting Live Class in Mathematics"
         ));
         liveClassesList.add(new LiveClassesResponse.LiveClassesResponseItem(
                 "Thumbnail 1",
-                "Name 1"
+                "Interesting Live Class in Mathematics"
         ));
         liveClassesList.add(new LiveClassesResponse.LiveClassesResponseItem(
                 "Thumbnail 1",
-                "Name 1"
+                "Interesting Live Class in Mathematics"
         ));
         mLiveClassesList.addAll(liveClassesList);
         mLiveClassesAdapter.notifyDataSetChanged();

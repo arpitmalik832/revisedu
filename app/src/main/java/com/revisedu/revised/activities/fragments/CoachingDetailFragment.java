@@ -43,6 +43,8 @@ public class CoachingDetailFragment extends BaseFragment implements ICustomClick
     private String mCoachingType;
     private String mCoachingId;
 
+    private String mCoachingPrice;
+
     private ImageView firstImage;
     private TextView aboutInstituteTV;
     private ImageView instituteIV;
@@ -72,6 +74,8 @@ public class CoachingDetailFragment extends BaseFragment implements ICustomClick
         ToolBarManager.getInstance().onBackPressed(CoachingDetailFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
 
@@ -124,6 +128,8 @@ public class CoachingDetailFragment extends BaseFragment implements ICustomClick
                     final CoachingDetailResponse responseBody = response.body();
                     if (responseBody != null) {
                         CoachingDetailResponse.CoachingDetail coachingDetail = responseBody.getCoachingDetail();
+
+                        mCoachingPrice = coachingDetail.getPrice();
 
                         if (coachingDetail.getBanner() != null && !coachingDetail.getBanner().isEmpty()) {
                             Picasso.get().load(coachingDetail.getBanner()).placeholder(mDefaultImage).into(firstImage);
@@ -203,7 +209,11 @@ public class CoachingDetailFragment extends BaseFragment implements ICustomClick
         switch (view.getId()) {
             case R.id.doBookingButton:
                 showProgress();
-                mActivity.startPayment("100");
+                mActivity.startPayment(mCoachingPrice);
+                break;
+            case R.id.addARating:
+                //api not given
+                showToast("Api Not Given");
                 break;
             default:
                 break;

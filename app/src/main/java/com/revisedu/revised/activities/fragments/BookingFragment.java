@@ -52,6 +52,8 @@ public class BookingFragment extends BaseFragment {
         ToolBarManager.getInstance().onBackPressed(BookingFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
         mBookingAdapter = new BookingAdapter(mActivity);

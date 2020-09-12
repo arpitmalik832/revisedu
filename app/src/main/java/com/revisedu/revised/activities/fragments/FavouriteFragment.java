@@ -63,6 +63,8 @@ public class FavouriteFragment extends BaseFragment {
         ToolBarManager.getInstance().onBackPressed(FavouriteFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
         mFavouriteAdapter = new FavouriteAdapter(mActivity);

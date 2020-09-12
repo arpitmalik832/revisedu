@@ -73,6 +73,8 @@ public class AllOptionsFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().onBackPressed(AllOptionsFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         mActivity.showBackButton();
         mActivity.isToggleButtonEnabled(false);
         showProgress();

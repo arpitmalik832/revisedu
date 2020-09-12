@@ -3,16 +3,12 @@ package com.revisedu.revised.activities.fragments;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,7 +36,6 @@ import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.revisedu.revised.TerminalConstant.USER_ID;
 
@@ -68,37 +63,10 @@ public class HomeScreenFragment extends BaseFragment implements ICustomClickList
         ToolBarManager.getInstance().hideToolBar(mActivity, false);
         ToolBarManager.getInstance().hideSearchBar(mActivity,false);
         ToolBarManager.getInstance().changeToolBarColor(ContextCompat.getColor(mActivity, R.color.dark_background));
-
-        SpannableStringBuilder header = new SpannableStringBuilder();
-        SpannableString str = new SpannableString("RevisEDu");
-        str.setSpan(
-            new ForegroundColorSpan(
-                    ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_1)
-            ),
-            0,
-            1,
-            0
-        );
-        str.setSpan(
-                new ForegroundColorSpan(
-                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_2)
-                ),
-                1,
-                5,
-                0
-        );
-        str.setSpan(
-                new ForegroundColorSpan(
-                        ContextCompat.getColor(Objects.requireNonNull(getContext()),R.color.text_color_1)
-                ),
-                5,
-                str.length(),
-                0
-        );
-        header.append(str);
-        ToolBarManager.getInstance().setHeaderTitle(header, TextView.BufferType.SPANNABLE);
-
+        ToolBarManager.getInstance().setHeaderTitle("RevisEDu");
+        ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.CENTER);
+        setHasOptionsMenu(true);
 
         //Banners Setup
         mBannerImage = mContentView.findViewById(R.id.bannerImage);

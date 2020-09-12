@@ -83,6 +83,7 @@ public class ViewDetailsFragment extends BaseFragment {
         ToolBarManager.getInstance().onBackPressed(ViewDetailsFragment.this);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
     }
 
     @Override

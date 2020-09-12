@@ -98,4 +98,10 @@ I taught Lower Sec Maths and Science, O level E Maths, A Maths, Physics, Chemist
     <string name="sample_name">Sample Name</string>
     <string name="youtube_links">Youtube Links</string>
     <string name="youtube_thumbnail">Youtube Thumbnail</string>
+    <string name="give_us_rating">Give Us Rating</string>
+    <string name="add_a_rating">Add a Rating</string>
+    <string name="notification">Notification</string>
+    <string name="sample_time_stamp">2020-08-25 12:48:00</string>
+    <string name="book_this_class">Book this Class</string>
+    <string name="sample_live_class">Interesting Live Class in Mathematics</string>
 </resources>

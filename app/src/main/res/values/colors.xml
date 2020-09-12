@@ -13,6 +13,8 @@
     <color name="tint_grey">#F6F6F6</color>
     <color name="zxing_transparent">#00000000</color>
 
+    <color name="colorOrange">#F48020</color>
+
     <color name="text_color_1">#29ABE2</color>
     <color name="text_color_2">#2E3192</color>
 </resources>

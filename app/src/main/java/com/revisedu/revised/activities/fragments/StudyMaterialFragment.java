@@ -62,6 +62,8 @@ public class StudyMaterialFragment extends BaseFragment {
         ToolBarManager.getInstance().setHeaderTitle(TAG);
         ToolBarManager.getInstance().setHeaderTitleColor(ContextCompat.getColor(mActivity, R.color.white));
         ToolBarManager.getInstance().setHeaderTextGravity(Gravity.START);
+        setHasOptionsMenu(false);
+
         fetchDetailButton = mContentView.findViewById(R.id.updateProfileButton);
         selectClassTextView = mContentView.findViewById(R.id.selectClassTextView);
         selectSubjectTextView = mContentView.findViewById(R.id.classFirstTextView);
